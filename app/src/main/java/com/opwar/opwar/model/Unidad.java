@@ -3,9 +3,10 @@ package com.opwar.opwar.model;
 /**
  * Created by phyrion on 13/04/16.
  */
-abstract public class Unidades {
+abstract public class Unidad {
     private int id_unidad;
     private String nombre;
+    private int movimiento;
     private int habilidadArmas;
     private int habilidadProyectiles;
     private int fuerza;
@@ -17,20 +18,22 @@ abstract public class Unidades {
     private int puntos;
     private int tamanyoMinimo;
 
-    public Unidades(int id_unidad,
-                    String nombre,
-                    int habilidadArmas,
-                    int habilidadProyectiles,
-                    int fuerza,
-                    int resistencia,
-                    int heridas,
-                    int iniciativa,
-                    int ataques,
-                    int liderazgo,
-                    int puntos,
-                    int tamanyoMinimo) {
+    public Unidad(int id_unidad,
+                  String nombre,
+                  int movimiento,
+                  int habilidadArmas,
+                  int habilidadProyectiles,
+                  int fuerza,
+                  int resistencia,
+                  int heridas,
+                  int iniciativa,
+                  int ataques,
+                  int liderazgo,
+                  int puntos,
+                  int tamanyoMinimo) {
         this.id_unidad = id_unidad;
         this.nombre = nombre;
+        this.movimiento = movimiento;
         this.habilidadArmas = habilidadArmas;
         this.habilidadProyectiles = habilidadProyectiles;
         this.fuerza = fuerza;
@@ -49,6 +52,10 @@ abstract public class Unidades {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public int getMovimiento() {
+        return movimiento;
     }
 
     public int getHabilidadArmas() {

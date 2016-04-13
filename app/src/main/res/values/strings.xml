@@ -6,4 +6,9 @@
     <string name="type_name_list">Escribe el título</string>
     <string name="ejercito">Selecciona un ejército</string>
     <string name="limite_puntos">Límite de puntos</string>
+    <string name="comandantes">0 x COMANDANTES</string>
+    <string name="unidades_basicas">0 x UNIDADES BÁSICAS</string>
+    <string name="unidades_especiales">0 x UNIDADES ESPECIALES</string>
+    <string name="unidades_singulares">0 x UNIDADES SINGULARES</string>
+    <string name="anadir_comandante">Añadir comandante</string>
 </resources>

@@ -5,4 +5,5 @@ package com.opwar.opwar.util;
  */
 public class Constants {
     public static final String URL_GET_EJERCITOS = "https://stormy-cove-56608.herokuapp.com/api/getEjercitos";
+    public static final String URL_GET_UNIDADES = "https://stormy-cove-56608.herokuapp.com/api/getUnidades/";
 }
