@@ -4,4 +4,5 @@
     <string name="cancel">Cancelar</string>
     <string name="save">GUARDAR</string>
     <string name="type_name_list">Escribe el título</string>
+    <string name="ejercito">Selecciona un ejército</string>
 </resources>

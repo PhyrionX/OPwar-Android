@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by URZU on 13/04/2016.
@@ -21,7 +23,7 @@ import java.net.URL;
 public class EjercitosAdapter extends AsyncTask<String, String, String> {
     private ListaWarActivity listaWarActivity;
     private StringBuilder response = new StringBuilder();
-    private Ejercito ejercito;
+    private List<Ejercito> ejercitos;
 
     public EjercitosAdapter(ListaWarActivity listaWarActivity) {
         this.listaWarActivity = listaWarActivity;
@@ -70,13 +72,13 @@ public class EjercitosAdapter extends AsyncTask<String, String, String> {
 
 
     private void getEjercitoFromJson(String json) {
+        ejercitos = new ArrayList<>();
         json = json.substring(1, json.length() - 1);
         try {
             JSONObject jsonObject = new JSONObject(json);
-            ejercito = new Ejercito(jsonObject.getInt("id_ejercito"),
+            ejercitos.add(new Ejercito(jsonObject.getInt("id_ejercito"),
                     jsonObject.getString("nombre"),
-                    jsonObject.getString("descripcion"));
-
+                    jsonObject.getString("descripcion")));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,6 +89,6 @@ public class EjercitosAdapter extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        listaWarActivity.setText(ejercito);
+        listaWarActivity.setOpcionesEjercito(ejercitos);
     }
 }

@@ -1,6 +1,8 @@
 package com.opwar.opwar.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -10,14 +12,27 @@ import com.opwar.opwar.R;
 import com.opwar.opwar.adapters.EjercitosAdapter;
 import com.opwar.opwar.model.Ejercito;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListaWarActivity extends AppCompatActivity {
+    private ImageButton cancelImageButton;
+    private TextView ejercitoTextView;
+    private AlertDialog.Builder ejercitoAlertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_war);
 
-        ImageButton cancelImageButton = (ImageButton) findViewById(R.id.clear);
+        findViewsById();
 
+        setCancelAction();
+        setEjercitoAction();
+        new EjercitosAdapter(this).execute();
+    }
+
+    private void setCancelAction() {
         assert cancelImageButton != null;
         cancelImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,18 +40,37 @@ public class ListaWarActivity extends AppCompatActivity {
                 finish();
             }
         });
-        new EjercitosAdapter(this).execute();
     }
 
-    public void setText(Ejercito ejercito) {
-        TextView textView = (TextView) findViewById(R.id.text);
-        if (textView != null) {
-            if (ejercito != null) {
-                String texto = "ID: " + ejercito.getId() + "\nNombre: " + ejercito.getNombre() + "\nDescripcion: " + ejercito.getDescripcion();
-                textView.setText(texto);
-            } else {
-                textView.setText("Nop");
+    private void setEjercitoAction() {
+        ejercitoTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ejercitoAlertDialog != null) {
+                    ejercitoAlertDialog.show();
+                }
             }
+        });
+    }
+
+    private void findViewsById() {
+        ejercitoTextView = (TextView) findViewById(R.id.ejercito_textview);
+        cancelImageButton = (ImageButton) findViewById(R.id.clear);
+    }
+
+    public void setOpcionesEjercito(List<Ejercito> ejercitos) {
+        List<String> listItems = new ArrayList<>();
+        for (Ejercito ejercito : ejercitos) {
+            listItems.add(ejercito.getNombre());
         }
+        final CharSequence[] opcionesEjercitos = listItems.toArray(new CharSequence[listItems.size()]);
+        ejercitoAlertDialog = new AlertDialog.Builder(this);
+        ejercitoAlertDialog.setTitle("Escoge un ejército");
+        ejercitoAlertDialog.setItems(opcionesEjercitos, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ejercitoTextView.setText(opcionesEjercitos[which].toString());
+            }
+        });
     }
 }
