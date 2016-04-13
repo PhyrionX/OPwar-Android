@@ -65,12 +65,30 @@
             android:inputType="textCapSentences" />
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/ejercito_textview"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/ejercito"
-        android:padding="16dp" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/ejercito_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/ejercito"
+            android:padding="16dp"
+            android:textColor="@color/colorBlack" />
+        <EditText
+            android:id="@+id/limite_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:hint="@string/limite_puntos"
+            android:inputType="number"
+            android:textSize="5.5pt"
+            android:padding="16dp"
+            android:maxLength="4"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorBlack" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

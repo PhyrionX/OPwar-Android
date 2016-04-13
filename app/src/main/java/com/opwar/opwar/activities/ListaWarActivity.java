@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ public class ListaWarActivity extends AppCompatActivity {
     private ImageButton cancelImageButton;
     private TextView ejercitoTextView;
     private AlertDialog.Builder ejercitoAlertDialog;
+
+    private EditText limiteEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class ListaWarActivity extends AppCompatActivity {
     private void findViewsById() {
         ejercitoTextView = (TextView) findViewById(R.id.ejercito_textview);
         cancelImageButton = (ImageButton) findViewById(R.id.clear);
+        limiteEditText = (EditText) findViewById(R.id.limite_edittext);
     }
 
     public void setOpcionesEjercito(List<Ejercito> ejercitos) {
