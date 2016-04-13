@@ -2,7 +2,11 @@ package com.opwar.opwar.adapters;
 
 import android.os.AsyncTask;
 
+import com.opwar.opwar.activities.ListaWarActivity;
+import com.opwar.opwar.model.Ejercito;
 import com.opwar.opwar.util.Constants;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +19,13 @@ import java.net.URL;
  * Created by URZU on 13/04/2016.
  */
 public class EjercitosAdapter extends AsyncTask<String, String, String> {
+    private ListaWarActivity listaWarActivity;
     private StringBuilder response = new StringBuilder();
+    private Ejercito ejercito;
+
+    public EjercitosAdapter(ListaWarActivity listaWarActivity) {
+        this.listaWarActivity = listaWarActivity;
+    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -32,7 +42,7 @@ public class EjercitosAdapter extends AsyncTask<String, String, String> {
 
             if (status == HttpURLConnection.HTTP_OK) {
                 getResponse(httpUrlConnection.getInputStream());
-                //getEjercitoFromJson(response.toString());
+                getEjercitoFromJson(response.toString());
             } else {
                 getResponse(httpUrlConnection.getErrorStream());
             }
@@ -58,29 +68,25 @@ public class EjercitosAdapter extends AsyncTask<String, String, String> {
         }
     }
 
-    /**
-    private List<Ejercito> getEjercitoFromJson(String json) {
-        labels = new ArrayList<>();
+
+    private void getEjercitoFromJson(String json) {
+        json = json.substring(1, json.length() - 1);
         try {
-            JSONObject o = new JSONObject(json);
-            JSONArray jsonArray = o.getJSONArray("etiquetas");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonOb = new JSONObject(jsonArray.get(i).toString());
-                labels.add(new Label(jsonOb.getString("etiqueta"),
-                        jsonOb.getString("color")));
-            }
+            JSONObject jsonObject = new JSONObject(json);
+            ejercito = new Ejercito(jsonObject.getInt("id_ejercito"),
+                    jsonObject.getString("nombre"),
+                    jsonObject.getString("descripcion"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Collections.reverse(labels);
-
-        return labels;
-    }**/
+    }
 
 
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+
+        listaWarActivity.setText(ejercito);
     }
 }
