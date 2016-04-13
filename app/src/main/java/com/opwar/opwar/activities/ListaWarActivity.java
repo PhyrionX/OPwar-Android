@@ -1,9 +1,11 @@
-package com.opwar.opwar;
+package com.opwar.opwar.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.opwar.opwar.R;
 
 public class ListaWarActivity extends AppCompatActivity {
     @Override
