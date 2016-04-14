@@ -14,6 +14,7 @@ import com.opwar.opwar.adapters.EjercitosAdapter;
 import com.opwar.opwar.adapters.UnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
+import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.model.Unidad;
 import com.opwar.opwar.model.UnidadBasica;
 import com.opwar.opwar.model.UnidadEspecial;
@@ -32,7 +33,7 @@ public class ListaWarActivity extends AppCompatActivity {
     private AlertDialog.Builder unidadSingularAlertDialog;
     private List<Unidad> unidades;
     private Ejercito ejercitoSeleccionado;
-
+    private List<Regimiento> listaEjercito;
     private EditText limiteEditText;
     private ImageButton anadirComandate;
     private ImageButton anadirUnidadBasica;
