@@ -3,8 +3,15 @@ package com.opwar.opwar.adapters;
 import android.os.AsyncTask;
 
 import com.opwar.opwar.activities.ListaWarActivity;
+import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Unidad;
+import com.opwar.opwar.model.UnidadBasica;
+import com.opwar.opwar.model.UnidadEspecial;
+import com.opwar.opwar.model.UnidadSingular;
 import com.opwar.opwar.util.Constants;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -73,12 +80,48 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
 
     private void getUnidadesFromJson(String json) {
         unidades = new ArrayList<>();
-        json = json.replace("[", "{").replace("]", "}");
         try {
-     /**       JSONObject jsonObject = new JSONObject(json);
-            unidades.add(new Ejercito(jsonObject.getInt("id_ejercito"),
-                    jsonObject.getString("nombre"),
-                    jsonObject.getString("descripcion")));**/
+            JSONObject o = new JSONObject(json);
+            JSONArray jsonArray = o.getJSONArray("unidades");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonOb = new JSONObject(jsonArray.get(i).toString());
+                switch (jsonOb.getInt("tipo_id")) {
+                    case 1: unidades.add(new Comandante(jsonOb.getInt("id_unidad"), jsonOb.getString("nombre"),
+                                jsonOb.getInt("movimiento"), jsonOb.getInt("habilidad_armas"),
+                                jsonOb.getInt("habilidad_proyectiles"), jsonOb.getInt("fuerza"),
+                                jsonOb.getInt("resistencia"), jsonOb.getInt("heridas"),
+                                jsonOb.getInt("iniciativa"), jsonOb.getInt("ataques"),
+                                jsonOb.getInt("liderazgo"), jsonOb.getInt("puntos"),
+                                jsonOb.getInt("tamanyoMinimo")));
+                        break;
+                    case 2: unidades.add(new UnidadBasica(jsonOb.getInt("id_unidad"), jsonOb.getString("nombre"),
+                                jsonOb.getInt("movimiento"), jsonOb.getInt("habilidad_armas"),
+                                jsonOb.getInt("habilidad_proyectiles"), jsonOb.getInt("fuerza"),
+                                jsonOb.getInt("resistencia"), jsonOb.getInt("heridas"),
+                                jsonOb.getInt("iniciativa"), jsonOb.getInt("ataques"),
+                                jsonOb.getInt("liderazgo"), jsonOb.getInt("puntos"),
+                                jsonOb.getInt("tamanyoMinimo")));
+                        break;
+                    case 3: unidades.add(new UnidadEspecial(jsonOb.getInt("id_unidad"), jsonOb.getString("nombre"),
+                                jsonOb.getInt("movimiento"), jsonOb.getInt("habilidad_armas"),
+                                jsonOb.getInt("habilidad_proyectiles"), jsonOb.getInt("fuerza"),
+                                jsonOb.getInt("resistencia"), jsonOb.getInt("heridas"),
+                                jsonOb.getInt("iniciativa"), jsonOb.getInt("ataques"),
+                                jsonOb.getInt("liderazgo"), jsonOb.getInt("puntos"),
+                                jsonOb.getInt("tamanyoMinimo")));
+                        break;
+                    case 4: unidades.add(new UnidadSingular(jsonOb.getInt("id_unidad"), jsonOb.getString("nombre"),
+                                jsonOb.getInt("movimiento"), jsonOb.getInt("habilidad_armas"),
+                                jsonOb.getInt("habilidad_proyectiles"), jsonOb.getInt("fuerza"),
+                                jsonOb.getInt("resistencia"), jsonOb.getInt("heridas"),
+                                jsonOb.getInt("iniciativa"), jsonOb.getInt("ataques"),
+                                jsonOb.getInt("liderazgo"), jsonOb.getInt("puntos"),
+                                jsonOb.getInt("tamanyoMinimo")));
+                        break;
+                    default:
+                        break;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,6 +131,6 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-
+        listaWarActivity.setOpcionesUnidades(unidades);
     }
 }

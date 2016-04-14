@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.opwar.opwar.R;
 import com.opwar.opwar.adapters.EjercitosAdapter;
+import com.opwar.opwar.adapters.UnidadesAdapter;
 import com.opwar.opwar.model.Ejercito;
+import com.opwar.opwar.model.Unidad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class ListaWarActivity extends AppCompatActivity {
     private ImageButton cancelImageButton;
     private TextView ejercitoTextView;
     private AlertDialog.Builder ejercitoAlertDialog;
+    private List<Unidad> unidades;
 
     private EditText limiteEditText;
 
@@ -33,6 +36,7 @@ public class ListaWarActivity extends AppCompatActivity {
         setCancelAction();
         setEjercitoAction();
         new EjercitosAdapter(this).execute();
+        new UnidadesAdapter(this, 1).execute();
     }
 
     private void setCancelAction() {
@@ -76,5 +80,9 @@ public class ListaWarActivity extends AppCompatActivity {
                 ejercitoTextView.setText(opcionesEjercitos[which].toString());
             }
         });
+    }
+
+    public void setOpcionesUnidades(List<Unidad> unidades) {
+        this.unidades = unidades;
     }
 }
