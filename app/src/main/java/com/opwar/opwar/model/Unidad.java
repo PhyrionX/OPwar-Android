@@ -1,5 +1,7 @@
 package com.opwar.opwar.model;
 
+import com.opwar.opwar.UnidadException;
+
 /**
  * Created by phyrion on 13/04/16.
  */
@@ -18,19 +20,48 @@ abstract public class Unidad {
     private int puntos;
     private int tamanyoMinimo;
 
-    public Unidad(int id_unidad,
-                  String nombre,
-                  int movimiento,
-                  int habilidadArmas,
-                  int habilidadProyectiles,
-                  int fuerza,
-                  int resistencia,
-                  int heridas,
-                  int iniciativa,
-                  int ataques,
-                  int liderazgo,
-                  int puntos,
-                  int tamanyoMinimo) {
+    public Unidad(int id_unidad, String nombre, int movimiento, int habilidadArmas, int habilidadProyectiles,
+                  int fuerza, int resistencia, int heridas, int iniciativa, int ataques, int liderazgo,
+                  int puntos, int tamanyoMinimo) throws UnidadException {
+        if (id_unidad < 0) {
+            throw new UnidadException("Id negativo");
+        }
+        if (nombre == null || nombre.length() == 0) {
+            throw new UnidadException("Nombre no introducido");
+        }
+        if (movimiento <=  0) {
+            throw new UnidadException("Movimiento negativo");
+        }
+        if (habilidadArmas < 0 || habilidadArmas > 10) {
+            throw new UnidadException("Habilidad de armas tiene que ser entre 0 y 10");
+        }
+        if (habilidadProyectiles < 0 || habilidadProyectiles  > 10) {
+            throw new UnidadException("Habilidad con proyectiles tiene que ser entre 0 y 10");
+        }
+        if (fuerza < 0 || fuerza > 10) {
+            throw new UnidadException("Fuerza tiene que ser entre 0 y 10");
+        }
+        if (resistencia < 0 || resistencia > 10) {
+            throw new UnidadException("Resistencia tiene que ser entre 0 y 10");
+        }
+        if (heridas < 0 || heridas > 10) {
+            throw new UnidadException("Heridad tiene que ser entre 0 y 10");
+        }
+        if (iniciativa < 0 || iniciativa > 10) {
+            throw new UnidadException("Iniciativa tiene que ser entre 0 y 10");
+        }
+        if (ataques < 0 || ataques > 10) {
+            throw new UnidadException("Ataques tiene que ser entre 0 y 10");
+        }
+        if (liderazgo < 0 || liderazgo > 10) {
+            throw new UnidadException("Liderazgo tiene que ser entre 0 y 10");
+        }
+        if (puntos < 0) {
+            throw new UnidadException("Liderazgo tiene que ser entre 0 y 10");
+        }
+        if (tamanyoMinimo < 1) {
+            throw new UnidadException("Tamaño mínimo de 1");
+        }
         this.id_unidad = id_unidad;
         this.nombre = nombre;
         this.movimiento = movimiento;
