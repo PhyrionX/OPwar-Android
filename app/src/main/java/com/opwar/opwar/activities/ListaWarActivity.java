@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.opwar.opwar.R;
 import com.opwar.opwar.adapters.EjercitosAdapter;
 import com.opwar.opwar.adapters.UnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
+import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.model.Unidad;
 import com.opwar.opwar.model.UnidadBasica;
@@ -33,13 +35,13 @@ public class ListaWarActivity extends AppCompatActivity {
     private AlertDialog.Builder unidadSingularAlertDialog;
     private List<Unidad> unidades;
     private Ejercito ejercitoSeleccionado;
-    private List<Regimiento> listaEjercito;
+    private ListaEjercito listaEjercito;
     private EditText limiteEditText;
     private ImageButton anadirComandate;
     private ImageButton anadirUnidadBasica;
     private ImageButton anadirUnidadEspecial;
     private ImageButton anadirUnidadSingular;
-
+    private boolean editTextLimitePuntosRellenado = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +132,22 @@ public class ListaWarActivity extends AppCompatActivity {
         populateUnidadesSingulares(ejercitoSeleccionado.getUnidadesSingulares());
     }
 
-    public void populateComandantes(List<Comandante> comandantes) {
+    public void populateComandantes(final List<Comandante> comandantes) {
         anadirComandate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comandanteAlertDialog.show();
+                EditText et = (EditText) findViewById(R.id.limite_edittext);
+
+                if (et.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
+                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
+                    et.setEnabled(false);
+                    editTextLimitePuntosRellenado = true;
+                    comandanteAlertDialog.show();
+                } else {
+                    comandanteAlertDialog.show();
+                }
             }
         });
         List<String> listItems = new ArrayList<>();
@@ -147,19 +160,38 @@ public class ListaWarActivity extends AppCompatActivity {
         comandanteAlertDialog.setItems(opcionesComandantes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                TextView textView = (TextView) findViewById(R.id.comandantes_seleccionados);
-                if (textView != null) {
-                    textView.append(opcionesComandantes[which].toString() + "\n");
+
+                System.out.println(comandantes.get(which).getNombre());
+                Regimiento reg = new Regimiento(comandantes.get(which),comandantes.get(which).getTamanyoMinimo());
+                try {
+                    listaEjercito.addRegimiento(reg);
+                    TextView textView = (TextView) findViewById(R.id.comandantes_seleccionados);
+                    if (textView != null) {
+                        textView.append(opcionesComandantes[which].toString() + " --- " + reg.getPuntos() + " pts\n");
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public void populateUnidadesBasicas(List<UnidadBasica> unidadesBasicas) {
+    public void populateUnidadesBasicas(final List<UnidadBasica> unidadesBasicas) {
         anadirUnidadBasica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unidadBasicaAlertDialog.show();
+                EditText et = (EditText) findViewById(R.id.limite_edittext);
+
+                if (et.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
+                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
+                    et.setEnabled(false);
+                    editTextLimitePuntosRellenado = true;
+                    unidadBasicaAlertDialog.show();
+                } else {
+                    unidadBasicaAlertDialog.show();
+                }
             }
         });
         List<String> listItems = new ArrayList<>();
@@ -172,19 +204,36 @@ public class ListaWarActivity extends AppCompatActivity {
         unidadBasicaAlertDialog.setItems(opcionesUnidadesBasicas, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                TextView textView = (TextView) findViewById(R.id.unidades_basicas_seleccionadas);
-                if (textView != null) {
-                    textView.append(opcionesUnidadesBasicas[which].toString() + "\n");
+                Regimiento reg = new Regimiento(unidadesBasicas.get(which),unidadesBasicas.get(which).getTamanyoMinimo());
+                try {
+                    listaEjercito.addRegimiento(reg);
+                    TextView textView = (TextView) findViewById(R.id.unidades_basicas_seleccionadas);
+                    if (textView != null) {
+                        textView.append(opcionesUnidadesBasicas[which].toString() + " --- " + reg.getPuntos() + " pts\n");
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public void populateUnidadesEspeciales(List<UnidadEspecial> unidadEspeciales) {
+    public void populateUnidadesEspeciales(final List<UnidadEspecial> unidadEspeciales) {
         anadirUnidadEspecial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unidadEspecialAlertDialog.show();
+                EditText et = (EditText) findViewById(R.id.limite_edittext);
+
+                if (et.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
+                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
+                    et.setEnabled(false);
+                    unidadEspecialAlertDialog.show();
+                    editTextLimitePuntosRellenado = true;
+                } else {
+                    unidadEspecialAlertDialog.show();
+                }
             }
         });
         List<String> listItems = new ArrayList<>();
@@ -197,19 +246,36 @@ public class ListaWarActivity extends AppCompatActivity {
         unidadEspecialAlertDialog.setItems(unidadesEspeciales, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                TextView textView = (TextView) findViewById(R.id.unidades_espaciales_seleccionadas);
-                if (textView != null) {
-                    textView.append(unidadesEspeciales[which].toString() + "\n");
+                Regimiento reg = new Regimiento(unidadEspeciales.get(which),unidadEspeciales.get(which).getTamanyoMinimo());
+                try {
+                    listaEjercito.addRegimiento(reg);
+                    TextView textView = (TextView) findViewById(R.id.unidades_espaciales_seleccionadas);
+                    if (textView != null) {
+                        textView.append(unidadesEspeciales[which].toString() + " --- " + reg.getPuntos() + " pts\n");
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public void populateUnidadesSingulares(List<UnidadSingular> unidadesSingulares) {
+    public void populateUnidadesSingulares(final List<UnidadSingular> unidadesSingulares) {
         anadirUnidadSingular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unidadSingularAlertDialog.show();
+                EditText et = (EditText) findViewById(R.id.limite_edittext);
+
+                if (et.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
+                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
+                    et.setEnabled(false);
+                    editTextLimitePuntosRellenado = true;
+                    unidadSingularAlertDialog.show();
+                } else {
+                    unidadSingularAlertDialog.show();
+                }
             }
         });
         List<String> listItems = new ArrayList<>();
@@ -222,9 +288,15 @@ public class ListaWarActivity extends AppCompatActivity {
         unidadSingularAlertDialog.setItems(opcionesUnidadesEspeciales, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                TextView textView = (TextView) findViewById(R.id.unidades_singulares_seleccionadas);
-                if (textView != null) {
-                    textView.append(opcionesUnidadesEspeciales[which].toString() + "\n");
+                Regimiento reg = new Regimiento(unidadesSingulares.get(which),unidadesSingulares.get(which).getTamanyoMinimo());
+                try {
+                    listaEjercito.addRegimiento(reg);
+                    TextView textView = (TextView) findViewById(R.id.unidades_singulares_seleccionadas);
+                    if (textView != null) {
+                        textView.append(opcionesUnidadesEspeciales[which].toString() + " --- " + reg.getPuntos() + " pts\n");
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
