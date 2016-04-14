@@ -1,12 +1,13 @@
 package com.opwar.opwar.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by phyrion on 14/04/16.
  */
-public class ListaEjercito {
+public class ListaEjercito implements Serializable {
     private int puntosTotales;
     private int puntos;
     private List<Regimiento> regimientos;
