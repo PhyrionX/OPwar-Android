@@ -131,6 +131,6 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        listaWarActivity.setOpcionesUnidades(unidades);
+        listaWarActivity.setUnidades(unidades);
     }
 }

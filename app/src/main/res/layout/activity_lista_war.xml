@@ -65,175 +65,210 @@
             android:inputType="textCapSentences" />
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/ejercito_textview"
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/ejercito"
-            android:padding="16dp"
-            android:textColor="@color/colorBlack" />
-        <EditText
-            android:id="@+id/limite_edittext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:hint="@string/limite_puntos"
-            android:inputType="number"
-            android:textSize="5.5pt"
-            android:padding="16dp"
-            android:maxLength="4"
-            android:background="@android:color/transparent"
-            android:textColor="@color/colorBlack" />
-    </RelativeLayout>
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/ejercito_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ejercito"
+                    android:padding="16dp"
+                    android:textColor="@color/colorBlack" />
+                <EditText
+                    android:id="@+id/limite_edittext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:hint="@string/limite_puntos"
+                    android:inputType="number"
+                    android:textSize="5.5pt"
+                    android:padding="16dp"
+                    android:maxLength="4"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorBlack" />
+            </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/comandantes_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/comandantes"
-            android:padding="16dp"
-            android:textColorHint="@color/colorBlack"
-            android:background="@color/colorUnidad"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:paddingEnd="12dp"
-            android:clickable="true"
-            android:contentDescription="@string/anadir_comandante" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/comandantes_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/comandantes"
+                    android:padding="16dp"
+                    android:textColorHint="@color/colorBlack"
+                    android:background="@color/colorUnidad"/>
+                <ImageButton
+                    android:id="@+id/anadir_comandante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_black"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="12dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/anadir_comandante" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/comandantes_seleccionados" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
-        <TextView
-            android:id="@+id/unidadesBasicastextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/unidades_basicas"
-            android:padding="16dp"
-            android:textColorHint="@color/colorBlack"
-            android:background="@color/colorUnidad" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:paddingEnd="12dp"
-            android:clickable="true"
-            android:contentDescription="@string/anadir_comandante" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/unidadesBasicastextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/unidades_basicas"
+                    android:padding="16dp"
+                    android:textColorHint="@color/colorBlack"
+                    android:background="@color/colorUnidad" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/unidades_especiales"
-            android:padding="16dp"
-            android:textColorHint="@color/colorBlack"
-            android:background="@color/colorUnidad" />
+                <ImageButton
+                    android:id="@+id/anadir_unidad_basica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_black"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="12dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/anadir_comandante" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:paddingEnd="12dp"
-            android:clickable="true"
-            android:contentDescription="@string/anadir_comandante" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/unidades_basicas_seleccionadas" />
 
-        <TextView
-            android:id="@+id/unidadesSingularestextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/unidades_singulares"
-            android:padding="16dp"
-            android:textColorHint="@color/colorBlack"
-            android:background="@color/colorUnidad" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:paddingEnd="12dp"
-            android:clickable="true"
-            android:contentDescription="@string/anadir_comandante" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/unidades_especiales"
+                    android:padding="16dp"
+                    android:textColorHint="@color/colorBlack"
+                    android:background="@color/colorUnidad" />
+
+                <ImageButton
+                    android:id="@+id/anadir_unidad_especial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_black"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="12dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/anadir_comandante" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/unidades_espaciales_seleccionadas" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/unidadesSingularestextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/unidades_singulares"
+                    android:padding="16dp"
+                    android:textColorHint="@color/colorBlack"
+                    android:background="@color/colorUnidad" />
+
+                <ImageButton
+                    android:id="@+id/anadir_unidad_singular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_black"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="12dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/anadir_comandante" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/unidades_singulares_seleccionadas" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

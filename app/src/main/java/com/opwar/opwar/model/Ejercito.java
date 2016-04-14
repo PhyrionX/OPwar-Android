@@ -1,5 +1,6 @@
 package com.opwar.opwar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,10 @@ public class Ejercito {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.comandantes = new ArrayList<>();
+        this.unidadesBasicas= new ArrayList<>();
+        this.unidadesEspeciales = new ArrayList<>();
+        this.unidadesSingulares= new ArrayList<>();
     }
 
     public int getId() {
@@ -32,19 +37,42 @@ public class Ejercito {
         return descripcion;
     }
 
-    public void setComandantes(List<Comandante> comandantes) {
-        this.comandantes = comandantes;
+    public void setComandante(Comandante comandante) {
+        this.comandantes.add(comandante);
     }
 
-    public void setUnidadesBasicas(List<UnidadBasica> unidadesBasicas) {
-        this.unidadesBasicas = unidadesBasicas;
+    public void setUnidadBasica(UnidadBasica unidadBasica) {
+        this.unidadesBasicas.add(unidadBasica);
     }
 
-    public void setUnidadesEspeciales(List<UnidadEspecial> unidadesEspeciales) {
-        this.unidadesEspeciales = unidadesEspeciales;
+    public void setUnidadEspecial(UnidadEspecial unidadEspecial) {
+        this.unidadesEspeciales.add(unidadEspecial);
     }
 
-    public void setUnidadesSingulares(List<UnidadSingular> unidadesSingulares) {
-        this.unidadesSingulares = unidadesSingulares;
+    public void setUnidadSingular(UnidadSingular unidadSingular) {
+        this.unidadesSingulares.add(unidadSingular);
+    }
+
+    public List<UnidadSingular> getUnidadesSingulares() {
+        return unidadesSingulares;
+    }
+
+    public List<Comandante> getComandantes() {
+        return comandantes;
+    }
+
+    public List<UnidadBasica> getUnidadesBasicas() {
+        return unidadesBasicas;
+    }
+
+    public List<UnidadEspecial> getUnidadesEspeciales() {
+        return unidadesEspeciales;
+    }
+
+    public void clearEjercito() {
+        this.comandantes = new ArrayList<>();
+        this.unidadesBasicas= new ArrayList<>();
+        this.unidadesEspeciales = new ArrayList<>();
+        this.unidadesSingulares= new ArrayList<>();
     }
 }
