@@ -1,6 +1,6 @@
 package com.opwar.opwar.model;
 
-import com.opwar.opwar.UnidadException;
+import com.opwar.opwar.util.UnidadException;
 
 /**
  * Created by phyrion on 13/04/16.

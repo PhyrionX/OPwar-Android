@@ -1,6 +1,7 @@
 package com.opwar.opwar;
 
 import com.opwar.opwar.model.Comandante;
+import com.opwar.opwar.util.UnidadException;
 
 import org.junit.Test;
 

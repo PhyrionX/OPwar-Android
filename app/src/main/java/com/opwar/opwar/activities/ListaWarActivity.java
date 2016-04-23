@@ -1,12 +1,15 @@
 package com.opwar.opwar.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import com.opwar.opwar.model.Unidad;
 import com.opwar.opwar.model.UnidadBasica;
 import com.opwar.opwar.model.UnidadEspecial;
 import com.opwar.opwar.model.UnidadSingular;
+import com.opwar.opwar.util.ListViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,10 @@ public class ListaWarActivity extends AppCompatActivity {
     private ImageButton anadirUnidadEspecial;
     private ImageButton anadirUnidadSingular;
     private boolean editTextLimitePuntosRellenado = false;
+    private ListView listaComandates;
+    private ArrayAdapter<Comandante> adaptadorComandantes;
+    private TextView cuentaComandantesTextView;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
         setCancelAction();
         setEjercitoAction();
+        progressDialog = ProgressDialog.show(this, "Cargando ejercitos...", "", true);
         new EjercitosAdapter(this).execute();
     }
 
@@ -84,9 +93,12 @@ public class ListaWarActivity extends AppCompatActivity {
         anadirUnidadBasica = (ImageButton) findViewById(R.id.anadir_unidad_basica);
         anadirUnidadEspecial = (ImageButton) findViewById(R.id.anadir_unidad_especial);
         anadirUnidadSingular = (ImageButton) findViewById(R.id.anadir_unidad_singular);
+        listaComandates = (ListView) findViewById(R.id.listviewComandantes);
+        cuentaComandantesTextView = (TextView) findViewById(R.id.cuentaComandantes);
     }
 
     public void setOpcionesEjercito(final List<Ejercito> ejercitos) {
+        progressDialog.dismiss();
         List<String> listItems = new ArrayList<>();
         for (Ejercito ejercito : ejercitos) {
             listItems.add(ejercito.getNombre());
@@ -109,10 +121,12 @@ public class ListaWarActivity extends AppCompatActivity {
                 ejercitoSeleccionado = ejercito;
             }
         }
+        progressDialog = ProgressDialog.show(this, "Cargando unidades...", "", true);
         new UnidadesAdapter(this, which + 1).execute();
     }
 
     public void setUnidades(List<Unidad> unidades) {
+        progressDialog.dismiss();
         ejercitoSeleccionado.clearEjercito();
         this.unidades = unidades;
         for (Unidad unidad : unidades) {
@@ -133,6 +147,8 @@ public class ListaWarActivity extends AppCompatActivity {
     }
 
     public void populateComandantes(final List<Comandante> comandantes) {
+        final int[] cuentaComandantes = {0};
+
         anadirComandate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,21 +170,26 @@ public class ListaWarActivity extends AppCompatActivity {
         for (Comandante comandante : comandantes) {
             listItems.add(comandante.getNombre());
         }
+
+        final List<Comandante> comandantesSeleccionados = new ArrayList<>();
+        adaptadorComandantes = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandantesSeleccionados);
+        listaComandates.setAdapter(adaptadorComandantes);
+
         final CharSequence[] opcionesComandantes = listItems.toArray(new CharSequence[listItems.size()]);
+
         comandanteAlertDialog = new AlertDialog.Builder(this);
         comandanteAlertDialog.setTitle("Escoge un comandante");
         comandanteAlertDialog.setItems(opcionesComandantes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 System.out.println(comandantes.get(which).getNombre());
                 Regimiento reg = new Regimiento(comandantes.get(which),comandantes.get(which).getTamanyoMinimo());
                 try {
                     listaEjercito.addRegimiento(reg);
-                    TextView textView = (TextView) findViewById(R.id.comandantes_seleccionados);
-                    if (textView != null) {
-                        textView.append(opcionesComandantes[which].toString() + " --- " + reg.getPuntos() + " pts\n");
-                    }
+                    cuentaComandantesTextView.setText(String.valueOf(++cuentaComandantes[0]));
+                    comandantesSeleccionados.add(comandantes.get(which));
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaComandates);
+                    adaptadorComandantes.notifyDataSetChanged();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }

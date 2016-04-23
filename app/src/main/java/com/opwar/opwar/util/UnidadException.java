@@ -1,4 +1,4 @@
-package com.opwar.opwar;
+package com.opwar.opwar.util;
 
 /**
  * Created by URZU on 14/04/2016.

@@ -113,15 +113,23 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@color/colorUnidad">
                 <TextView
-                    android:id="@+id/comandantes_textview"
-                    android:layout_width="match_parent"
+                    android:id="@+id/cuentaComandantes"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/comandantes"
+                    android:text="@string/cero"
                     android:padding="16dp"
-                    android:textColorHint="@color/colorBlack"
+                    android:textColor="@color/colorBlack"
                     android:background="@color/colorUnidad"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comandantes"
+                    android:paddingStart="26dp"
+                    android:padding="16dp"
+                    android:textColor="@color/colorBlack" />
                 <ImageButton
                     android:id="@+id/anadir_comandante"
                     android:layout_width="wrap_content"
@@ -130,6 +138,7 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:paddingEnd="12dp"
+                    android:paddingStart="12dp"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/anadir_comandante" />
             </RelativeLayout>
@@ -138,10 +147,11 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/comandantes_seleccionados" />
+            <ListView
+                android:id="@+id/listviewComandantes"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <Space
                 android:layout_width="match_parent"
