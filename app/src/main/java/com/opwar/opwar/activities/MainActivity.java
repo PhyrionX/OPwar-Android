@@ -6,10 +6,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ViewFlipper;
 
 import com.opwar.opwar.R;
 
 public class MainActivity extends AppCompatActivity {
+    private ViewFlipper viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,5 +29,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // TODO que muestre la otra vista únicamente si no hay listas guardadas
+        viewFlipper = (ViewFlipper) findViewById(R.id.lista_flipper);
+        viewFlipper.showNext();
     }
 }

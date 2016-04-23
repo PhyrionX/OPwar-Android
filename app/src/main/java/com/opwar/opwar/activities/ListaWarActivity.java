@@ -63,7 +63,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
         setCancelAction();
         setEjercitoAction();
-        progressDialog = ProgressDialog.show(this, "Cargando ejercitos...", "", true);
+        progressDialog = ProgressDialog.show(this, "Cargando ejércitos...", "", true);
         new EjercitosAdapter(this).execute();
     }
 

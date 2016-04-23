@@ -13,4 +13,5 @@
     <string name="unidades_singulares">0 x UNIDADES SINGULARES</string>
     <string name="anadir_comandante">Añadir comandante</string>
     <string name="puntos_totales">PUNTOS TOTALES</string>
+    <string name="sin_listas">No hay listas</string>
 </resources>
