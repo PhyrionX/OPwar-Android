@@ -1,5 +1,7 @@
 package com.opwar.opwar.model;
 
+import com.opwar.opwar.util.ListaEjercitoException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +32,13 @@ public class ListaEjercito implements Serializable {
         return regimientos;
     }
 
-    public boolean addRegimiento(Regimiento regimiento) throws Exception {
+    public boolean addRegimiento(Regimiento regimiento) throws ListaEjercitoException {
         System.out.println(puntos);
         if (puntos + regimiento.getPuntos() <= puntosTotales) {
             regimientos.add(regimiento);
             puntos += regimiento.getPuntos();
             return true;
         }
-        throw new Exception();
+        throw new ListaEjercitoException("Supera el límite de puntos");
     }
 }

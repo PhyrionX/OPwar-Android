@@ -53,16 +53,36 @@
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
-        <EditText
-            android:id="@+id/title"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/type_name_list"
-            android:textColorHint="@color/colorWhite"
-            android:background="@android:color/transparent"
-            android:padding="16dp"
-            android:textSize="6pt"
-            android:inputType="textCapSentences" />
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/type_name_list"
+                android:textColorHint="@color/colorWhite"
+                android:background="@android:color/transparent"
+                android:padding="16dp"
+                android:textSize="6pt"
+                android:inputType="textCapSentences" />
+            <EditText
+                android:id="@+id/limite_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:hint="@string/limite_puntos"
+                android:inputType="number"
+                android:textSize="5.5pt"
+                android:gravity="right"
+                android:padding="16dp"
+                android:maxLength="4"
+                android:paddingEnd="22dp"
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -83,18 +103,17 @@
                     android:hint="@string/ejercito"
                     android:padding="16dp"
                     android:textColor="@color/colorBlack" />
-                <EditText
-                    android:id="@+id/limite_edittext"
+                <TextView
+                    android:id="@+id/cuentaTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:hint="@string/limite_puntos"
-                    android:inputType="number"
-                    android:textSize="5.5pt"
+                    android:hint="@string/puntos_totales"
                     android:padding="16dp"
-                    android:maxLength="4"
-                    android:background="@android:color/transparent"
-                    android:textColor="@color/colorBlack" />
+                    android:paddingEnd="22dp"
+                    android:gravity="right"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true" />
+
             </RelativeLayout>
 
             <View
@@ -120,16 +139,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cero"
-                    android:padding="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="16dp"
                     android:textColor="@color/colorBlack"
                     android:background="@color/colorUnidad"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/comandantes"
-                    android:paddingStart="26dp"
-                    android:padding="16dp"
-                    android:textColor="@color/colorBlack" />
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/cuentaComandantes" />
                 <ImageButton
                     android:id="@+id/anadir_comandante"
                     android:layout_width="wrap_content"

@@ -25,6 +25,7 @@ import com.opwar.opwar.model.UnidadBasica;
 import com.opwar.opwar.model.UnidadEspecial;
 import com.opwar.opwar.model.UnidadSingular;
 import com.opwar.opwar.util.ListViewUtil;
+import com.opwar.opwar.util.ListaEjercitoException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,8 @@ public class ListaWarActivity extends AppCompatActivity {
     private ArrayAdapter<Comandante> adaptadorComandantes;
     private TextView cuentaComandantesTextView;
     private ProgressDialog progressDialog;
+    private TextView cuentaTotal;
+    private int cuentaPuntos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,7 @@ public class ListaWarActivity extends AppCompatActivity {
         anadirUnidadSingular = (ImageButton) findViewById(R.id.anadir_unidad_singular);
         listaComandates = (ListView) findViewById(R.id.listviewComandantes);
         cuentaComandantesTextView = (TextView) findViewById(R.id.cuentaComandantes);
+        cuentaTotal = (TextView) findViewById(R.id.cuentaTotal);
     }
 
     public void setOpcionesEjercito(final List<Ejercito> ejercitos) {
@@ -128,6 +132,7 @@ public class ListaWarActivity extends AppCompatActivity {
     public void setUnidades(List<Unidad> unidades) {
         progressDialog.dismiss();
         ejercitoSeleccionado.clearEjercito();
+        cuentaPuntos = 0;
         this.unidades = unidades;
         for (Unidad unidad : unidades) {
             if (unidad instanceof Comandante) {
@@ -190,7 +195,9 @@ public class ListaWarActivity extends AppCompatActivity {
                     comandantesSeleccionados.add(comandantes.get(which));
                     ListViewUtil.setListViewHeightBasedOnChildren(listaComandates);
                     adaptadorComandantes.notifyDataSetChanged();
-                } catch (Exception e) {
+                    cuentaPuntos += reg.getPuntos();
+                    cuentaTotal.setText(String.valueOf(cuentaPuntos));
+                } catch (ListaEjercitoException e) {
                     Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
             }
