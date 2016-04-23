@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,9 +51,18 @@ public class ListaWarActivity extends AppCompatActivity {
     private ListView listaComandates;
     private ArrayAdapter<Comandante> adaptadorComandantes;
     private TextView cuentaComandantesTextView;
+    private ListView listaUnidadesBasicas;
+    private ArrayAdapter<UnidadBasica> adaptadorUnidadesBasicas;
+    private TextView cuentaUnidadesBasicasTextView;
+    private ListView listaUnidadesEspeciales;
+    private ArrayAdapter<UnidadEspecial> adaptadorUnidadesEspeciales;
+    private TextView cuentaUnidadesEspecialesTextView;
+    private ListView listaUnidadesSingulares;
+    private ArrayAdapter<UnidadSingular> adaptadorUnidadesSingulares;
+    private TextView cuentaUnidadesSingularesTextView;
     private ProgressDialog progressDialog;
-    private TextView cuentaTotal;
-    private int cuentaPuntos;
+    private TextView puntosTotalesTextView;
+    private int puntosTotales;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +107,14 @@ public class ListaWarActivity extends AppCompatActivity {
         anadirUnidadEspecial = (ImageButton) findViewById(R.id.anadir_unidad_especial);
         anadirUnidadSingular = (ImageButton) findViewById(R.id.anadir_unidad_singular);
         listaComandates = (ListView) findViewById(R.id.listviewComandantes);
+        listaUnidadesBasicas = (ListView) findViewById(R.id.listviewUnidadesBasicas);
+        listaUnidadesEspeciales = (ListView) findViewById(R.id.listviewUnidadesEspeciales);
+        listaUnidadesSingulares = (ListView) findViewById(R.id.listviewUnidadesSingulares);
         cuentaComandantesTextView = (TextView) findViewById(R.id.cuentaComandantes);
-        cuentaTotal = (TextView) findViewById(R.id.cuentaTotal);
+        cuentaUnidadesBasicasTextView = (TextView) findViewById(R.id.cuentaUnidadesBasicas);
+        cuentaUnidadesEspecialesTextView = (TextView) findViewById(R.id.cuentaUnidadesEspeciales);
+        cuentaUnidadesSingularesTextView = (TextView) findViewById(R.id.cuentaUnidadesSingulares);
+        puntosTotalesTextView = (TextView) findViewById(R.id.cuentaTotal);
     }
 
     public void setOpcionesEjercito(final List<Ejercito> ejercitos) {
@@ -132,7 +148,7 @@ public class ListaWarActivity extends AppCompatActivity {
     public void setUnidades(List<Unidad> unidades) {
         progressDialog.dismiss();
         ejercitoSeleccionado.clearEjercito();
-        cuentaPuntos = 0;
+        puntosTotales = 0;
         this.unidades = unidades;
         for (Unidad unidad : unidades) {
             if (unidad instanceof Comandante) {
@@ -161,7 +177,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
                 if (et.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
-                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
+                } else if (!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
                     listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
                     et.setEnabled(false);
                     editTextLimitePuntosRellenado = true;
@@ -181,22 +197,20 @@ public class ListaWarActivity extends AppCompatActivity {
         listaComandates.setAdapter(adaptadorComandantes);
 
         final CharSequence[] opcionesComandantes = listItems.toArray(new CharSequence[listItems.size()]);
-
         comandanteAlertDialog = new AlertDialog.Builder(this);
         comandanteAlertDialog.setTitle("Escoge un comandante");
         comandanteAlertDialog.setItems(opcionesComandantes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println(comandantes.get(which).getNombre());
-                Regimiento reg = new Regimiento(comandantes.get(which),comandantes.get(which).getTamanyoMinimo());
+                Regimiento reg = new Regimiento(comandantes.get(which), comandantes.get(which).getTamanyoMinimo());
                 try {
                     listaEjercito.addRegimiento(reg);
                     cuentaComandantesTextView.setText(String.valueOf(++cuentaComandantes[0]));
                     comandantesSeleccionados.add(comandantes.get(which));
                     ListViewUtil.setListViewHeightBasedOnChildren(listaComandates);
                     adaptadorComandantes.notifyDataSetChanged();
-                    cuentaPuntos += reg.getPuntos();
-                    cuentaTotal.setText(String.valueOf(cuentaPuntos));
+                    puntosTotales += reg.getPuntos();
+                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
                 } catch (ListaEjercitoException e) {
                     Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
@@ -205,6 +219,7 @@ public class ListaWarActivity extends AppCompatActivity {
     }
 
     public void populateUnidadesBasicas(final List<UnidadBasica> unidadesBasicas) {
+        final int[] cuentaUnidadesBasicas = {0};
         anadirUnidadBasica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,6 +241,11 @@ public class ListaWarActivity extends AppCompatActivity {
         for (UnidadBasica unidadBasica : unidadesBasicas) {
             listItems.add(unidadBasica.getNombre());
         }
+
+        final List<UnidadBasica> unidadesBasicasSeleccionadas = new ArrayList<>();
+        adaptadorUnidadesBasicas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, unidadesBasicasSeleccionadas);
+        listaUnidadesBasicas.setAdapter(adaptadorUnidadesBasicas);
+
         final CharSequence[] opcionesUnidadesBasicas = listItems.toArray(new CharSequence[listItems.size()]);
         unidadBasicaAlertDialog = new AlertDialog.Builder(this);
         unidadBasicaAlertDialog.setTitle("Escoge una unidad básica");
@@ -235,10 +255,12 @@ public class ListaWarActivity extends AppCompatActivity {
                 Regimiento reg = new Regimiento(unidadesBasicas.get(which),unidadesBasicas.get(which).getTamanyoMinimo());
                 try {
                     listaEjercito.addRegimiento(reg);
-                    TextView textView = (TextView) findViewById(R.id.unidades_basicas_seleccionadas);
-                    if (textView != null) {
-                        textView.append(opcionesUnidadesBasicas[which].toString() + " --- " + reg.getPuntos() + " pts\n");
-                    }
+                    cuentaUnidadesBasicasTextView.setText(String.valueOf(++cuentaUnidadesBasicas[0]));
+                    unidadesBasicasSeleccionadas.add(unidadesBasicas.get(which));
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesBasicas);
+                    adaptadorUnidadesBasicas.notifyDataSetChanged();
+                    puntosTotales += reg.getPuntos();
+                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
@@ -246,7 +268,9 @@ public class ListaWarActivity extends AppCompatActivity {
         });
     }
 
-    public void populateUnidadesEspeciales(final List<UnidadEspecial> unidadEspeciales) {
+    public void populateUnidadesEspeciales(final List<UnidadEspecial> unidadesEspeciales) {
+        final int[] cuentaUnidadesEspeciales = {0};
+
         anadirUnidadEspecial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,22 +289,30 @@ public class ListaWarActivity extends AppCompatActivity {
             }
         });
         List<String> listItems = new ArrayList<>();
-        for (UnidadEspecial unidadEspecial : unidadEspeciales) {
+        for (UnidadEspecial unidadEspecial : unidadesEspeciales) {
             listItems.add(unidadEspecial.getNombre());
         }
-        final CharSequence[] unidadesEspeciales = listItems.toArray(new CharSequence[listItems.size()]);
+
+        final List<UnidadEspecial> unidadesEspecialesSeleccionados = new ArrayList<>();
+        adaptadorUnidadesEspeciales = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, unidadesEspecialesSeleccionados);
+        listaUnidadesEspeciales.setAdapter(adaptadorUnidadesEspeciales);
+
+        final CharSequence[] opcionesUnidadesEspeciales = listItems.toArray(new CharSequence[listItems.size()]);
         unidadEspecialAlertDialog = new AlertDialog.Builder(this);
         unidadEspecialAlertDialog.setTitle("Escoge una unidad especial");
-        unidadEspecialAlertDialog.setItems(unidadesEspeciales, new DialogInterface.OnClickListener() {
+        unidadEspecialAlertDialog.setItems(opcionesUnidadesEspeciales, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Regimiento reg = new Regimiento(unidadEspeciales.get(which),unidadEspeciales.get(which).getTamanyoMinimo());
+                Regimiento reg = new Regimiento(unidadesEspeciales.get(which), unidadesEspeciales.get(which).getTamanyoMinimo());
                 try {
                     listaEjercito.addRegimiento(reg);
-                    TextView textView = (TextView) findViewById(R.id.unidades_espaciales_seleccionadas);
-                    if (textView != null) {
-                        textView.append(unidadesEspeciales[which].toString() + " --- " + reg.getPuntos() + " pts\n");
-                    }
+                    cuentaUnidadesEspecialesTextView.setText(String.valueOf(++cuentaUnidadesEspeciales[0]));
+                    unidadesEspecialesSeleccionados.add(unidadesEspeciales.get(which));
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesEspeciales);
+                    adaptadorUnidadesEspeciales.notifyDataSetChanged();
+                    puntosTotales += reg.getPuntos();
+                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
+                    scrollToTheBotton();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
@@ -289,6 +321,8 @@ public class ListaWarActivity extends AppCompatActivity {
     }
 
     public void populateUnidadesSingulares(final List<UnidadSingular> unidadesSingulares) {
+        final int[] cuentaUnidadesSingulares = {0};
+
         anadirUnidadSingular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,22 +344,42 @@ public class ListaWarActivity extends AppCompatActivity {
         for (UnidadSingular unidadSingular : unidadesSingulares) {
             listItems.add(unidadSingular.getNombre());
         }
-        final CharSequence[] opcionesUnidadesEspeciales = listItems.toArray(new CharSequence[listItems.size()]);
+
+        final List<UnidadSingular> unidadesSingularesSeleccionadas = new ArrayList<>();
+        adaptadorUnidadesSingulares = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, unidadesSingularesSeleccionadas);
+        listaUnidadesSingulares.setAdapter(adaptadorUnidadesSingulares);
+
+        final CharSequence[] opcionesUnidadesSingulares = listItems.toArray(new CharSequence[listItems.size()]);
         unidadSingularAlertDialog = new AlertDialog.Builder(this);
         unidadSingularAlertDialog.setTitle("Escoge una unidad singular");
-        unidadSingularAlertDialog.setItems(opcionesUnidadesEspeciales, new DialogInterface.OnClickListener() {
+        unidadSingularAlertDialog.setItems(opcionesUnidadesSingulares, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Regimiento reg = new Regimiento(unidadesSingulares.get(which),unidadesSingulares.get(which).getTamanyoMinimo());
                 try {
                     listaEjercito.addRegimiento(reg);
-                    TextView textView = (TextView) findViewById(R.id.unidades_singulares_seleccionadas);
-                    if (textView != null) {
-                        textView.append(opcionesUnidadesEspeciales[which].toString() + " --- " + reg.getPuntos() + " pts\n");
-                    }
+                    cuentaUnidadesSingularesTextView.setText(String.valueOf(++cuentaUnidadesSingulares[0]));
+                    unidadesSingularesSeleccionadas.add(unidadesSingulares.get(which));
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesSingulares);
+                    adaptadorUnidadesSingulares.notifyDataSetChanged();
+                    puntosTotales += reg.getPuntos();
+                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
+                    scrollToTheBotton();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+
+    private void scrollToTheBotton() {
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
     }

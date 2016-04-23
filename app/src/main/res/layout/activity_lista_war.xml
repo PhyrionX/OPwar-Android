@@ -86,6 +86,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -188,16 +189,30 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:background="@color/colorUnidad">
 
                 <TextView
-                    android:id="@+id/unidadesBasicastextView"
-                    android:layout_width="match_parent"
+                    android:id="@+id/cuentaUnidadesBasicas"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/unidades_basicas"
-                    android:padding="16dp"
-                    android:textColorHint="@color/colorBlack"
+                    android:text="@string/cero"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/colorBlack"
                     android:background="@color/colorUnidad" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unidades_basicas"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/cuentaUnidadesBasicas" />
 
                 <ImageButton
                     android:id="@+id/anadir_unidad_basica"
@@ -207,18 +222,19 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:paddingEnd="12dp"
+                    android:paddingStart="12dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@string/anadir_comandante" />
+                    android:contentDescription="@string/anadir_unidad_basica" />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
+            <ListView
+                android:id="@+id/listviewUnidadesBasicas"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/unidades_basicas_seleccionadas" />
+                android:layout_height="wrap_content" />
 
             <Space
                 android:layout_width="match_parent"
@@ -230,16 +246,30 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:background="@color/colorUnidad">
 
                 <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
+                    android:id="@+id/cuentaUnidadesEspeciales"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/unidades_especiales"
-                    android:padding="16dp"
-                    android:textColorHint="@color/colorBlack"
+                    android:text="@string/cero"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/colorBlack"
                     android:background="@color/colorUnidad" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unidades_especiales"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/cuentaUnidadesEspeciales" />
 
                 <ImageButton
                     android:id="@+id/anadir_unidad_especial"
@@ -249,18 +279,19 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:paddingEnd="12dp"
+                    android:paddingStart="12dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@string/anadir_comandante" />
+                    android:contentDescription="@string/anadir_unidad_especial" />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
+            <ListView
+                android:id="@+id/listviewUnidadesEspeciales"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/unidades_espaciales_seleccionadas" />
+                android:layout_height="wrap_content" />
 
             <Space
                 android:layout_width="match_parent"
@@ -272,16 +303,30 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:background="@color/colorUnidad">
 
                 <TextView
-                    android:id="@+id/unidadesSingularestextView"
-                    android:layout_width="match_parent"
+                    android:id="@+id/cuentaUnidadesSingulares"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/unidades_singulares"
-                    android:padding="16dp"
-                    android:textColorHint="@color/colorBlack"
+                    android:text="@string/cero"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/colorBlack"
                     android:background="@color/colorUnidad" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unidades_singulares"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/cuentaUnidadesSingulares" />
 
                 <ImageButton
                     android:id="@+id/anadir_unidad_singular"
@@ -291,18 +336,19 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:paddingEnd="12dp"
+                    android:paddingStart="12dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="@string/anadir_comandante" />
+                    android:contentDescription="@string/anadir_unidad_singular" />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
+            <ListView
+                android:id="@+id/listviewUnidadesSingulares"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/unidades_singulares_seleccionadas" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

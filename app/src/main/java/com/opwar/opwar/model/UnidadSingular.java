@@ -12,4 +12,9 @@ public class UnidadSingular extends Unidad {
                           int tamanyoMinimo) throws UnidadException {
         super(id_unidad, nombre, movimientos, habilidadArmas, habilidadProyectiles, fuerza, resistencia, heridas, iniciativa, ataques, liderazgo, puntos, tamanyoMinimo);
     }
+
+    @Override
+    public String toString() {
+        return getNombre();
+    }
 }

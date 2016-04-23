@@ -8,10 +8,13 @@
     <string name="limite_puntos">Límite de puntos</string>
     <string name="cero">0</string>
     <string name="comandantes">x COMANDANTES</string>
-    <string name="unidades_basicas">0 x UNIDADES BÁSICAS</string>
-    <string name="unidades_especiales">0 x UNIDADES ESPECIALES</string>
-    <string name="unidades_singulares">0 x UNIDADES SINGULARES</string>
+    <string name="unidades_basicas">x UNIDADES BÁSICAS</string>
+    <string name="unidades_especiales">x UNIDADES ESPECIALES</string>
+    <string name="unidades_singulares">x UNIDADES SINGULARES</string>
     <string name="anadir_comandante">Añadir comandante</string>
+    <string name="anadir_unidad_basica">Añadir unidad básica</string>
+    <string name="anadir_unidad_especial">Añadir unidad especial</string>
+    <string name="anadir_unidad_singular">Añadir unidad singular</string>
     <string name="puntos_totales">PUNTOS TOTALES</string>
     <string name="sin_listas">No hay listas</string>
 </resources>
