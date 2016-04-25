@@ -27,4 +27,5 @@
     <string name="escoge_unidad_basica">Escoge una unidad básica</string>
     <string name="escoge_unidad_especial">Escoge una unidad especial</string>
     <string name="escoge_unidad_singular">Escoge una unidad singular</string>
+    <string name="borrar_unidad">Borra una unidad</string>
 </resources>

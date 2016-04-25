@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import com.opwar.opwar.R;
 import com.opwar.opwar.adapters.EjercitosAdapter;
 import com.opwar.opwar.adapters.UnidadesAdapter;
+import com.opwar.opwar.listview.ListUnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
 import com.opwar.opwar.model.ListaEjercito;
@@ -50,24 +50,24 @@ public class ListaWarActivity extends AppCompatActivity {
     private ImageButton anadirUnidadSingular;
     private boolean editTextLimitePuntosRellenado = false;
     private ListView listaComandates;
-    private ArrayAdapter<Comandante> adaptadorComandantes;
+    private ListUnidadesAdapter adaptadorComandantes;
     private TextView cuentaComandantesTextView;
     private ListView listaUnidadesBasicas;
-    private ArrayAdapter<UnidadBasica> adaptadorUnidadesBasicas;
+    private ListUnidadesAdapter adaptadorUnidadesBasicas;
     private TextView cuentaUnidadesBasicasTextView;
     private ListView listaUnidadesEspeciales;
-    private ArrayAdapter<UnidadEspecial> adaptadorUnidadesEspeciales;
+    private ListUnidadesAdapter adaptadorUnidadesEspeciales;
     private TextView cuentaUnidadesEspecialesTextView;
     private ListView listaUnidadesSingulares;
-    private ArrayAdapter<UnidadSingular> adaptadorUnidadesSingulares;
+    private ListUnidadesAdapter adaptadorUnidadesSingulares;
     private TextView cuentaUnidadesSingularesTextView;
     private ProgressDialog progressDialog;
     private TextView puntosTotalesTextView;
     private int puntosTotales;
-    private List<Comandante> comandantesSeleccionados;
-    private List<UnidadBasica> unidadesBasicasSeleccionadas;
-    private List<UnidadEspecial> unidadesEspecialesSeleccionados;
-    private List<UnidadSingular> unidadesSingularesSeleccionadas;
+    private List<Unidad> comandantesSeleccionados;
+    private List<Unidad> unidadesBasicasSeleccionadas;
+    private List<Unidad> unidadesEspecialesSeleccionados;
+    private List<Unidad> unidadesSingularesSeleccionadas;
 
 
     @Override
@@ -143,28 +143,28 @@ public class ListaWarActivity extends AppCompatActivity {
                     puntosTotalesTextView.setText(String.valueOf(puntosTotales));
 
                     comandantesSeleccionados = new ArrayList<>();
-                    adaptadorComandantes = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, comandantesSeleccionados);
+                    adaptadorComandantes = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, comandantesSeleccionados);
                     listaComandates.setAdapter(adaptadorComandantes);
                     cuentaComandantesTextView.setText(R.string.cero);
                     adaptadorComandantes.notifyDataSetChanged();
                     ListViewUtil.setListViewHeightBasedOnChildren(listaComandates);
 
                     unidadesBasicasSeleccionadas = new ArrayList<>();
-                    adaptadorUnidadesBasicas = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, unidadesBasicasSeleccionadas);
+                    adaptadorUnidadesBasicas = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesBasicasSeleccionadas);
                     listaUnidadesBasicas.setAdapter(adaptadorUnidadesBasicas);
                     cuentaUnidadesBasicasTextView.setText(R.string.cero);
                     ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesBasicas);
                     adaptadorUnidadesBasicas.notifyDataSetChanged();
 
                     unidadesEspecialesSeleccionados = new ArrayList<>();
-                    adaptadorUnidadesEspeciales = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, unidadesEspecialesSeleccionados);
+                    adaptadorUnidadesEspeciales = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesEspecialesSeleccionados);
                     listaUnidadesEspeciales.setAdapter(adaptadorUnidadesEspeciales);
                     cuentaUnidadesEspecialesTextView.setText(R.string.cero);
                     ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesEspeciales);
                     adaptadorUnidadesEspeciales.notifyDataSetChanged();
 
                     unidadesSingularesSeleccionadas = new ArrayList<>();
-                    adaptadorUnidadesSingulares = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, unidadesSingularesSeleccionadas);
+                    adaptadorUnidadesSingulares = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesSingularesSeleccionadas);
                     listaUnidadesSingulares.setAdapter(adaptadorUnidadesSingulares);
                     cuentaUnidadesSingularesTextView.setText(R.string.cero);
                     ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesSingulares);
