@@ -27,7 +27,6 @@ import com.opwar.opwar.model.UnidadEspecial;
 import com.opwar.opwar.model.UnidadSingular;
 import com.opwar.opwar.util.ListViewUtil;
 import com.opwar.opwar.util.ListaEjercitoException;
-import com.opwar.opwar.util.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +74,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
         setCancelAction();
         setEjercitoAction();
-        progressDialog = ProgressDialog.show(this, "Cargando ejércitos...", "", true);
+        progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
         new EjercitosAdapter(this).execute();
     }
 
@@ -130,7 +129,7 @@ public class ListaWarActivity extends AppCompatActivity {
             }
             final CharSequence[] opcionesEjercitos = listItems.toArray(new CharSequence[listItems.size()]);
             ejercitoAlertDialog = new AlertDialog.Builder(this);
-            ejercitoAlertDialog.setTitle("Escoge un ejército");
+            ejercitoAlertDialog.setTitle(R.string.escoge_ejercito);
             ejercitoAlertDialog.setItems(opcionesEjercitos, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -147,7 +146,7 @@ public class ListaWarActivity extends AppCompatActivity {
                 ejercitoSeleccionado = ejercito;
             }
         }
-        progressDialog = ProgressDialog.show(this, "Cargando unidades...", "", true);
+        progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_unidades), true);
         ejercitosDesplegableSeleccionado = which + 1;
         new UnidadesAdapter(this, ejercitosDesplegableSeleccionado).execute();
     }
@@ -186,8 +185,9 @@ public class ListaWarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText et = (EditText) findViewById(R.id.limite_edittext);
 
+                assert et != null;
                 if (et.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
                 } else if (!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
                     listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
                     et.setEnabled(false);
@@ -209,7 +209,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
         final CharSequence[] opcionesComandantes = listItems.toArray(new CharSequence[listItems.size()]);
         comandanteAlertDialog = new AlertDialog.Builder(this);
-        comandanteAlertDialog.setTitle("Escoge un comandante");
+        comandanteAlertDialog.setTitle(R.string.escoge_comandante);
         comandanteAlertDialog.setItems(opcionesComandantes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -223,7 +223,7 @@ public class ListaWarActivity extends AppCompatActivity {
                     puntosTotales += reg.getPuntos();
                     puntosTotalesTextView.setText(String.valueOf(puntosTotales));
                 } catch (ListaEjercitoException e) {
-                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -236,8 +236,9 @@ public class ListaWarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText et = (EditText) findViewById(R.id.limite_edittext);
 
+                assert et != null;
                 if (et.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
                 } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
                     listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
                     et.setEnabled(false);
@@ -259,7 +260,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
         final CharSequence[] opcionesUnidadesBasicas = listItems.toArray(new CharSequence[listItems.size()]);
         unidadBasicaAlertDialog = new AlertDialog.Builder(this);
-        unidadBasicaAlertDialog.setTitle("Escoge una unidad básica");
+        unidadBasicaAlertDialog.setTitle(R.string.escoge_unidad_basica);
         unidadBasicaAlertDialog.setItems(opcionesUnidadesBasicas, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -273,7 +274,7 @@ public class ListaWarActivity extends AppCompatActivity {
                     puntosTotales += reg.getPuntos();
                     puntosTotalesTextView.setText(String.valueOf(puntosTotales));
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -287,8 +288,9 @@ public class ListaWarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText et = (EditText) findViewById(R.id.limite_edittext);
 
+                assert et != null;
                 if (et.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
                 } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
                     listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
                     et.setEnabled(false);
@@ -310,7 +312,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
         final CharSequence[] opcionesUnidadesEspeciales = listItems.toArray(new CharSequence[listItems.size()]);
         unidadEspecialAlertDialog = new AlertDialog.Builder(this);
-        unidadEspecialAlertDialog.setTitle("Escoge una unidad especial");
+        unidadEspecialAlertDialog.setTitle(R.string.escoge_unidad_especial);
         unidadEspecialAlertDialog.setItems(opcionesUnidadesEspeciales, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -325,7 +327,7 @@ public class ListaWarActivity extends AppCompatActivity {
                     puntosTotalesTextView.setText(String.valueOf(puntosTotales));
                     scrollToTheBotton();
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -339,8 +341,9 @@ public class ListaWarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText et = (EditText) findViewById(R.id.limite_edittext);
 
+                assert et != null;
                 if (et.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Rellena los puntos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
                 } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
                     listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
                     et.setEnabled(false);
@@ -362,7 +365,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
         final CharSequence[] opcionesUnidadesSingulares = listItems.toArray(new CharSequence[listItems.size()]);
         unidadSingularAlertDialog = new AlertDialog.Builder(this);
-        unidadSingularAlertDialog.setTitle("Escoge una unidad singular");
+        unidadSingularAlertDialog.setTitle(R.string.escoge_unidad_singular);
         unidadSingularAlertDialog.setItems(opcionesUnidadesSingulares, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -377,7 +380,7 @@ public class ListaWarActivity extends AppCompatActivity {
                     puntosTotalesTextView.setText(String.valueOf(puntosTotales));
                     scrollToTheBotton();
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Superas los puntos permitidos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
                 }
             }
         });

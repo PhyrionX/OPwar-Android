@@ -18,4 +18,13 @@
     <string name="puntos_totales">PUNTOS TOTALES</string>
     <string name="sin_listas">No hay listas</string>
     <string name="sin_conexion">No tienes conexión</string>
+    <string name="cargando_ejercitos">Cargando ejércitos…</string>
+    <string name="escoge_ejercito">Escoge un ejército</string>
+    <string name="cargando_unidades">Cargando unidades…</string>
+    <string name="rellena_puntos">Rellena los puntos</string>
+    <string name="escoge_comandante">Escoge un comandante</string>
+    <string name="supera_puntos">Superas los puntos permitidos</string>
+    <string name="escoge_unidad_basica">Escoge una unidad básica</string>
+    <string name="escoge_unidad_especial">Escoge una unidad especial</string>
+    <string name="escoge_unidad_singular">Escoge una unidad singular</string>
 </resources>
