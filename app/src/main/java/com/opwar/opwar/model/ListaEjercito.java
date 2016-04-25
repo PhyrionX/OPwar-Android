@@ -32,6 +32,10 @@ public class ListaEjercito implements Serializable {
         return regimientos;
     }
 
+    public Regimiento getRegimiento(int position) {
+        return regimientos.get(position);
+    }
+
     public boolean addRegimiento(Regimiento regimiento) throws ListaEjercitoException {
         System.out.println(puntos);
         if (puntos + regimiento.getPuntos() <= puntosTotales) {
@@ -40,5 +44,14 @@ public class ListaEjercito implements Serializable {
             return true;
         }
         throw new ListaEjercitoException("Supera el límite de puntos");
+    }
+
+    public boolean remove(Regimiento regimiento) {
+        if (regimientos.contains(regimiento)) {
+            regimientos.remove(regimiento);
+            return true;
+        }
+
+        return false;
     }
 }
