@@ -64,6 +64,11 @@ public class ListaWarActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private TextView puntosTotalesTextView;
     private int puntosTotales;
+    private List<Comandante> comandantesSeleccionados;
+    private List<UnidadBasica> unidadesBasicasSeleccionadas;
+    private List<UnidadEspecial> unidadesEspecialesSeleccionados;
+    private List<UnidadSingular> unidadesSingularesSeleccionadas;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,24 +124,56 @@ public class ListaWarActivity extends AppCompatActivity {
     }
 
     public void setOpcionesEjercito(final List<Ejercito> ejercitos) {
-        if (ejercitos == null) {
-            new EjercitosAdapter(this).execute();
-        } else {
-            progressDialog.dismiss();
-            List<String> listItems = new ArrayList<>();
-            for (Ejercito ejercito : ejercitos) {
-                listItems.add(ejercito.getNombre());
-            }
-            final CharSequence[] opcionesEjercitos = listItems.toArray(new CharSequence[listItems.size()]);
-            ejercitoAlertDialog = new AlertDialog.Builder(this);
-            ejercitoAlertDialog.setTitle(R.string.escoge_ejercito);
-            ejercitoAlertDialog.setItems(opcionesEjercitos, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+        progressDialog.dismiss();
+        List<String> listItems = new ArrayList<>();
+        for (Ejercito ejercito : ejercitos) {
+            listItems.add(ejercito.getNombre());
+        }
+        final CharSequence[] opcionesEjercitos = listItems.toArray(new CharSequence[listItems.size()]);
+        ejercitoAlertDialog = new AlertDialog.Builder(this);
+        ejercitoAlertDialog.setTitle(R.string.escoge_ejercito);
+        ejercitoAlertDialog.setItems(opcionesEjercitos, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (ejercitosDesplegableSeleccionado != which + 1) {
+                    if (ejercitoSeleccionado != null) {
+                        ejercitoSeleccionado.clearEjercito();
+                    }
+                    puntosTotales = 0;
+                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
+
+                    comandantesSeleccionados = new ArrayList<>();
+                    adaptadorComandantes = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, comandantesSeleccionados);
+                    listaComandates.setAdapter(adaptadorComandantes);
+                    cuentaComandantesTextView.setText(R.string.cero);
+                    adaptadorComandantes.notifyDataSetChanged();
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaComandates);
+
+                    unidadesBasicasSeleccionadas = new ArrayList<>();
+                    adaptadorUnidadesBasicas = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, unidadesBasicasSeleccionadas);
+                    listaUnidadesBasicas.setAdapter(adaptadorUnidadesBasicas);
+                    cuentaUnidadesBasicasTextView.setText(R.string.cero);
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesBasicas);
+                    adaptadorUnidadesBasicas.notifyDataSetChanged();
+
+                    unidadesEspecialesSeleccionados = new ArrayList<>();
+                    adaptadorUnidadesEspeciales = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, unidadesEspecialesSeleccionados);
+                    listaUnidadesEspeciales.setAdapter(adaptadorUnidadesEspeciales);
+                    cuentaUnidadesEspecialesTextView.setText(R.string.cero);
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesEspeciales);
+                    adaptadorUnidadesEspeciales.notifyDataSetChanged();
+
+                    unidadesSingularesSeleccionadas = new ArrayList<>();
+                    adaptadorUnidadesSingulares = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, unidadesSingularesSeleccionadas);
+                    listaUnidadesSingulares.setAdapter(adaptadorUnidadesSingulares);
+                    cuentaUnidadesSingularesTextView.setText(R.string.cero);
+                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesSingulares);
+                    adaptadorUnidadesSingulares.notifyDataSetChanged();
+
                     setEjercito(opcionesEjercitos, which, ejercitos);
                 }
-            });
-        }
+            }
+        });
     }
 
     private void setEjercito(CharSequence[] opcionesEjercitos, int which, List<Ejercito> ejercitos) {
@@ -152,29 +189,24 @@ public class ListaWarActivity extends AppCompatActivity {
     }
 
     public void setUnidades(List<Unidad> unidades) {
-        if (unidades == null) {
-            new UnidadesAdapter(this, ejercitosDesplegableSeleccionado).execute();
-        } else {
-            progressDialog.dismiss();
-            ejercitoSeleccionado.clearEjercito();
-            puntosTotales = 0;
-            this.unidades = unidades;
-            for (Unidad unidad : unidades) {
-                if (unidad instanceof Comandante) {
-                    ejercitoSeleccionado.setComandante((Comandante) unidad);
-                } else if (unidad instanceof UnidadBasica) {
-                    ejercitoSeleccionado.setUnidadBasica((UnidadBasica) unidad);
-                } else if (unidad instanceof UnidadEspecial) {
-                    ejercitoSeleccionado.setUnidadEspecial((UnidadEspecial) unidad);
-                } else if (unidad instanceof UnidadSingular) {
-                    ejercitoSeleccionado.setUnidadSingular((UnidadSingular) unidad);
-                }
+        progressDialog.dismiss();
+        ejercitoSeleccionado.clearEjercito();
+        this.unidades = unidades;
+        for (Unidad unidad : unidades) {
+            if (unidad instanceof Comandante) {
+                ejercitoSeleccionado.setComandante((Comandante) unidad);
+            } else if (unidad instanceof UnidadBasica) {
+                ejercitoSeleccionado.setUnidadBasica((UnidadBasica) unidad);
+            } else if (unidad instanceof UnidadEspecial) {
+                ejercitoSeleccionado.setUnidadEspecial((UnidadEspecial) unidad);
+            } else if (unidad instanceof UnidadSingular) {
+                ejercitoSeleccionado.setUnidadSingular((UnidadSingular) unidad);
             }
-            populateComandantes(ejercitoSeleccionado.getComandantes());
-            populateUnidadesBasicas(ejercitoSeleccionado.getUnidadesBasicas());
-            populateUnidadesEspeciales(ejercitoSeleccionado.getUnidadesEspeciales());
-            populateUnidadesSingulares(ejercitoSeleccionado.getUnidadesSingulares());
         }
+        populateComandantes(ejercitoSeleccionado.getComandantes());
+        populateUnidadesBasicas(ejercitoSeleccionado.getUnidadesBasicas());
+        populateUnidadesEspeciales(ejercitoSeleccionado.getUnidadesEspeciales());
+        populateUnidadesSingulares(ejercitoSeleccionado.getUnidadesSingulares());
     }
 
     public void populateComandantes(final List<Comandante> comandantes) {
@@ -202,10 +234,6 @@ public class ListaWarActivity extends AppCompatActivity {
         for (Comandante comandante : comandantes) {
             listItems.add(comandante.getNombre());
         }
-
-        final List<Comandante> comandantesSeleccionados = new ArrayList<>();
-        adaptadorComandantes = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandantesSeleccionados);
-        listaComandates.setAdapter(adaptadorComandantes);
 
         final CharSequence[] opcionesComandantes = listItems.toArray(new CharSequence[listItems.size()]);
         comandanteAlertDialog = new AlertDialog.Builder(this);
@@ -253,10 +281,6 @@ public class ListaWarActivity extends AppCompatActivity {
         for (UnidadBasica unidadBasica : unidadesBasicas) {
             listItems.add(unidadBasica.getNombre());
         }
-
-        final List<UnidadBasica> unidadesBasicasSeleccionadas = new ArrayList<>();
-        adaptadorUnidadesBasicas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, unidadesBasicasSeleccionadas);
-        listaUnidadesBasicas.setAdapter(adaptadorUnidadesBasicas);
 
         final CharSequence[] opcionesUnidadesBasicas = listItems.toArray(new CharSequence[listItems.size()]);
         unidadBasicaAlertDialog = new AlertDialog.Builder(this);
@@ -306,10 +330,6 @@ public class ListaWarActivity extends AppCompatActivity {
             listItems.add(unidadEspecial.getNombre());
         }
 
-        final List<UnidadEspecial> unidadesEspecialesSeleccionados = new ArrayList<>();
-        adaptadorUnidadesEspeciales = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, unidadesEspecialesSeleccionados);
-        listaUnidadesEspeciales.setAdapter(adaptadorUnidadesEspeciales);
-
         final CharSequence[] opcionesUnidadesEspeciales = listItems.toArray(new CharSequence[listItems.size()]);
         unidadEspecialAlertDialog = new AlertDialog.Builder(this);
         unidadEspecialAlertDialog.setTitle(R.string.escoge_unidad_especial);
@@ -358,10 +378,6 @@ public class ListaWarActivity extends AppCompatActivity {
         for (UnidadSingular unidadSingular : unidadesSingulares) {
             listItems.add(unidadSingular.getNombre());
         }
-
-        final List<UnidadSingular> unidadesSingularesSeleccionadas = new ArrayList<>();
-        adaptadorUnidadesSingulares = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, unidadesSingularesSeleccionadas);
-        listaUnidadesSingulares.setAdapter(adaptadorUnidadesSingulares);
 
         final CharSequence[] opcionesUnidadesSingulares = listItems.toArray(new CharSequence[listItems.size()]);
         unidadSingularAlertDialog = new AlertDialog.Builder(this);

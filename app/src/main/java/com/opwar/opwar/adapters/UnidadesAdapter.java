@@ -25,10 +25,9 @@ import java.util.List;
 /**
  * Created by URZU on 14/04/2016.
  */
-public class UnidadesAdapter extends AsyncTask<String, String, String> {
+public class UnidadesAdapter extends AsyncTask<Void, Void, List<Unidad>> {
     private ListaWarActivity listaWarActivity;
     private StringBuilder response = new StringBuilder();
-    private List<Unidad> unidades;
     private int idEjercito;
 
     public UnidadesAdapter(ListaWarActivity listaWarActivity, int idEjercito) {
@@ -37,7 +36,8 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected List<Unidad> doInBackground(Void... params) {
+        List<Unidad> unidades = new ArrayList<>();
         try {
             URL url = new URL(Constants.URL_GET_UNIDADES + idEjercito);
 
@@ -51,7 +51,7 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
 
             if (status == HttpURLConnection.HTTP_OK) {
                 getResponse(httpUrlConnection.getInputStream());
-                getUnidadesFromJson(response.toString());
+                unidades = getUnidadesFromJson(response.toString());
             } else {
                 getResponse(httpUrlConnection.getErrorStream());
             }
@@ -59,9 +59,8 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
             e.printStackTrace();
         }
 
-        return null;
+        return unidades;
     }
-
 
     private void getResponse(InputStream inputStream) {
         String line;
@@ -78,8 +77,8 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
     }
 
 
-    private void getUnidadesFromJson(String json) {
-        unidades = new ArrayList<>();
+    private List<Unidad> getUnidadesFromJson(String json) {
+        List<Unidad> unidades = new ArrayList<>();
         try {
             JSONObject o = new JSONObject(json);
             JSONArray jsonArray = o.getJSONArray("unidades");
@@ -125,12 +124,14 @@ public class UnidadesAdapter extends AsyncTask<String, String, String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return unidades;
     }
 
-
     @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(List<Unidad> unidades) {
+        super.onPostExecute(unidades);
+
         listaWarActivity.setUnidades(unidades);
     }
 }

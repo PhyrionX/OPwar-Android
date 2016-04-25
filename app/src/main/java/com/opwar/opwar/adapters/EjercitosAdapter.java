@@ -20,17 +20,17 @@ import java.util.List;
 /**
  * Created by URZU on 13/04/2016.
  */
-public class EjercitosAdapter extends AsyncTask<String, String, String> {
+public class EjercitosAdapter extends AsyncTask<Void, Void, List<Ejercito>> {
     private ListaWarActivity listaWarActivity;
     private StringBuilder response = new StringBuilder();
-    private List<Ejercito> ejercitos;
 
     public EjercitosAdapter(ListaWarActivity listaWarActivity) {
         this.listaWarActivity = listaWarActivity;
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected List<Ejercito> doInBackground(Void... params) {
+        List<Ejercito> ejercitos = new ArrayList<>();
         try {
             URL url = new URL(Constants.URL_GET_EJERCITOS);
 
@@ -44,17 +44,15 @@ public class EjercitosAdapter extends AsyncTask<String, String, String> {
 
             if (status == HttpURLConnection.HTTP_OK) {
                 getResponse(httpUrlConnection.getInputStream());
-                getEjercitoFromJson(response.toString());
+                ejercitos = getEjercitoFromJson(response.toString());
             } else {
                 getResponse(httpUrlConnection.getErrorStream());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return null;
+        return ejercitos;
     }
-
 
     private void getResponse(InputStream inputStream) {
         String line;
@@ -71,8 +69,8 @@ public class EjercitosAdapter extends AsyncTask<String, String, String> {
     }
 
 
-    private void getEjercitoFromJson(String json) {
-        ejercitos = new ArrayList<>();
+    private List<Ejercito> getEjercitoFromJson(String json) {
+        List<Ejercito> ejercitos = new ArrayList<>();
         json = json.substring(1, json.length() - 1);
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -82,12 +80,13 @@ public class EjercitosAdapter extends AsyncTask<String, String, String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return ejercitos;
     }
 
-
     @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(List<Ejercito> ejercitos) {
+        super.onPostExecute(ejercitos);
 
         listaWarActivity.setOpcionesEjercito(ejercitos);
     }
