@@ -10,10 +10,10 @@ public class Ejercito {
     private int id;
     private String nombre;
     private String descripcion;
-    private List<Comandante> comandantes;
-    private List<UnidadBasica> unidadesBasicas;
-    private List<UnidadEspecial> unidadesEspeciales;
-    private List<UnidadSingular> unidadesSingulares;
+    private List<Unidad> comandantes;
+    private List<Unidad> unidadesBasicas;
+    private List<Unidad> unidadesEspeciales;
+    private List<Unidad> unidadesSingulares;
 
     public Ejercito(int id, String nombre, String descripcion) {
         this.id = id;
@@ -53,19 +53,19 @@ public class Ejercito {
         this.unidadesSingulares.add(unidadSingular);
     }
 
-    public List<UnidadSingular> getUnidadesSingulares() {
+    public List<Unidad> getUnidadesSingulares() {
         return unidadesSingulares;
     }
 
-    public List<Comandante> getComandantes() {
+    public List<Unidad> getComandantes() {
         return comandantes;
     }
 
-    public List<UnidadBasica> getUnidadesBasicas() {
+    public List<Unidad> getUnidadesBasicas() {
         return unidadesBasicas;
     }
 
-    public List<UnidadEspecial> getUnidadesEspeciales() {
+    public List<Unidad> getUnidadesEspeciales() {
         return unidadesEspeciales;
     }
 

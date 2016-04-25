@@ -35,15 +35,9 @@ public class ListaWarActivity extends AppCompatActivity {
     private ImageButton cancelImageButton;
     private static TextView ejercitoTextView;
     private AlertDialog.Builder ejercitoAlertDialog;
-    private AlertDialog.Builder comandanteAlertDialog;
-    private AlertDialog.Builder unidadBasicaAlertDialog;
-    private AlertDialog.Builder unidadEspecialAlertDialog;
-    private AlertDialog.Builder unidadSingularAlertDialog;
-    private List<Unidad> unidades;
     private Ejercito ejercitoSeleccionado;
     private int ejercitosDesplegableSeleccionado;
     private ListaEjercito listaEjercito;
-    private EditText limiteEditText;
     private ImageButton anadirComandate;
     private ImageButton anadirUnidadBasica;
     private ImageButton anadirUnidadEspecial;
@@ -107,7 +101,6 @@ public class ListaWarActivity extends AppCompatActivity {
     private void findViewsById() {
         ejercitoTextView = (TextView) findViewById(R.id.ejercito_textview);
         cancelImageButton = (ImageButton) findViewById(R.id.clear);
-        limiteEditText = (EditText) findViewById(R.id.limite_edittext);
         anadirComandate = (ImageButton) findViewById(R.id.anadir_comandante);
         anadirUnidadBasica = (ImageButton) findViewById(R.id.anadir_unidad_basica);
         anadirUnidadEspecial = (ImageButton) findViewById(R.id.anadir_unidad_especial);
@@ -142,38 +135,37 @@ public class ListaWarActivity extends AppCompatActivity {
                     puntosTotales = 0;
                     puntosTotalesTextView.setText(String.valueOf(puntosTotales));
 
-                    comandantesSeleccionados = new ArrayList<>();
-                    adaptadorComandantes = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, comandantesSeleccionados);
-                    listaComandates.setAdapter(adaptadorComandantes);
-                    cuentaComandantesTextView.setText(R.string.cero);
-                    adaptadorComandantes.notifyDataSetChanged();
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaComandates);
-
-                    unidadesBasicasSeleccionadas = new ArrayList<>();
-                    adaptadorUnidadesBasicas = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesBasicasSeleccionadas);
-                    listaUnidadesBasicas.setAdapter(adaptadorUnidadesBasicas);
-                    cuentaUnidadesBasicasTextView.setText(R.string.cero);
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesBasicas);
-                    adaptadorUnidadesBasicas.notifyDataSetChanged();
-
-                    unidadesEspecialesSeleccionados = new ArrayList<>();
-                    adaptadorUnidadesEspeciales = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesEspecialesSeleccionados);
-                    listaUnidadesEspeciales.setAdapter(adaptadorUnidadesEspeciales);
-                    cuentaUnidadesEspecialesTextView.setText(R.string.cero);
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesEspeciales);
-                    adaptadorUnidadesEspeciales.notifyDataSetChanged();
-
-                    unidadesSingularesSeleccionadas = new ArrayList<>();
-                    adaptadorUnidadesSingulares = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesSingularesSeleccionadas);
-                    listaUnidadesSingulares.setAdapter(adaptadorUnidadesSingulares);
-                    cuentaUnidadesSingularesTextView.setText(R.string.cero);
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesSingulares);
-                    adaptadorUnidadesSingulares.notifyDataSetChanged();
+                    iniciarListas();
 
                     setEjercito(opcionesEjercitos, which, ejercitos);
                 }
             }
         });
+    }
+
+    private void iniciarListas() {
+        comandantesSeleccionados = new ArrayList<>();
+        adaptadorComandantes = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, comandantesSeleccionados);
+        iniciarLista(adaptadorComandantes, listaComandates, cuentaComandantesTextView);
+
+        unidadesBasicasSeleccionadas = new ArrayList<>();
+        adaptadorUnidadesBasicas = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesBasicasSeleccionadas);
+        iniciarLista(adaptadorUnidadesBasicas, listaUnidadesBasicas, cuentaUnidadesBasicasTextView);
+
+        unidadesEspecialesSeleccionados = new ArrayList<>();
+        adaptadorUnidadesEspeciales = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesEspecialesSeleccionados);
+        iniciarLista(adaptadorUnidadesEspeciales, listaUnidadesEspeciales, cuentaUnidadesEspecialesTextView);
+
+        unidadesSingularesSeleccionadas = new ArrayList<>();
+        adaptadorUnidadesSingulares = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1, unidadesSingularesSeleccionadas);
+        iniciarLista(adaptadorUnidadesSingulares, listaUnidadesSingulares, cuentaUnidadesSingularesTextView);
+    }
+
+    private void iniciarLista(ListUnidadesAdapter listUnidadesAdapter, ListView listView, TextView cuenta) {
+        listView.setAdapter(listUnidadesAdapter);
+        cuenta.setText(R.string.cero);
+        listUnidadesAdapter.notifyDataSetChanged();
+        ListViewUtil.setListViewHeightBasedOnChildren(listView);
     }
 
     private void setEjercito(CharSequence[] opcionesEjercitos, int which, List<Ejercito> ejercitos) {
@@ -191,7 +183,6 @@ public class ListaWarActivity extends AppCompatActivity {
     public void setUnidades(List<Unidad> unidades) {
         progressDialog.dismiss();
         ejercitoSeleccionado.clearEjercito();
-        this.unidades = unidades;
         for (Unidad unidad : unidades) {
             if (unidad instanceof Comandante) {
                 ejercitoSeleccionado.setComandante((Comandante) unidad);
@@ -203,16 +194,72 @@ public class ListaWarActivity extends AppCompatActivity {
                 ejercitoSeleccionado.setUnidadSingular((UnidadSingular) unidad);
             }
         }
-        populateComandantes(ejercitoSeleccionado.getComandantes());
-        populateUnidadesBasicas(ejercitoSeleccionado.getUnidadesBasicas());
-        populateUnidadesEspeciales(ejercitoSeleccionado.getUnidadesEspeciales());
-        populateUnidadesSingulares(ejercitoSeleccionado.getUnidadesSingulares());
+        populateLists();
     }
 
-    public void populateComandantes(final List<Comandante> comandantes) {
-        final int[] cuentaComandantes = {0};
+    private void populateLists() {
+        AlertDialog.Builder comandanteAlertDialog = new AlertDialog.Builder(this);
+        CharSequence[] opcionesComandante = getListaOpciones(ejercitoSeleccionado.getComandantes());
+        setActionDialog(comandanteAlertDialog, ejercitoSeleccionado.getComandantes(), opcionesComandante, cuentaComandantesTextView,
+                comandantesSeleccionados, listaComandates, adaptadorComandantes, R.string.escoge_comandante);
+        setAnadirAction(anadirComandate, comandanteAlertDialog);
 
-        anadirComandate.setOnClickListener(new View.OnClickListener() {
+        AlertDialog.Builder unidadBasicaAlertDialog = new AlertDialog.Builder(this);
+        CharSequence[] opcionesUnidadesBasicas = getListaOpciones(ejercitoSeleccionado.getUnidadesBasicas());
+        setActionDialog(unidadBasicaAlertDialog, ejercitoSeleccionado.getUnidadesBasicas(), opcionesUnidadesBasicas, cuentaUnidadesBasicasTextView,
+                unidadesBasicasSeleccionadas, listaUnidadesBasicas, adaptadorUnidadesBasicas, R.string.escoge_unidad_basica);
+        setAnadirAction(anadirUnidadBasica, unidadBasicaAlertDialog);
+
+        AlertDialog.Builder unidadEspecialAlertDialog = new AlertDialog.Builder(this);
+        CharSequence[] opcionesUnidadesEspeciales = getListaOpciones(ejercitoSeleccionado.getUnidadesEspeciales());
+        setActionDialog(unidadEspecialAlertDialog, ejercitoSeleccionado.getUnidadesEspeciales(), opcionesUnidadesEspeciales, cuentaUnidadesEspecialesTextView,
+                unidadesEspecialesSeleccionados, listaUnidadesEspeciales, adaptadorUnidadesEspeciales, R.string.escoge_unidad_especial);
+        setAnadirAction(anadirUnidadEspecial, unidadEspecialAlertDialog);
+
+        AlertDialog.Builder unidadSingularAlertDialog = new AlertDialog.Builder(this);
+        CharSequence[] opcionesUnidadesSingulares = getListaOpciones(ejercitoSeleccionado.getUnidadesSingulares());
+        setActionDialog(unidadSingularAlertDialog, ejercitoSeleccionado.getUnidadesSingulares(), opcionesUnidadesSingulares, cuentaUnidadesSingularesTextView,
+                unidadesSingularesSeleccionadas, listaUnidadesSingulares, adaptadorUnidadesSingulares, R.string.escoge_unidad_singular);
+        setAnadirAction(anadirUnidadSingular, unidadSingularAlertDialog);
+    }
+
+    private CharSequence[] getListaOpciones(List<Unidad> unidades) {
+        List<String> listItems = new ArrayList<>();
+        for (Unidad unidad : unidades) {
+            listItems.add(unidad.getNombre());
+        }
+
+        return listItems.toArray(new CharSequence[listItems.size()]);
+    }
+
+    private void setActionDialog(AlertDialog.Builder alertDialog, final List<Unidad> unidades,
+                                 CharSequence[] opciones, final TextView cuenta,
+                                 final List<Unidad> seleccionados, final ListView listView,
+                                 final ListUnidadesAdapter listUnidadesAdapter, int tituloId) {
+        final int[] cuentaElegidos = {0};
+        alertDialog.setTitle(getResources().getString(tituloId));
+        alertDialog.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Regimiento regimiento = new Regimiento(unidades.get(which), unidades.get(which).getTamanyoMinimo());
+                try {
+                    listaEjercito.addRegimiento(regimiento);
+                    cuenta.setText(String.valueOf(++cuentaElegidos[0]));
+                    seleccionados.add(unidades.get(which));
+                    ListViewUtil.setListViewHeightBasedOnChildren(listView);
+                    listUnidadesAdapter.notifyDataSetChanged();
+                    puntosTotales += regimiento.getPuntos();
+                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
+                    scrollToTheBotton();
+                } catch (ListaEjercitoException e) {
+                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void setAnadirAction(ImageButton anadir, final AlertDialog.Builder alertDialog) {
+        anadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText et = (EditText) findViewById(R.id.limite_edittext);
@@ -224,184 +271,13 @@ public class ListaWarActivity extends AppCompatActivity {
                     listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
                     et.setEnabled(false);
                     editTextLimitePuntosRellenado = true;
-                    comandanteAlertDialog.show();
+                    alertDialog.show();
                 } else {
-                    comandanteAlertDialog.show();
-                }
-            }
-        });
-        List<String> listItems = new ArrayList<>();
-        for (Comandante comandante : comandantes) {
-            listItems.add(comandante.getNombre());
-        }
-
-        final CharSequence[] opcionesComandantes = listItems.toArray(new CharSequence[listItems.size()]);
-        comandanteAlertDialog = new AlertDialog.Builder(this);
-        comandanteAlertDialog.setTitle(R.string.escoge_comandante);
-        comandanteAlertDialog.setItems(opcionesComandantes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Regimiento reg = new Regimiento(comandantes.get(which), comandantes.get(which).getTamanyoMinimo());
-                try {
-                    listaEjercito.addRegimiento(reg);
-                    cuentaComandantesTextView.setText(String.valueOf(++cuentaComandantes[0]));
-                    comandantesSeleccionados.add(comandantes.get(which));
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaComandates);
-                    adaptadorComandantes.notifyDataSetChanged();
-                    puntosTotales += reg.getPuntos();
-                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
-                } catch (ListaEjercitoException e) {
-                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
+                    alertDialog.show();
                 }
             }
         });
     }
-
-    public void populateUnidadesBasicas(final List<UnidadBasica> unidadesBasicas) {
-        final int[] cuentaUnidadesBasicas = {0};
-        anadirUnidadBasica.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText et = (EditText) findViewById(R.id.limite_edittext);
-
-                assert et != null;
-                if (et.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
-                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
-                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
-                    et.setEnabled(false);
-                    editTextLimitePuntosRellenado = true;
-                    unidadBasicaAlertDialog.show();
-                } else {
-                    unidadBasicaAlertDialog.show();
-                }
-            }
-        });
-        List<String> listItems = new ArrayList<>();
-        for (UnidadBasica unidadBasica : unidadesBasicas) {
-            listItems.add(unidadBasica.getNombre());
-        }
-
-        final CharSequence[] opcionesUnidadesBasicas = listItems.toArray(new CharSequence[listItems.size()]);
-        unidadBasicaAlertDialog = new AlertDialog.Builder(this);
-        unidadBasicaAlertDialog.setTitle(R.string.escoge_unidad_basica);
-        unidadBasicaAlertDialog.setItems(opcionesUnidadesBasicas, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Regimiento reg = new Regimiento(unidadesBasicas.get(which),unidadesBasicas.get(which).getTamanyoMinimo());
-                try {
-                    listaEjercito.addRegimiento(reg);
-                    cuentaUnidadesBasicasTextView.setText(String.valueOf(++cuentaUnidadesBasicas[0]));
-                    unidadesBasicasSeleccionadas.add(unidadesBasicas.get(which));
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesBasicas);
-                    adaptadorUnidadesBasicas.notifyDataSetChanged();
-                    puntosTotales += reg.getPuntos();
-                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    public void populateUnidadesEspeciales(final List<UnidadEspecial> unidadesEspeciales) {
-        final int[] cuentaUnidadesEspeciales = {0};
-
-        anadirUnidadEspecial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText et = (EditText) findViewById(R.id.limite_edittext);
-
-                assert et != null;
-                if (et.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
-                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
-                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
-                    et.setEnabled(false);
-                    unidadEspecialAlertDialog.show();
-                    editTextLimitePuntosRellenado = true;
-                } else {
-                    unidadEspecialAlertDialog.show();
-                }
-            }
-        });
-        List<String> listItems = new ArrayList<>();
-        for (UnidadEspecial unidadEspecial : unidadesEspeciales) {
-            listItems.add(unidadEspecial.getNombre());
-        }
-
-        final CharSequence[] opcionesUnidadesEspeciales = listItems.toArray(new CharSequence[listItems.size()]);
-        unidadEspecialAlertDialog = new AlertDialog.Builder(this);
-        unidadEspecialAlertDialog.setTitle(R.string.escoge_unidad_especial);
-        unidadEspecialAlertDialog.setItems(opcionesUnidadesEspeciales, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Regimiento reg = new Regimiento(unidadesEspeciales.get(which), unidadesEspeciales.get(which).getTamanyoMinimo());
-                try {
-                    listaEjercito.addRegimiento(reg);
-                    cuentaUnidadesEspecialesTextView.setText(String.valueOf(++cuentaUnidadesEspeciales[0]));
-                    unidadesEspecialesSeleccionados.add(unidadesEspeciales.get(which));
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesEspeciales);
-                    adaptadorUnidadesEspeciales.notifyDataSetChanged();
-                    puntosTotales += reg.getPuntos();
-                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
-                    scrollToTheBotton();
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    public void populateUnidadesSingulares(final List<UnidadSingular> unidadesSingulares) {
-        final int[] cuentaUnidadesSingulares = {0};
-
-        anadirUnidadSingular.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText et = (EditText) findViewById(R.id.limite_edittext);
-
-                assert et != null;
-                if (et.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
-                } else if(!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
-                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
-                    et.setEnabled(false);
-                    editTextLimitePuntosRellenado = true;
-                    unidadSingularAlertDialog.show();
-                } else {
-                    unidadSingularAlertDialog.show();
-                }
-            }
-        });
-        List<String> listItems = new ArrayList<>();
-        for (UnidadSingular unidadSingular : unidadesSingulares) {
-            listItems.add(unidadSingular.getNombre());
-        }
-
-        final CharSequence[] opcionesUnidadesSingulares = listItems.toArray(new CharSequence[listItems.size()]);
-        unidadSingularAlertDialog = new AlertDialog.Builder(this);
-        unidadSingularAlertDialog.setTitle(R.string.escoge_unidad_singular);
-        unidadSingularAlertDialog.setItems(opcionesUnidadesSingulares, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Regimiento reg = new Regimiento(unidadesSingulares.get(which), unidadesSingulares.get(which).getTamanyoMinimo());
-                try {
-                    listaEjercito.addRegimiento(reg);
-                    cuentaUnidadesSingularesTextView.setText(String.valueOf(++cuentaUnidadesSingulares[0]));
-                    unidadesSingularesSeleccionadas.add(unidadesSingulares.get(which));
-                    ListViewUtil.setListViewHeightBasedOnChildren(listaUnidadesSingulares);
-                    adaptadorUnidadesSingulares.notifyDataSetChanged();
-                    puntosTotales += reg.getPuntos();
-                    puntosTotalesTextView.setText(String.valueOf(puntosTotales));
-                    scrollToTheBotton();
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), R.string.supera_puntos, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
 
     private void scrollToTheBotton() {
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
