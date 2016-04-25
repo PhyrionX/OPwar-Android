@@ -17,4 +17,5 @@
     <string name="anadir_unidad_singular">Añadir unidad singular</string>
     <string name="puntos_totales">PUNTOS TOTALES</string>
     <string name="sin_listas">No hay listas</string>
+    <string name="sin_conexion">No tienes conexión</string>
 </resources>

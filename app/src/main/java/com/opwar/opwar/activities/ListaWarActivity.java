@@ -27,6 +27,7 @@ import com.opwar.opwar.model.UnidadEspecial;
 import com.opwar.opwar.model.UnidadSingular;
 import com.opwar.opwar.util.ListViewUtil;
 import com.opwar.opwar.util.ListaEjercitoException;
+import com.opwar.opwar.util.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class ListaWarActivity extends AppCompatActivity {
     private AlertDialog.Builder unidadSingularAlertDialog;
     private List<Unidad> unidades;
     private Ejercito ejercitoSeleccionado;
+    private int ejercitosDesplegableSeleccionado;
     private ListaEjercito listaEjercito;
     private EditText limiteEditText;
     private ImageButton anadirComandate;
@@ -118,20 +120,24 @@ public class ListaWarActivity extends AppCompatActivity {
     }
 
     public void setOpcionesEjercito(final List<Ejercito> ejercitos) {
-        progressDialog.dismiss();
-        List<String> listItems = new ArrayList<>();
-        for (Ejercito ejercito : ejercitos) {
-            listItems.add(ejercito.getNombre());
-        }
-        final CharSequence[] opcionesEjercitos = listItems.toArray(new CharSequence[listItems.size()]);
-        ejercitoAlertDialog = new AlertDialog.Builder(this);
-        ejercitoAlertDialog.setTitle("Escoge un ejército");
-        ejercitoAlertDialog.setItems(opcionesEjercitos, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                setEjercito(opcionesEjercitos, which, ejercitos);
+        if (ejercitos == null) {
+            new EjercitosAdapter(this).execute();
+        } else {
+            progressDialog.dismiss();
+            List<String> listItems = new ArrayList<>();
+            for (Ejercito ejercito : ejercitos) {
+                listItems.add(ejercito.getNombre());
             }
-        });
+            final CharSequence[] opcionesEjercitos = listItems.toArray(new CharSequence[listItems.size()]);
+            ejercitoAlertDialog = new AlertDialog.Builder(this);
+            ejercitoAlertDialog.setTitle("Escoge un ejército");
+            ejercitoAlertDialog.setItems(opcionesEjercitos, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    setEjercito(opcionesEjercitos, which, ejercitos);
+                }
+            });
+        }
     }
 
     private void setEjercito(CharSequence[] opcionesEjercitos, int which, List<Ejercito> ejercitos) {
@@ -142,29 +148,34 @@ public class ListaWarActivity extends AppCompatActivity {
             }
         }
         progressDialog = ProgressDialog.show(this, "Cargando unidades...", "", true);
-        new UnidadesAdapter(this, which + 1).execute();
+        ejercitosDesplegableSeleccionado = which + 1;
+        new UnidadesAdapter(this, ejercitosDesplegableSeleccionado).execute();
     }
 
     public void setUnidades(List<Unidad> unidades) {
-        progressDialog.dismiss();
-        ejercitoSeleccionado.clearEjercito();
-        puntosTotales = 0;
-        this.unidades = unidades;
-        for (Unidad unidad : unidades) {
-            if (unidad instanceof Comandante) {
-                ejercitoSeleccionado.setComandante((Comandante) unidad);
-            } else if (unidad instanceof UnidadBasica) {
-                ejercitoSeleccionado.setUnidadBasica((UnidadBasica) unidad);
-            } else if (unidad instanceof UnidadEspecial) {
-                ejercitoSeleccionado.setUnidadEspecial((UnidadEspecial) unidad);
-            } else if (unidad instanceof UnidadSingular) {
-                ejercitoSeleccionado.setUnidadSingular((UnidadSingular) unidad);
+        if (unidades == null) {
+            new UnidadesAdapter(this, ejercitosDesplegableSeleccionado).execute();
+        } else {
+            progressDialog.dismiss();
+            ejercitoSeleccionado.clearEjercito();
+            puntosTotales = 0;
+            this.unidades = unidades;
+            for (Unidad unidad : unidades) {
+                if (unidad instanceof Comandante) {
+                    ejercitoSeleccionado.setComandante((Comandante) unidad);
+                } else if (unidad instanceof UnidadBasica) {
+                    ejercitoSeleccionado.setUnidadBasica((UnidadBasica) unidad);
+                } else if (unidad instanceof UnidadEspecial) {
+                    ejercitoSeleccionado.setUnidadEspecial((UnidadEspecial) unidad);
+                } else if (unidad instanceof UnidadSingular) {
+                    ejercitoSeleccionado.setUnidadSingular((UnidadSingular) unidad);
+                }
             }
+            populateComandantes(ejercitoSeleccionado.getComandantes());
+            populateUnidadesBasicas(ejercitoSeleccionado.getUnidadesBasicas());
+            populateUnidadesEspeciales(ejercitoSeleccionado.getUnidadesEspeciales());
+            populateUnidadesSingulares(ejercitoSeleccionado.getUnidadesSingulares());
         }
-        populateComandantes(ejercitoSeleccionado.getComandantes());
-        populateUnidadesBasicas(ejercitoSeleccionado.getUnidadesBasicas());
-        populateUnidadesEspeciales(ejercitoSeleccionado.getUnidadesEspeciales());
-        populateUnidadesSingulares(ejercitoSeleccionado.getUnidadesSingulares());
     }
 
     public void populateComandantes(final List<Comandante> comandantes) {
@@ -355,7 +366,7 @@ public class ListaWarActivity extends AppCompatActivity {
         unidadSingularAlertDialog.setItems(opcionesUnidadesSingulares, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Regimiento reg = new Regimiento(unidadesSingulares.get(which),unidadesSingulares.get(which).getTamanyoMinimo());
+                Regimiento reg = new Regimiento(unidadesSingulares.get(which), unidadesSingulares.get(which).getTamanyoMinimo());
                 try {
                     listaEjercito.addRegimiento(reg);
                     cuentaUnidadesSingularesTextView.setText(String.valueOf(++cuentaUnidadesSingulares[0]));
@@ -376,6 +387,7 @@ public class ListaWarActivity extends AppCompatActivity {
     private void scrollToTheBotton() {
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
 
+        assert scrollView != null;
         scrollView.post(new Runnable() {
             @Override
             public void run() {
