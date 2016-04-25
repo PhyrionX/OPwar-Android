@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ViewFlipper;
 
 import com.opwar.opwar.R;
+import com.opwar.opwar.model.ListFileOperations;
 import com.opwar.opwar.util.NetworkManager;
 
 import java.io.IOException;
@@ -23,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        ListFileOperations listFileOperations = new ListFileOperations();
+        listFileOperations.listListas(getBaseContext());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {

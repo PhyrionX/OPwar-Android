@@ -19,6 +19,7 @@ import com.opwar.opwar.adapters.UnidadesAdapter;
 import com.opwar.opwar.listview.ListUnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
+import com.opwar.opwar.model.ListFileOperations;
 import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.model.Unidad;
@@ -61,13 +62,14 @@ public class ListaWarActivity extends AppCompatActivity {
     private List<Unidad> unidadesBasicasSeleccionadas;
     private List<Unidad> unidadesEspecialesSeleccionados;
     private List<Unidad> unidadesSingularesSeleccionadas;
-
+    private TextView saveTextView;
+    private ListFileOperations listFileOperations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_war);
-
+        listFileOperations = new ListFileOperations();
         findViewsById();
 
         setCancelAction();
@@ -113,6 +115,7 @@ public class ListaWarActivity extends AppCompatActivity {
         cuentaUnidadesEspecialesTextView = (TextView) findViewById(R.id.cuentaUnidadesEspeciales);
         cuentaUnidadesSingularesTextView = (TextView) findViewById(R.id.cuentaUnidadesSingulares);
         puntosTotalesTextView = (TextView) findViewById(R.id.cuentaTotal);
+        saveTextView = (TextView) findViewById(R.id.save);
     }
 
     public void setOpcionesEjercito(final List<Ejercito> ejercitos) {
@@ -244,6 +247,7 @@ public class ListaWarActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Regimiento regimiento = new Regimiento(unidades.get(which), unidades.get(which).getTamanyoMinimo());
                 try {
+                    regimiento.getId();
                     listaEjercito.addRegimiento(regimiento);
                     int puntos = Integer.parseInt(cuenta.getText().toString());
                     cuenta.setText(String.valueOf(++puntos));
@@ -271,6 +275,18 @@ public class ListaWarActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
                 } else if (!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
                     listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
+                    saveTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            System.err.println("--------------Guardando--------------");
+                            listFileOperations.saveList(getBaseContext(),listaEjercito);
+
+                            ListaEjercito op = listFileOperations.loadList(getBaseContext());
+                            for (Regimiento reg : op.getRegimientos()) {
+                                System.err.println(reg.getUnidad().getNombre());
+                            }
+                        }
+                    });
                     et.setEnabled(false);
                     editTextLimitePuntosRellenado = true;
                     alertDialog.show();

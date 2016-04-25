@@ -2,10 +2,12 @@ package com.opwar.opwar.model;
 
 import com.opwar.opwar.util.UnidadException;
 
+import java.io.Serializable;
+
 /**
  * Created by phyrion on 13/04/16.
  */
-abstract public class Unidad {
+abstract public class Unidad implements Serializable{
     private int id_unidad;
     private String nombre;
     private int movimiento;

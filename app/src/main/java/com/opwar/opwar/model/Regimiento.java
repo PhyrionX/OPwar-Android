@@ -1,15 +1,24 @@
 package com.opwar.opwar.model;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 /**
  * Created by phyrion on 14/04/16.
  */
-public class Regimiento {
+public class Regimiento implements Serializable{
+    private String id;
     private Unidad unidad;
     private int tamanyo;
 
     public Regimiento(Unidad unidad, int tamanyo) {
+        this.id = UUID.randomUUID().toString();
         this.unidad = unidad;
         this.tamanyo = tamanyo;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Unidad getUnidad() {
