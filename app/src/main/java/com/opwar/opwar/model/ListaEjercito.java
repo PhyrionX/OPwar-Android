@@ -49,6 +49,7 @@ public class ListaEjercito implements Serializable {
     public boolean remove(Regimiento regimiento) {
         if (regimientos.contains(regimiento)) {
             regimientos.remove(regimiento);
+            puntos -= regimiento.getPuntos();
             return true;
         }
 

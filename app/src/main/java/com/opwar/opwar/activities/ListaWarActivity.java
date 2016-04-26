@@ -58,10 +58,10 @@ public class ListaWarActivity extends AppCompatActivity {
     private TextView cuentaUnidadesSingularesTextView;
     private ProgressDialog progressDialog;
     private TextView puntosTotalesTextView;
-    private List<Unidad> comandantesSeleccionados;
-    private List<Unidad> unidadesBasicasSeleccionadas;
-    private List<Unidad> unidadesEspecialesSeleccionados;
-    private List<Unidad> unidadesSingularesSeleccionadas;
+    private List<Regimiento> comandantesSeleccionados;
+    private List<Regimiento> unidadesBasicasSeleccionadas;
+    private List<Regimiento> unidadesEspecialesSeleccionados;
+    private List<Regimiento> unidadesSingularesSeleccionadas;
     private TextView saveTextView;
     private ListFileOperations listFileOperations;
 
@@ -147,22 +147,22 @@ public class ListaWarActivity extends AppCompatActivity {
     private void iniciarListas() {
         comandantesSeleccionados = new ArrayList<>();
         adaptadorComandantes = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                comandantesSeleccionados, listaComandates, cuentaComandantesTextView, puntosTotalesTextView);
+                comandantesSeleccionados, listaComandates, cuentaComandantesTextView, puntosTotalesTextView, this);
         iniciarLista(adaptadorComandantes, listaComandates, cuentaComandantesTextView);
 
         unidadesBasicasSeleccionadas = new ArrayList<>();
         adaptadorUnidadesBasicas = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                unidadesBasicasSeleccionadas, listaUnidadesBasicas, cuentaUnidadesBasicasTextView, puntosTotalesTextView);
+                unidadesBasicasSeleccionadas, listaUnidadesBasicas, cuentaUnidadesBasicasTextView, puntosTotalesTextView, this);
         iniciarLista(adaptadorUnidadesBasicas, listaUnidadesBasicas, cuentaUnidadesBasicasTextView);
 
         unidadesEspecialesSeleccionados = new ArrayList<>();
         adaptadorUnidadesEspeciales = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                unidadesEspecialesSeleccionados, listaUnidadesEspeciales, cuentaUnidadesEspecialesTextView, puntosTotalesTextView);
+                unidadesEspecialesSeleccionados, listaUnidadesEspeciales, cuentaUnidadesEspecialesTextView, puntosTotalesTextView, this);
         iniciarLista(adaptadorUnidadesEspeciales, listaUnidadesEspeciales, cuentaUnidadesEspecialesTextView);
 
         unidadesSingularesSeleccionadas = new ArrayList<>();
         adaptadorUnidadesSingulares = new ListUnidadesAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                unidadesSingularesSeleccionadas, listaUnidadesSingulares, cuentaUnidadesSingularesTextView, puntosTotalesTextView);
+                unidadesSingularesSeleccionadas, listaUnidadesSingulares, cuentaUnidadesSingularesTextView, puntosTotalesTextView, this);
         iniciarLista(adaptadorUnidadesSingulares, listaUnidadesSingulares, cuentaUnidadesSingularesTextView);
     }
 
@@ -239,7 +239,7 @@ public class ListaWarActivity extends AppCompatActivity {
 
     private void setActionDialog(AlertDialog.Builder alertDialog, final List<Unidad> unidades,
                                  CharSequence[] opciones, final TextView cuenta,
-                                 final List<Unidad> seleccionados, final ListView listView,
+                                 final List<Regimiento> seleccionados, final ListView listView,
                                  final ListUnidadesAdapter listUnidadesAdapter, int tituloId) {
         alertDialog.setTitle(getResources().getString(tituloId));
         alertDialog.setItems(opciones, new DialogInterface.OnClickListener() {
@@ -247,11 +247,11 @@ public class ListaWarActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Regimiento regimiento = new Regimiento(unidades.get(which), unidades.get(which).getTamanyoMinimo());
                 try {
-                    regimiento.getId();
+                    //regimiento.getId();
                     listaEjercito.addRegimiento(regimiento);
                     int puntos = Integer.parseInt(cuenta.getText().toString());
                     cuenta.setText(String.valueOf(++puntos));
-                    seleccionados.add(unidades.get(which));
+                    seleccionados.add(regimiento);
                     ListViewUtil.setListViewHeightBasedOnChildren(listView);
                     listUnidadesAdapter.notifyDataSetChanged();
                     int puntosTotales = Integer.parseInt(puntosTotalesTextView.getText().toString());
@@ -279,7 +279,7 @@ public class ListaWarActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             System.err.println("--------------Guardando--------------");
-                            listFileOperations.saveList(getBaseContext(),listaEjercito);
+                            listFileOperations.saveList(getBaseContext(), listaEjercito);
 
                             ListaEjercito op = listFileOperations.loadList(getBaseContext());
                             for (Regimiento reg : op.getRegimientos()) {
@@ -307,5 +307,9 @@ public class ListaWarActivity extends AppCompatActivity {
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
+    }
+
+    public boolean removeRegimiento(Regimiento p) {
+        return listaEjercito.remove(p);
     }
 }

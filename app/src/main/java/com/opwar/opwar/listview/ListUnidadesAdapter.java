@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.opwar.opwar.R;
+import com.opwar.opwar.activities.ListaWarActivity;
+import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.model.Unidad;
 import com.opwar.opwar.util.ListViewUtil;
 
@@ -18,7 +20,8 @@ import java.util.List;
 /**
  * Created by URZU on 25/04/2016.
  */
-public class ListUnidadesAdapter extends ArrayAdapter<Unidad> {
+public class ListUnidadesAdapter extends ArrayAdapter<Regimiento> {
+    private ListaWarActivity listaWar;
     private ListView listView;
     private TextView cuentaUnidades;
     private TextView puntosTotales;
@@ -27,12 +30,13 @@ public class ListUnidadesAdapter extends ArrayAdapter<Unidad> {
         super(context, textViewResourceId);
     }
 
-    public ListUnidadesAdapter(Context context, int resource, List<Unidad> items,
-                               ListView listView, TextView cuentaUnidades, TextView puntosTotales) {
+    public ListUnidadesAdapter(Context context, int resource, List<Regimiento> items,
+                               ListView listView, TextView cuentaUnidades, TextView puntosTotales, ListaWarActivity listaWar) {
         super(context, resource, items);
         this.listView = listView;
         this.cuentaUnidades = cuentaUnidades;
         this.puntosTotales = puntosTotales;
+        this.listaWar = listaWar;
     }
 
     @Override
@@ -44,14 +48,24 @@ public class ListUnidadesAdapter extends ArrayAdapter<Unidad> {
             view = vi.inflate(R.layout.unidad_list_view, null);
         }
 
-        final Unidad p = getItem(position);
+        final Regimiento p = getItem(position);
 
         if (p != null) {
             final TextView textView = (TextView) view.findViewById(R.id.unidadTextView);
             ImageButton imageButton = (ImageButton) view.findViewById(R.id.borrarUnidad);
 
             if (textView != null) {
-                textView.setText(p.getNombre());
+//                String textoOp = String.format("%sx %s    [%dpts]\n" +
+//                                               "M  HA HP F  R  H  I  AT L \n" +
+//                                               "%02d %02d  %02d  %02d %02d %02d %02d %02d  %02d",
+//                                                p.getTamanyo(),
+//                                                p.getUnidad().getNombre(),
+//                                                p.getPuntos(),8,4,4,5,4,3,2,4,5);
+                String textoOp = String.format("%sx %s    [%dpts]\n",
+                                                p.getTamanyo(),
+                                                p.getUnidad().getNombre(),
+                                                p.getPuntos());
+                textView.setText(textoOp);
             }
 
             if (imageButton != null) {
@@ -59,9 +73,11 @@ public class ListUnidadesAdapter extends ArrayAdapter<Unidad> {
                     @Override
                     public void onClick(View v) {
                         remove(p);
-                        ListViewUtil.setListViewHeightBasedOnChildren(listView);
-                        cuentaUnidades.setText(getContext().getString(R.string.cero));
-                        puntosTotales.setText(String.valueOf(Integer.parseInt(puntosTotales.getText().toString()) - (p.getPuntos() * p.getTamanyoMinimo())));
+                        if (listaWar.removeRegimiento(p)) {
+                            ListViewUtil.setListViewHeightBasedOnChildren(listView);
+                            cuentaUnidades.setText(String.valueOf(Integer.parseInt(cuentaUnidades.getText().toString()) - 1));
+                            puntosTotales.setText(String.valueOf(Integer.parseInt(puntosTotales.getText().toString()) - (p.getPuntos())));
+                        }
                     }
                 });
             }
