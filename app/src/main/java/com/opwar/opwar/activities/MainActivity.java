@@ -1,6 +1,8 @@
 package com.opwar.opwar.activities;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +25,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
+    private static ArrayAdapter<String> itemsAdapter;
+    private static List<String> listas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +34,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mostrarPantallaPrincipal(ListFileOperations.listListas(getBaseContext()));
+        listas = ListFileOperations.listListas(getBaseContext());
+        mostrarPantallaPrincipal();
 
         setBotonAction();
         setActionItemLista();
     }
 
-    private void mostrarPantallaPrincipal(List<String> listas) {
+    private void mostrarPantallaPrincipal() {
         listView = (ListView) findViewById(R.id.war_list);
         if (listas.size() != 0) {
             setTitle(R.string.listas_guardadas);
-            ArrayAdapter<String> itemsAdapter =
+            itemsAdapter =
                     new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listas);
             assert listView != null;
             listView.setAdapter(itemsAdapter);
@@ -53,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
             assert viewFlipper != null;
             viewFlipper.showNext();
         }
+    }
+
+    public static void getListAdapter(String nombreLista){
+        listas.add(nombreLista);
+        itemsAdapter.notifyDataSetChanged();
     }
 
     private void setBotonAction() {

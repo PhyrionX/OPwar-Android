@@ -303,11 +303,12 @@ public class ListaWarActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle("Guardar lista")
                         .setMessage("¿La lista con el título '" + titleEditText.getText() + "' ya existe, desea sobreescribirla?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 System.out.println("-------------- Guardando --------------");
                                 ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
+                                MainActivity.getListAdapter(nombreFichero);
                                 finish();
                             }
                         })
@@ -316,6 +317,7 @@ public class ListaWarActivity extends AppCompatActivity {
             } else {
                 System.out.println("-------------- Guardando --------------");
                 ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
+                MainActivity.getListAdapter(nombreFichero);
                 finish();
             }
         } else {
