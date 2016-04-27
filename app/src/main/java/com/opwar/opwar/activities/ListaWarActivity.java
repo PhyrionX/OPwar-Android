@@ -3,6 +3,7 @@ package com.opwar.opwar.activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,7 +20,7 @@ import com.opwar.opwar.adapters.UnidadesAdapter;
 import com.opwar.opwar.listview.ListUnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
-import com.opwar.opwar.model.ListFileOperations;
+import com.opwar.opwar.util.ListFileOperations;
 import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.model.Unidad;
@@ -64,6 +65,7 @@ public class ListaWarActivity extends AppCompatActivity {
     private List<Regimiento> unidadesSingularesSeleccionadas;
     private TextView saveTextView;
     private ListFileOperations listFileOperations;
+    private EditText titleEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +118,7 @@ public class ListaWarActivity extends AppCompatActivity {
         cuentaUnidadesSingularesTextView = (TextView) findViewById(R.id.cuentaUnidadesSingulares);
         puntosTotalesTextView = (TextView) findViewById(R.id.cuentaTotal);
         saveTextView = (TextView) findViewById(R.id.save);
+        titleEditText = (EditText) findViewById(R.id.title);
     }
 
     public void setOpcionesEjercito(final List<Ejercito> ejercitos) {
@@ -278,13 +281,7 @@ public class ListaWarActivity extends AppCompatActivity {
                     saveTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            System.err.println("--------------Guardando--------------");
-                            listFileOperations.saveList(getBaseContext(),"Prueba.opw", listaEjercito);
-
-//                            ListaEjercito op = listFileOperations.loadList(getBaseContext(), "Prueba.opw");
-//                            for (Regimiento reg : op.getRegimientos()) {
-//                                System.err.println(reg.getUnidad().getNombre());
-//                            }
+                            guardarLista();
                         }
                     });
                     et.setEnabled(false);
@@ -295,6 +292,35 @@ public class ListaWarActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void guardarLista() {
+
+        final String nombreFichero = titleEditText.getText() + ".opw";
+        List<String> listas = ListFileOperations.listListas(getBaseContext());
+        if (!titleEditText.getText().toString().equals("")) {
+            if (listas.contains(nombreFichero)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Guardar lista")
+                        .setMessage("¿La lista con el título '" + titleEditText.getText() + "' ya existe, desea sobreescribirla?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.out.println("-------------- Guardando --------------");
+                                ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            } else {
+                System.out.println("-------------- Guardando --------------");
+                ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
+                finish();
+            }
+        } else {
+            Snackbar.make(getWindow().getDecorView(), "El título de la lista está vacío", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void scrollToTheBotton() {

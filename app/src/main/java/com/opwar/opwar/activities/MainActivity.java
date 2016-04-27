@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.ViewFlipper;
 
 import com.opwar.opwar.R;
-import com.opwar.opwar.model.ListFileOperations;
+import com.opwar.opwar.util.ListFileOperations;
 import com.opwar.opwar.util.NetworkManager;
 
 import java.io.IOException;
@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListFileOperations listFileOperations = new ListFileOperations();
-        List<String> listas = listFileOperations.listListas(getBaseContext());
+        List<String> listas = ListFileOperations.listListas(getBaseContext());
 
         if (listas != null) {
             ListView listView = (ListView) findViewById(R.id.war_list);

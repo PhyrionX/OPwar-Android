@@ -1,6 +1,8 @@
-package com.opwar.opwar.model;
+package com.opwar.opwar.util;
 
 import android.content.Context;
+
+import com.opwar.opwar.model.ListaEjercito;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public class ListFileOperations {
 
-    public List<String> listListas(Context context) {
+    public static List<String> listListas(Context context) {
         List<String> nombresFicheros = new ArrayList<>();
         for (File file : context.getFilesDir().listFiles()) {
             nombresFicheros.add(file.getName());
@@ -23,7 +25,7 @@ public class ListFileOperations {
         return nombresFicheros;
     }
 
-    public boolean saveList(Context context, String nombreLista, ListaEjercito listaEjercito) {
+    public static boolean saveList(Context context, String nombreLista, ListaEjercito listaEjercito) {
         try {
             System.out.println("EseRuben---> " + context.getFilesDir());
             FileOutputStream fos = context.openFileOutput(nombreLista, Context.MODE_PRIVATE);
@@ -37,7 +39,7 @@ public class ListFileOperations {
         }
     }
 
-    public ListaEjercito loadList(Context context, String nombreLista) {
+    public static ListaEjercito loadList(Context context, String nombreLista) {
         try {
             FileInputStream fis = context.openFileInput(nombreLista);
             ObjectInputStream is = new ObjectInputStream(fis);
