@@ -1,14 +1,21 @@
 package com.opwar.opwar.activities;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.opwar.opwar.R;
 import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.util.Constants;
+import com.opwar.opwar.util.TamanyoMinimoUnidadException;
+
 
 public class InfoRegimiento extends AppCompatActivity {
+
     private Regimiento regimiento;
     private TextView tvMovimiento;
     private TextView tvHabilidadArmas;
@@ -21,16 +28,20 @@ public class InfoRegimiento extends AppCompatActivity {
     private TextView tvLiderazgo;
     private TextView tvPuntos;
     private TextView tvNombreUnidad;
+    private TextView tvTamanyoUnidad;
+    private TextView tvPuntosUnidad;
+    private Button btPlus1Unidad;
+    private Button btMinus1Unidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_regimiento);
         this.regimiento = (Regimiento) getIntent().getSerializableExtra(Constants.REGIMIENTO);
-        iniciarAtributos();
+        IniciarAtributos();
     }
 
-    private void iniciarAtributos() {
+    private void IniciarAtributos() {
         tvNombreUnidad = (TextView) findViewById(R.id.tvNombreUnidad);
         tvMovimiento = (TextView) findViewById(R.id.tvMovimiento);
         tvHabilidadArmas = (TextView) findViewById(R.id.tvHabilidadArmas);
@@ -42,6 +53,10 @@ public class InfoRegimiento extends AppCompatActivity {
         tvAtaques = (TextView) findViewById(R.id.tvAtaques);
         tvLiderazgo = (TextView) findViewById(R.id.tvLiderazgos);
         tvPuntos = (TextView) findViewById(R.id.tvPuntos);
+        tvTamanyoUnidad = (TextView) findViewById(R.id.tvTamanyoUnidad);
+        tvPuntosUnidad = (TextView) findViewById(R.id.tvPuntosUnidad);
+        btPlus1Unidad = (Button) findViewById(R.id.btPlus1Unidad);
+        btMinus1Unidad = (Button) findViewById(R.id.btMinus1Unidad);
 
         tvNombreUnidad.setText(String.valueOf(regimiento.getUnidad().getNombre()));
         tvMovimiento.setText(String.valueOf(regimiento.getUnidad().getMovimiento()));
@@ -54,5 +69,38 @@ public class InfoRegimiento extends AppCompatActivity {
         tvAtaques.setText(String.valueOf(regimiento.getUnidad().getAtaques()));
         tvLiderazgo.setText(String.valueOf(regimiento.getUnidad().getLiderazgo()));
         tvPuntos.setText(String.valueOf(regimiento.getUnidad().getPuntos()));
+        tvTamanyoUnidad.setText(String.valueOf(regimiento.getTamanyo()));
+        tvPuntosUnidad.setText(String.valueOf(regimiento.getPuntos()));
+
+        if (regimiento.getUnidad().getTamanyoMinimo() == 1) {
+            btMinus1Unidad.setVisibility(View.INVISIBLE);
+            btPlus1Unidad.setVisibility(View.INVISIBLE);
+        } else {
+            btPlus1Unidad.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tamanyo = Integer.parseInt(tvTamanyoUnidad.getText().toString());
+                    tvTamanyoUnidad.setText(String.valueOf(tamanyo + 1));
+                    regimiento.addUnit();
+                    tvPuntosUnidad.setText(String.valueOf(regimiento.getPuntos()));
+                }
+            });
+
+
+            btMinus1Unidad.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        int tamanyo = Integer.parseInt(tvTamanyoUnidad.getText().toString());
+                        regimiento.removeUnit();
+                        tvTamanyoUnidad.setText(String.valueOf(tamanyo - 1));
+                        tvPuntosUnidad.setText(String.valueOf(regimiento.getPuntos()));
+                    } catch (TamanyoMinimoUnidadException e) {
+                        Snackbar.make(getWindow().getDecorView(), "El tamaño mínimo de la unidad es " + regimiento.getUnidad().getTamanyoMinimo(), Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
     }
 }
