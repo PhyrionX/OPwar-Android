@@ -94,9 +94,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra(Constants.LISTA_EJERCITO, listaEjercito);
                         startActivity(intent);
                     } catch (IOException e) {
-                        intent.putExtra(Constants.HAY_CONEXION, true);
+                        intent.putExtra(Constants.HAY_CONEXION, false);
                         intent.putExtra(Constants.LISTA_EJERCITO, listaEjercito);
-                        startActivity(intent);
                         startActivity(intent);
                     }
                 } else {

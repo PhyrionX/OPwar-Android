@@ -16,7 +16,7 @@
     <string name="anadir_unidad_especial">Añadir unidad especial</string>
     <string name="anadir_unidad_singular">Añadir unidad singular</string>
     <string name="puntos_totales">PUNTOS TOTALES</string>
-    <string name="sin_listas">No hay listas</string>
+    <string name="sin_listas">No hay listas guardadas</string>
     <string name="sin_conexion">No tienes conexión</string>
     <string name="cargando_ejercitos">Cargando ejércitos…</string>
     <string name="escoge_ejercito">Escoge un ejército</string>
