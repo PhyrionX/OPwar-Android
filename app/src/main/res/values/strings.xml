@@ -28,4 +28,6 @@
     <string name="escoge_unidad_especial">Escoge una unidad especial</string>
     <string name="escoge_unidad_singular">Escoge una unidad singular</string>
     <string name="borrar_unidad">Borra una unidad</string>
+    <string name="listas_guardadas">Listas guardadas</string>
+    <string name="erros_cargar_lista">Ups, no podemos cargar la lista</string>
 </resources>
