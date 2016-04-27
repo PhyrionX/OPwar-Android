@@ -7,23 +7,26 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by phyrion on 25/04/16.
  */
 public class ListFileOperations {
 
-    public String listListas(Context context) {
+    public List<String> listListas(Context context) {
+        List<String> nombresFicheros = new ArrayList<>();
         for (File file : context.getFilesDir().listFiles()) {
-            System.err.println("-----------OPPPPPPPPP------"+ file.getName());
+            nombresFicheros.add(file.getName());
         }
-        return null;
+        return nombresFicheros;
     }
 
-    public boolean saveList(Context context, ListaEjercito listaEjercito) {
+    public boolean saveList(Context context, String nombreLista, ListaEjercito listaEjercito) {
         try {
             System.out.println("EseRuben---> " + context.getFilesDir());
-            FileOutputStream fos = context.openFileOutput("Prueba2.opw", Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(nombreLista, Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(listaEjercito);
             os.close();
@@ -34,9 +37,9 @@ public class ListFileOperations {
         }
     }
 
-    public ListaEjercito loadList(Context context) {
+    public ListaEjercito loadList(Context context, String nombreLista) {
         try {
-            FileInputStream fis = context.openFileInput("Prueba.opw");
+            FileInputStream fis = context.openFileInput(nombreLista);
             ObjectInputStream is = new ObjectInputStream(fis);
             ListaEjercito listaEjercito = (ListaEjercito) is.readObject();
             is.close();

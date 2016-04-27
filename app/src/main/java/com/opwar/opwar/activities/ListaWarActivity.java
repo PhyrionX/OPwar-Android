@@ -279,12 +279,12 @@ public class ListaWarActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             System.err.println("--------------Guardando--------------");
-                            listFileOperations.saveList(getBaseContext(), listaEjercito);
+                            listFileOperations.saveList(getBaseContext(),"Prueba.opw", listaEjercito);
 
-                            ListaEjercito op = listFileOperations.loadList(getBaseContext());
-                            for (Regimiento reg : op.getRegimientos()) {
-                                System.err.println(reg.getUnidad().getNombre());
-                            }
+//                            ListaEjercito op = listFileOperations.loadList(getBaseContext(), "Prueba.opw");
+//                            for (Regimiento reg : op.getRegimientos()) {
+//                                System.err.println(reg.getUnidad().getNombre());
+//                            }
                         }
                     });
                     et.setEnabled(false);
