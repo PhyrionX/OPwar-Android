@@ -30,4 +30,15 @@
     <string name="borrar_unidad">Borra una unidad</string>
     <string name="listas_guardadas">Listas guardadas</string>
     <string name="erros_cargar_lista">Ups, no podemos cargar la lista</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="movimiento">M</string>
+    <string name="habilidad_armas">HA</string>
+    <string name="habilidad_proyectiles">HP</string>
+    <string name="fuerza">F</string>
+    <string name="resistencia">R</string>
+    <string name="heridas">H</string>
+    <string name="iniciativa">I</string>
+    <string name="ataques">A</string>
+    <string name="liderazgo">L</string>
+    <string name="puntos_unidad">Pts/Ud</string>
 </resources>
