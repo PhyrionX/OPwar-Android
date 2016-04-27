@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.opwar.opwar.R;
 import com.opwar.opwar.activities.ListaWarActivity;
 import com.opwar.opwar.model.Regimiento;
-import com.opwar.opwar.model.Unidad;
 import com.opwar.opwar.util.ListViewUtil;
 
 import java.util.List;

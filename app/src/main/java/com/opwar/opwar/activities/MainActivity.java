@@ -1,8 +1,6 @@
 package com.opwar.opwar.activities;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         listas = ListFileOperations.listListas(getBaseContext());
+        quitarExtension();
         mostrarPantallaPrincipal();
 
         setBotonAction();
@@ -59,11 +59,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void getListAdapter(String nombreLista){
-        listas.add(nombreLista);
-        itemsAdapter.notifyDataSetChanged();
-    }
-
     private void setBotonAction() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
@@ -86,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String seleccionado = (String) listView.getItemAtPosition(position);
-                ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(), seleccionado);
+                ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(), seleccionado + Constants.EXTENSION);
                 if (listaEjercito != null) {
                     Intent intent = new Intent(MainActivity.this, ListaWarActivity.class);
                     try {
@@ -107,5 +102,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void quitarExtension() {
+        String nombre;
+        for (int i = 0; i < listas.size(); i++) {
+            nombre = listas.get(i).substring(0, listas.get(i).length() - Constants.EXTENSION.length());
+            listas.remove(i);
+            listas.add(i, nombre);
+        }
+    }
+
+    public static void getListAdapter(String nombreLista){
+        listas.add(quitarExtension(nombreLista));
+        itemsAdapter.notifyDataSetChanged();
+    }
+
+    private static String quitarExtension(String nombre) {
+        return nombre.substring(0, nombre.length() - Constants.EXTENSION.length());
     }
 }

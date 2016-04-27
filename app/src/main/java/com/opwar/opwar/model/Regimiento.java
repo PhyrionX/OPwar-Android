@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * Created by phyrion on 14/04/16.
  */
-public class Regimiento implements Serializable{
+public class Regimiento implements Serializable {
     private String id;
     private Unidad unidad;
     private int tamanyo;

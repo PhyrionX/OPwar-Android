@@ -20,13 +20,14 @@ import com.opwar.opwar.adapters.UnidadesAdapter;
 import com.opwar.opwar.listview.ListUnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
-import com.opwar.opwar.util.ListFileOperations;
 import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.model.Unidad;
 import com.opwar.opwar.model.UnidadBasica;
 import com.opwar.opwar.model.UnidadEspecial;
 import com.opwar.opwar.model.UnidadSingular;
+import com.opwar.opwar.util.Constants;
+import com.opwar.opwar.util.ListFileOperations;
 import com.opwar.opwar.util.ListViewUtil;
 import com.opwar.opwar.util.ListaEjercitoException;
 
@@ -64,20 +65,28 @@ public class ListaWarActivity extends AppCompatActivity {
     private List<Regimiento> unidadesEspecialesSeleccionados;
     private List<Regimiento> unidadesSingularesSeleccionadas;
     private TextView saveTextView;
-    private ListFileOperations listFileOperations;
     private EditText titleEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_war);
-        listFileOperations = new ListFileOperations();
         findViewsById();
-
         setCancelAction();
-        setEjercitoAction();
-        progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
-        new EjercitosAdapter(this).execute();
+        ListaEjercito listaEjercito = (ListaEjercito) getIntent().getSerializableExtra(Constants.LISTA_EJERCITO);
+
+        if (listaEjercito == null) {
+            setEjercitoAction();
+            progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
+            new EjercitosAdapter(this).execute();
+        } else {
+            boolean hayConexion = getIntent().getBooleanExtra(Constants.HAY_CONEXION, false);
+            if (hayConexion) {
+                Toast.makeText(getApplicationContext(), "EDITANDO LISTA", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "VISUALIZANDO LISTA", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void setCancelAction() {
