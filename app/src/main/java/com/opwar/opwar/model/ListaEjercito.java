@@ -10,14 +10,26 @@ import java.util.List;
  * Created by phyrion on 14/04/16.
  */
 public class ListaEjercito implements Serializable {
+    private int idEjercito;
     private int limitePuntos;
     private int puntos;
+    private String nombre;
     private List<Regimiento> regimientos;
 
-    public ListaEjercito(int limitePuntos) {
+    public ListaEjercito(int limitePuntos, int idEjercito, String nombre) {
+        this.idEjercito = idEjercito;
         this.limitePuntos = limitePuntos;
         this.regimientos = new ArrayList<>();
         this.puntos = 0;
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getIdEjercito() {
+        return idEjercito;
     }
 
     public int getLimitePuntos() {

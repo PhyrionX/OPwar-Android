@@ -27,10 +27,10 @@ public class InfoRegimiento extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_regimiento);
         this.regimiento = (Regimiento) getIntent().getSerializableExtra(Constants.REGIMIENTO);
-        IniciarAtributos();
+        iniciarAtributos();
     }
 
-    private void IniciarAtributos() {
+    private void iniciarAtributos() {
         tvNombreUnidad = (TextView) findViewById(R.id.tvNombreUnidad);
         tvMovimiento = (TextView) findViewById(R.id.tvMovimiento);
         tvHabilidadArmas = (TextView) findViewById(R.id.tvHabilidadArmas);
@@ -54,7 +54,5 @@ public class InfoRegimiento extends AppCompatActivity {
         tvAtaques.setText(String.valueOf(regimiento.getUnidad().getAtaques()));
         tvLiderazgo.setText(String.valueOf(regimiento.getUnidad().getLiderazgo()));
         tvPuntos.setText(String.valueOf(regimiento.getUnidad().getPuntos()));
-
-
     }
 }

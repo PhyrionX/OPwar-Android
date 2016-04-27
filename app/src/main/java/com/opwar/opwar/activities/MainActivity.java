@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ListaWarActivity.class);
                     try {
                         NetworkManager.checkNetworkConnection(getApplicationContext());
+                        intent.putExtra(Constants.NOMBRE_LISTA, seleccionado);
                         intent.putExtra(Constants.HAY_CONEXION, true);
                         intent.putExtra(Constants.LISTA_EJERCITO, listaEjercito);
                         startActivity(intent);

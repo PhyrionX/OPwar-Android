@@ -1,4 +1,4 @@
-package com.opwar.opwar.listview;
+package com.opwar.opwar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.opwar.opwar.R;
 import com.opwar.opwar.activities.InfoRegimiento;
 import com.opwar.opwar.activities.ListaWarActivity;
 import com.opwar.opwar.model.Regimiento;
@@ -69,6 +68,7 @@ public class ListUnidadesAdapter extends ArrayAdapter<Regimiento> {
                                                 p.getPuntos());
                 textView.setText(textoOp);
             }
+            assert textView != null;
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

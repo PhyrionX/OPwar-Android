@@ -10,4 +10,5 @@ public class Constants {
     public static final String HAY_CONEXION = "hay_conexion";
     public static final String EXTENSION = ".opw";
     public static final String REGIMIENTO = "regimiento";
+    public static final String NOMBRE_LISTA = "nombre_lista";
 }

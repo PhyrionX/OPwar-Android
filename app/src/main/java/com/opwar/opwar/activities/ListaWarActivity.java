@@ -14,10 +14,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.opwar.opwar.InflaterListaEjercito;
 import com.opwar.opwar.R;
 import com.opwar.opwar.adapters.EjercitosAdapter;
 import com.opwar.opwar.adapters.UnidadesAdapter;
-import com.opwar.opwar.listview.ListUnidadesAdapter;
+import com.opwar.opwar.ListUnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
 import com.opwar.opwar.model.ListaEjercito;
@@ -74,17 +75,18 @@ public class ListaWarActivity extends AppCompatActivity {
         findViewsById();
         setCancelAction();
         ListaEjercito listaEjercito = (ListaEjercito) getIntent().getSerializableExtra(Constants.LISTA_EJERCITO);
+        setEjercitoAction();
+        progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
+        new EjercitosAdapter(this).execute();
 
-        if (listaEjercito == null) {
-            setEjercitoAction();
-            progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
-            new EjercitosAdapter(this).execute();
-        } else {
+        if (listaEjercito != null) {
+            String nombreLista = getIntent().getStringExtra(Constants.NOMBRE_LISTA);
             boolean hayConexion = getIntent().getBooleanExtra(Constants.HAY_CONEXION, false);
-            if (hayConexion) {
-                Toast.makeText(getApplicationContext(), "EDITANDO LISTA", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "VISUALIZANDO LISTA", Toast.LENGTH_SHORT).show();
+            InflaterListaEjercito inflaterListaEjercito = new InflaterListaEjercito(this, listaEjercito, nombreLista);
+            inflaterListaEjercito.populateFields();
+            if (!hayConexion) {
+                Toast.makeText(getApplicationContext(), "No tienes conexión, modo visualización", Toast.LENGTH_LONG).show();
+                inflaterListaEjercito.makeNoEditable();
             }
         }
     }
@@ -135,7 +137,12 @@ public class ListaWarActivity extends AppCompatActivity {
         List<String> listItems = new ArrayList<>();
         for (Ejercito ejercito : ejercitos) {
             listItems.add(ejercito.getNombre());
+            if (ejercitoTextView.getText().toString().equals(ejercito.getNombre())) {
+                ejercitoSeleccionado = ejercito;
+                iniciarListas();
+            }
         }
+
         final CharSequence[] opcionesEjercitos = listItems.toArray(new CharSequence[listItems.size()]);
         ejercitoAlertDialog = new AlertDialog.Builder(this);
         ejercitoAlertDialog.setTitle(R.string.escoge_ejercito);
@@ -286,7 +293,8 @@ public class ListaWarActivity extends AppCompatActivity {
                 if (et.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
                 } else if (!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
-                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()));
+                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()),
+                            ejercitosDesplegableSeleccionado, ejercitoTextView.getText().toString());
                     saveTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -304,7 +312,6 @@ public class ListaWarActivity extends AppCompatActivity {
     }
 
     private void guardarLista() {
-
         final String nombreFichero = titleEditText.getText() + ".opw";
         List<String> listas = ListFileOperations.listListas(getBaseContext());
         if (!titleEditText.getText().toString().equals("")) {
@@ -317,7 +324,6 @@ public class ListaWarActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 System.out.println("-------------- Guardando --------------");
                                 ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
-                                MainActivity.anadirNuevaLista(nombreFichero);
                                 finish();
                             }
                         })
