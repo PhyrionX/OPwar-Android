@@ -1,5 +1,7 @@
 package com.opwar.opwar.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,12 +12,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.opwar.opwar.R;
+import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.util.Constants;
 import com.opwar.opwar.util.ListFileOperations;
-import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.util.NetworkManager;
 
 import java.io.IOException;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private static ArrayAdapter<String> itemsAdapter;
     private static List<String> listas;
+    private static ViewFlipper viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +42,22 @@ public class MainActivity extends AppCompatActivity {
         mostrarPantallaPrincipal();
 
         setBotonAction();
-        setActionItemLista();
+        setSelectItemLista();
+        setDeleteItemLista();
     }
 
     private void mostrarPantallaPrincipal() {
         listView = (ListView) findViewById(R.id.war_list);
+        itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listas);
+        listView.setAdapter(itemsAdapter);
+        viewFlipper = (ViewFlipper) findViewById(R.id.lista_flipper);
+        setTitle(R.string.listas_guardadas);
         if (listas.size() != 0) {
-            setTitle(R.string.listas_guardadas);
-            itemsAdapter =
-                    new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listas);
             assert listView != null;
-            listView.setAdapter(itemsAdapter);
             for (String lista : listas) {
                 System.out.println(lista);
             }
         } else {
-            ViewFlipper viewFlipper = (ViewFlipper) findViewById(R.id.lista_flipper);
             assert viewFlipper != null;
             viewFlipper.showNext();
         }
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setActionItemLista() {
+    private void setSelectItemLista() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,6 +108,47 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setDeleteItemLista() {
+        listView.setLongClickable(true);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           final int pos, long id) {
+                final String seleccionado = (String) listView.getItemAtPosition(pos);
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Borrar lista")
+                        .setMessage("¿Desea borrar la lista '" + seleccionado + "'?")
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.out.println("-------------- Borrando --------------");
+                                if (ListFileOperations.deleteList(getBaseContext(), seleccionado + Constants.EXTENSION)) {
+                                    listas.remove(pos);
+                                    itemsAdapter.notifyDataSetChanged();
+                                    if (listas.size() == 0) {
+                                        viewFlipper.showNext();
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Error al borra la lista", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                return true;
+            }
+        });
+    }
+
+    public static void anadirNuevaLista(String nombreLista) {
+        if (listas.size() == 0) {
+            viewFlipper.showPrevious();
+        }
+        listas.add(quitarExtension(nombreLista));
+        itemsAdapter.notifyDataSetChanged();
+    }
+
     private void quitarExtension() {
         String nombre;
         for (int i = 0; i < listas.size(); i++) {
@@ -111,11 +156,6 @@ public class MainActivity extends AppCompatActivity {
             listas.remove(i);
             listas.add(i, nombre);
         }
-    }
-
-    public static void getListAdapter(String nombreLista){
-        listas.add(quitarExtension(nombreLista));
-        itemsAdapter.notifyDataSetChanged();
     }
 
     private static String quitarExtension(String nombre) {

@@ -10,18 +10,18 @@ import java.util.List;
  * Created by phyrion on 14/04/16.
  */
 public class ListaEjercito implements Serializable {
-    private int puntosTotales;
+    private int limitePuntos;
     private int puntos;
     private List<Regimiento> regimientos;
 
-    public ListaEjercito(int puntosTotales) {
-        this.puntosTotales = puntosTotales;
+    public ListaEjercito(int limitePuntos) {
+        this.limitePuntos = limitePuntos;
         this.regimientos = new ArrayList<>();
         this.puntos = 0;
     }
 
-    public int getPuntosTotales() {
-        return puntosTotales;
+    public int getLimitePuntos() {
+        return limitePuntos;
     }
 
     public int getPuntos() {
@@ -38,7 +38,7 @@ public class ListaEjercito implements Serializable {
 
     public boolean addRegimiento(Regimiento regimiento) throws ListaEjercitoException {
         System.out.println(puntos);
-        if (puntos + regimiento.getPuntos() <= puntosTotales) {
+        if (puntos + regimiento.getPuntos() <= limitePuntos) {
             regimientos.add(regimiento);
             puntos += regimiento.getPuntos();
             return true;

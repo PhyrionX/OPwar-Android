@@ -52,4 +52,8 @@ public class ListFileOperations {
             return null;
         }
     }
+
+    public static boolean deleteList(Context context, String nombreLista) {
+        return context.deleteFile(nombreLista);
+    }
 }

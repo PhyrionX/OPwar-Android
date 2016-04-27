@@ -317,7 +317,7 @@ public class ListaWarActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 System.out.println("-------------- Guardando --------------");
                                 ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
-                                MainActivity.getListAdapter(nombreFichero);
+                                MainActivity.anadirNuevaLista(nombreFichero);
                                 finish();
                             }
                         })
@@ -326,7 +326,7 @@ public class ListaWarActivity extends AppCompatActivity {
             } else {
                 System.out.println("-------------- Guardando --------------");
                 ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
-                MainActivity.getListAdapter(nombreFichero);
+                MainActivity.anadirNuevaLista(nombreFichero);
                 finish();
             }
         } else {
