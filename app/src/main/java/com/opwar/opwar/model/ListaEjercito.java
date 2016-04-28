@@ -6,11 +6,13 @@ import com.opwar.opwar.util.ListaEjercitoException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by phyrion on 14/04/16.
  */
 public class ListaEjercito implements Serializable {
+    private String id;
     private int idEjercito;
     private int limitePuntos;
     private int puntos;
@@ -18,6 +20,7 @@ public class ListaEjercito implements Serializable {
     private List<Regimiento> regimientos;
 
     public ListaEjercito(int limitePuntos, int idEjercito, String nombre) {
+        this.id = UUID.randomUUID().toString();
         this.idEjercito = idEjercito;
         this.limitePuntos = limitePuntos;
         this.regimientos = new ArrayList<>();
@@ -93,5 +96,13 @@ public class ListaEjercito implements Serializable {
 
     public void setLimitePuntos(int limitePuntos) {
         this.limitePuntos = limitePuntos;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof ListaEjercito && id.equals(((ListaEjercito) o).getId());
     }
 }
