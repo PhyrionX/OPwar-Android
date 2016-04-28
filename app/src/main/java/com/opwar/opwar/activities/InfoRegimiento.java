@@ -1,5 +1,7 @@
 package com.opwar.opwar.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,12 +34,16 @@ public class InfoRegimiento extends AppCompatActivity {
     private TextView tvPuntosUnidad;
     private Button btPlus1Unidad;
     private Button btMinus1Unidad;
+    private TextView tvSave;
+    private int puntos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_regimiento);
+
         this.regimiento = (Regimiento) getIntent().getSerializableExtra(Constants.REGIMIENTO);
+        puntos = this.regimiento.getPuntos();
         IniciarAtributos();
     }
 
@@ -57,6 +63,7 @@ public class InfoRegimiento extends AppCompatActivity {
         tvPuntosUnidad = (TextView) findViewById(R.id.tvPuntosUnidad);
         btPlus1Unidad = (Button) findViewById(R.id.btPlus1Unidad);
         btMinus1Unidad = (Button) findViewById(R.id.btMinus1Unidad);
+        tvSave = (TextView) findViewById(R.id.btSave);
 
         tvNombreUnidad.setText(String.valueOf(regimiento.getUnidad().getNombre()));
         tvMovimiento.setText(String.valueOf(regimiento.getUnidad().getMovimiento()));
@@ -79,6 +86,7 @@ public class InfoRegimiento extends AppCompatActivity {
             btPlus1Unidad.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     int tamanyo = Integer.parseInt(tvTamanyoUnidad.getText().toString());
                     tvTamanyoUnidad.setText(String.valueOf(tamanyo + 1));
                     regimiento.addUnit();
@@ -101,6 +109,21 @@ public class InfoRegimiento extends AppCompatActivity {
                 }
             });
         }
+        
+        tvSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //System.err.println(puntos + "  " + regimiento.getPuntos());
+                if (puntos != regimiento.getPuntos()) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result", regimiento);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                } else {
+                    finish();
+                }
+            }
+        });
 
     }
 }

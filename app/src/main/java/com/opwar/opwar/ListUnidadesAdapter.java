@@ -76,7 +76,7 @@ public class ListUnidadesAdapter extends ArrayAdapter<Regimiento> {
                         System.err.println(p.getUnidad().getNombre());
                         Intent intent = new Intent(listaWar, InfoRegimiento.class);
                         intent.putExtra(Constants.REGIMIENTO, p);
-                        listaWar.startActivity(intent);
+                        listaWar.startActivityForResult(intent, 1);
                     }
                 });
             }

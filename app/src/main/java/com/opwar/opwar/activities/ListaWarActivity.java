@@ -1,7 +1,9 @@
 package com.opwar.opwar.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -371,4 +373,31 @@ public class ListaWarActivity extends AppCompatActivity {
     public void setUnidadesSingularesSeleccionadas(List<Regimiento> unidadesSingularesSeleccionadas) {
         this.unidadesSingularesSeleccionadas = unidadesSingularesSeleccionadas;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+
+                Regimiento result= (Regimiento) data.getSerializableExtra("result");
+                try {
+                    listaEjercito.modificarPuntosUnidad(result);
+                    if (result.getUnidad() instanceof Comandante) {
+                        adaptadorComandantes.notifyDataSetChanged();
+                    } else if (result.getUnidad() instanceof UnidadBasica) {
+                        adaptadorUnidadesBasicas.notifyDataSetChanged();
+                    } else if (result.getUnidad() instanceof UnidadEspecial) {
+                        adaptadorUnidadesEspeciales.notifyDataSetChanged();
+                    }  else if (result.getUnidad() instanceof UnidadSingular) {
+                        adaptadorUnidadesSingulares.notifyDataSetChanged();
+                    }
+                } catch (ListaEjercitoException e) {
+                    Snackbar.make(getWindow().getDecorView(), "Supera el límite de puntos", Snackbar.LENGTH_LONG).show();
+                }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 }

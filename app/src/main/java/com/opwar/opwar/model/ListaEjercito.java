@@ -1,5 +1,6 @@
 package com.opwar.opwar.model;
 
+import com.opwar.opwar.util.Constants;
 import com.opwar.opwar.util.ListaEjercitoException;
 
 import java.io.Serializable;
@@ -66,6 +67,20 @@ public class ListaEjercito implements Serializable {
         }
 
         return false;
+    }
+
+    public void modificarPuntosUnidad(Regimiento result) throws ListaEjercitoException {
+        int i = 0;
+        for (Regimiento reg : regimientos) {
+            if (reg.getId().equals(result.getId())) {
+                if ((puntos - reg.getPuntos() + result.getPuntos()) <= limitePuntos) {
+                    regimientos.get(i).setTamanyo(result.getTamanyo());
+                } else {
+                    throw new ListaEjercitoException(Constants.LISTA_EJERCITO);
+                }
+            }
+            i++;
+        }
     }
 
     public void setLimitePuntos(int limitePuntos) {
