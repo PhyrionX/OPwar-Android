@@ -387,6 +387,7 @@ public class ListaWarActivity extends AppCompatActivity {
                 Regimiento result= (Regimiento) data.getSerializableExtra("result");
                 try {
                     listaEjercito.modificarPuntosUnidad(result);
+                    puntosTotalesTextView.setText(String.valueOf(listaEjercito.getPuntos()));
                     if (result.getUnidad() instanceof Comandante) {
                         adaptadorComandantes.notifyDataSetChanged();
                     } else if (result.getUnidad() instanceof UnidadBasica) {

@@ -69,18 +69,26 @@ public class ListaEjercito implements Serializable {
         return false;
     }
 
-    public void modificarPuntosUnidad(Regimiento result) throws ListaEjercitoException {
+    public int modificarPuntosUnidad(Regimiento result) throws ListaEjercitoException {
         int i = 0;
+        int puntosCalculados = 0;
         for (Regimiento reg : regimientos) {
             if (reg.getId().equals(result.getId())) {
-                if ((puntos - reg.getPuntos() + result.getPuntos()) <= limitePuntos) {
-                    regimientos.get(i).setTamanyo(result.getTamanyo());
-                } else {
-                    throw new ListaEjercitoException(Constants.LISTA_EJERCITO);
+                System.err.println(reg.getTamanyo() + " " + result.getTamanyo());
+                int diferencia = result.getTamanyo() - reg.getTamanyo();
+                puntosCalculados = diferencia * result.getUnidad().getPuntos();
+                if (diferencia != 0) {
+                    if (this.puntos + puntosCalculados <= this.limitePuntos) {
+                        this.puntos += puntosCalculados;
+                        regimientos.get(i).setTamanyo(result.getTamanyo());
+                    } else {
+                        throw new ListaEjercitoException(Constants.LISTA_EJERCITO);
+                    }
                 }
             }
             i++;
         }
+        return puntosCalculados;
     }
 
     public void setLimitePuntos(int limitePuntos) {
