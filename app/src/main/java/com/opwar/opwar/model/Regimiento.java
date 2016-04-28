@@ -1,5 +1,7 @@
 package com.opwar.opwar.model;
 
+import com.opwar.opwar.util.TamanyoMinimoUnidadException;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -39,6 +41,18 @@ public class Regimiento implements Serializable {
 
     public int getPuntos() {
         return unidad.getPuntos() * this.tamanyo;
+    }
+
+    public void addUnit() {
+       this.tamanyo++;
+    }
+
+    public void removeUnit() throws TamanyoMinimoUnidadException {
+        if (this.tamanyo == this.unidad.getTamanyoMinimo()) {
+             throw new TamanyoMinimoUnidadException("Tamaño minimo");
+        } else {
+            this.tamanyo--;
+        }
     }
 }
 
