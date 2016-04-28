@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/colorUnidad">
+                android:background="@color/colorPrimaryLight">
                 <TextView
                     android:id="@+id/cuentaComandantes"
                     android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                     android:paddingEnd="4dp"
                     android:paddingStart="16dp"
                     android:textColor="@color/colorBlack"
-                    android:background="@color/colorUnidad"/>
+                    android:background="@color/colorPrimaryLight"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/colorUnidad">
+                android:background="@color/colorPrimaryLight">
 
                 <TextView
                     android:id="@+id/cuentaUnidadesBasicas"
@@ -202,7 +202,7 @@
                     android:paddingEnd="4dp"
                     android:paddingStart="16dp"
                     android:textColor="@color/colorBlack"
-                    android:background="@color/colorUnidad" />
+                    android:background="@color/colorPrimaryLight" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -247,7 +247,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/colorUnidad">
+                android:background="@color/colorPrimaryLight">
 
                 <TextView
                     android:id="@+id/cuentaUnidadesEspeciales"
@@ -259,7 +259,7 @@
                     android:paddingEnd="4dp"
                     android:paddingStart="16dp"
                     android:textColor="@color/colorBlack"
-                    android:background="@color/colorUnidad" />
+                    android:background="@color/colorPrimaryLight" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -304,7 +304,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/colorUnidad">
+                android:background="@color/colorPrimaryLight">
 
                 <TextView
                     android:id="@+id/cuentaUnidadesSingulares"
@@ -316,7 +316,7 @@
                     android:paddingEnd="4dp"
                     android:paddingStart="16dp"
                     android:textColor="@color/colorBlack"
-                    android:background="@color/colorUnidad" />
+                    android:background="@color/colorPrimaryLight" />
 
                 <TextView
                     android:layout_width="wrap_content"

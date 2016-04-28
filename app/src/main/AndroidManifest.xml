@@ -22,7 +22,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ListaWarActivity" />
-        <activity android:name=".activities.InfoRegimiento"></activity>
+        <activity android:name=".activities.InfoRegimiento"/>
     </application>
-
 </manifest>

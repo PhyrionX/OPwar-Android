@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,10 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.opwar.opwar.InflaterListaEjercito;
+import com.opwar.opwar.ListUnidadesAdapter;
 import com.opwar.opwar.R;
 import com.opwar.opwar.adapters.EjercitosAdapter;
 import com.opwar.opwar.adapters.UnidadesAdapter;
-import com.opwar.opwar.ListUnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
 import com.opwar.opwar.model.ListaEjercito;
@@ -146,6 +147,7 @@ public class ListaWarActivity extends AppCompatActivity {
         List<String> listItems = new ArrayList<>();
         for (Ejercito ejercito : ejercitos) {
             listItems.add(ejercito.getNombre());
+            Log.d("Ejercito", ejercito.getNombre());
             if (ejercitoTextView.getText().toString().equals(ejercito.getNombre())) {
                 ejercitoSeleccionado = ejercito;
             }

@@ -6,6 +6,7 @@ import com.opwar.opwar.activities.ListaWarActivity;
 import com.opwar.opwar.model.Ejercito;
 import com.opwar.opwar.util.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -71,12 +72,15 @@ public class EjercitosAdapter extends AsyncTask<Void, Void, List<Ejercito>> {
 
     private List<Ejercito> getEjercitoFromJson(String json) {
         List<Ejercito> ejercitos = new ArrayList<>();
-        json = json.substring(1, json.length() - 1);
         try {
-            JSONObject jsonObject = new JSONObject(json);
-            ejercitos.add(new Ejercito(jsonObject.getInt("id_ejercito"),
-                    jsonObject.getString("nombre"),
-                    jsonObject.getString("descripcion")));
+            JSONObject o = new JSONObject(json);
+            JSONArray jsonArray = o.getJSONArray("ejercitos");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonOb = new JSONObject(jsonArray.get(i).toString());
+                ejercitos.add(new Ejercito(jsonOb.getInt("id_ejercito"),
+                        jsonOb.getString("nombre"),
+                        jsonOb.getString("descripcion")));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
