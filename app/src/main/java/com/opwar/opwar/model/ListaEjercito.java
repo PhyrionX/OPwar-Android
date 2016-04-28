@@ -67,4 +67,8 @@ public class ListaEjercito implements Serializable {
 
         return false;
     }
+
+    public void setLimitePuntos(int limitePuntos) {
+        this.limitePuntos = limitePuntos;
+    }
 }

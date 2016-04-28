@@ -76,16 +76,18 @@ public class ListaWarActivity extends AppCompatActivity {
         setCancelAction();
         ListaEjercito listaEjercito = (ListaEjercito) getIntent().getSerializableExtra(Constants.LISTA_EJERCITO);
         setEjercitoAction();
+        iniciarListas();
         progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
         new EjercitosAdapter(this).execute();
 
         if (listaEjercito != null) {
+            this.listaEjercito = listaEjercito;
             String nombreLista = getIntent().getStringExtra(Constants.NOMBRE_LISTA);
             boolean hayConexion = getIntent().getBooleanExtra(Constants.HAY_CONEXION, false);
             InflaterListaEjercito inflaterListaEjercito = new InflaterListaEjercito(this, listaEjercito, nombreLista);
             inflaterListaEjercito.populateFields();
             if (!hayConexion) {
-                Toast.makeText(getApplicationContext(), "No tienes conexión, modo visualización", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No tienes conexión, no puedes editar", Toast.LENGTH_LONG).show();
                 inflaterListaEjercito.makeNoEditable();
             }
         }
@@ -139,7 +141,6 @@ public class ListaWarActivity extends AppCompatActivity {
             listItems.add(ejercito.getNombre());
             if (ejercitoTextView.getText().toString().equals(ejercito.getNombre())) {
                 ejercitoSeleccionado = ejercito;
-                iniciarListas();
             }
         }
 
@@ -154,8 +155,6 @@ public class ListaWarActivity extends AppCompatActivity {
                         ejercitoSeleccionado.clearEjercito();
                     }
                     puntosTotalesTextView.setText(getString(R.string.cero));
-
-                    iniciarListas();
 
                     setEjercito(opcionesEjercitos, which, ejercitos);
                 }
@@ -185,7 +184,7 @@ public class ListaWarActivity extends AppCompatActivity {
         iniciarLista(adaptadorUnidadesSingulares, listaUnidadesSingulares, cuentaUnidadesSingularesTextView);
     }
 
-    private void iniciarLista(ListUnidadesAdapter listUnidadesAdapter, ListView listView, TextView cuenta) {
+    public void iniciarLista(ListUnidadesAdapter listUnidadesAdapter, ListView listView, TextView cuenta) {
         listView.setAdapter(listUnidadesAdapter);
         cuenta.setText(R.string.cero);
         listUnidadesAdapter.notifyDataSetChanged();
@@ -266,7 +265,6 @@ public class ListaWarActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Regimiento regimiento = new Regimiento(unidades.get(which), unidades.get(which).getTamanyoMinimo());
                 try {
-                    //regimiento.getId();
                     listaEjercito.addRegimiento(regimiento);
                     int puntos = Integer.parseInt(cuenta.getText().toString());
                     cuenta.setText(String.valueOf(++puntos));
@@ -293,8 +291,10 @@ public class ListaWarActivity extends AppCompatActivity {
                 if (et.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), R.string.rellena_puntos, Toast.LENGTH_SHORT).show();
                 } else if (!et.getText().toString().equals("") && !editTextLimitePuntosRellenado) {
-                    listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()),
-                            ejercitosDesplegableSeleccionado, ejercitoTextView.getText().toString());
+                    if (listaEjercito == null) {
+                        listaEjercito = new ListaEjercito(Integer.parseInt(et.getText().toString()),
+                                ejercitosDesplegableSeleccionado, ejercitoTextView.getText().toString());
+                    }
                     saveTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -354,5 +354,21 @@ public class ListaWarActivity extends AppCompatActivity {
 
     public boolean removeRegimiento(Regimiento p) {
         return listaEjercito.remove(p);
+    }
+
+    public void setComandantesSeleccionados(List<Regimiento> comandantesSeleccionados) {
+        this.comandantesSeleccionados = comandantesSeleccionados;
+    }
+
+    public void setUnidadesBasicasSeleccionadas(List<Regimiento> unidadesBasicasSeleccionadas) {
+        this.unidadesBasicasSeleccionadas = unidadesBasicasSeleccionadas;
+    }
+
+    public void setUnidadesEspecialesSeleccionados(List<Regimiento> unidadesEspecialesSeleccionados) {
+        this.unidadesEspecialesSeleccionados = unidadesEspecialesSeleccionados;
+    }
+
+    public void setUnidadesSingularesSeleccionadas(List<Regimiento> unidadesSingularesSeleccionadas) {
+        this.unidadesSingularesSeleccionadas = unidadesSingularesSeleccionadas;
     }
 }
