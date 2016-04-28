@@ -70,7 +70,6 @@ public class InflaterListaEjercito {
         limitePuntos.setEnabled(false);
         nombreEjercito.setText(listaEjercito.getNombre());
         puntosTotales.setText(String.valueOf(listaEjercito.getPuntos()));
-        new UnidadesAdapter(listaWarActivity, listaEjercito.getIdEjercito()).execute();
         extractUnidades();
 
         ListUnidadesAdapter adaptadorComandantes = new ListUnidadesAdapter(listaWarActivity.getBaseContext(), android.R.layout.simple_list_item_1,
@@ -117,7 +116,12 @@ public class InflaterListaEjercito {
         }
     }
 
-    public void makeNoEditable() {
-
+    public void setEnable(boolean enable) {
+        if (enable) {
+            new UnidadesAdapter(listaWarActivity, listaEjercito.getIdEjercito()).execute();
+        } else {
+            titulo.setEnabled(false);
+            limitePuntos.setEnabled(false);
+        }
     }
 }

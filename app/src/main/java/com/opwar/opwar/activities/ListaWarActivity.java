@@ -79,8 +79,6 @@ public class ListaWarActivity extends AppCompatActivity {
         ListaEjercito listaEjercito = (ListaEjercito) getIntent().getSerializableExtra(Constants.LISTA_EJERCITO);
         setEjercitoAction();
         iniciarListas();
-        progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
-        new EjercitosAdapter(this).execute();
 
         if (listaEjercito != null) {
             this.listaEjercito = listaEjercito;
@@ -88,10 +86,17 @@ public class ListaWarActivity extends AppCompatActivity {
             boolean hayConexion = getIntent().getBooleanExtra(Constants.HAY_CONEXION, false);
             InflaterListaEjercito inflaterListaEjercito = new InflaterListaEjercito(this, listaEjercito, nombreLista);
             inflaterListaEjercito.populateFields();
-            if (!hayConexion) {
+            if (hayConexion) {
+                progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
+                new EjercitosAdapter(this).execute();
+                inflaterListaEjercito.setEnable(true);
+            } else {
                 Toast.makeText(getApplicationContext(), "No tienes conexión, no puedes editar", Toast.LENGTH_LONG).show();
-                inflaterListaEjercito.makeNoEditable();
+                inflaterListaEjercito.setEnable(false);
             }
+        } else {
+            progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.cargando_ejercitos), true);
+            new EjercitosAdapter(this).execute();
         }
     }
 
