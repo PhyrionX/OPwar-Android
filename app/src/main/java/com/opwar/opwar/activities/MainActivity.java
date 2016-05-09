@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     ListPDF.deletePDF(seleccionado);
                 }
                 if (ListPDF.createPDF(seleccionado, listaEjercito)) {
-                    ListPDF.viewPDF(getApplicationContext(), seleccionado);
+                    ListPDF.viewPDF(MainActivity.this, seleccionado);
                 } else {
                     Toast.makeText(getApplicationContext(), "No se pudo exportar la lista a PDF",
                             Toast.LENGTH_LONG);
