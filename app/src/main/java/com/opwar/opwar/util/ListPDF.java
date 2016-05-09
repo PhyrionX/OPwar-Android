@@ -79,6 +79,12 @@ public class ListPDF {
         return file.delete();
     }
 
+    public static String getPDFPath(String fileName) {
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + Constants
+                .DIR_FICHEROS + "/" + fileName + ".pdf");
+        return Uri.fromFile(pdfFile).getPath();
+    }
+
 
     /**
      * Crea el fichero PDF

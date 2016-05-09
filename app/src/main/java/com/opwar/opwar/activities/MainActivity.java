@@ -3,6 +3,7 @@ package com.opwar.opwar.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         setBotonAction();
         setSelectItemLista();
-        setDeleteItemLista();
+        setContextualMenu();
     }
 
     private void mostrarPantallaPrincipal() {
@@ -113,14 +114,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setDeleteItemLista() {
+    private void setContextualMenu() {
         listView.setLongClickable(true);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long id) {
                 List<String> listItems = new ArrayList<>();
-                listItems.add("Delete");
+                listItems.add("Borrar");
                 listItems.add("Exportar a PDF");
                 listItems.add("Enviar por correo");
                 CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
@@ -129,11 +130,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == DELETE_MENU) {
-                                    menuDelete(which);
+                                    menuDelete(pos);
                                 } else if (which == EXPORTAR_MENU) {
-                                    menuExportarPDF(which);
+                                    menuExportarPDF(pos);
                                 } else if (which == ENVIAR_MENU) {
-
+                                    menuEnviar(pos);
                                 }
                             }
                         }).show();
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void menuExportarPDF(int pos) {
-        final String seleccionado = (String) listView.getItemAtPosition(pos - 1);
+        String seleccionado = (String) listView.getItemAtPosition(pos);
         ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
                 seleccionado + Constants.EXTENSION);
         if (ListPDF.existsPDF(seleccionado)) {
@@ -181,6 +182,38 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No se pudo exportar la lista a PDF",
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void menuEnviar(int pos) {
+        String seleccionado = (String) listView.getItemAtPosition(pos);
+        ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
+                seleccionado + Constants.EXTENSION);
+        String pathFile;
+        if (ListPDF.existsPDF(seleccionado)) {
+            pathFile = ListPDF.getPDFPath(seleccionado);
+        } else {
+            if (ListPDF.createPDF(seleccionado, listaEjercito)) {
+                pathFile = ListPDF.getPDFPath(seleccionado);
+            } else {
+                Toast.makeText(getApplicationContext(), "No se pudo exportar la lista a PDF",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        // set the type to 'email'
+        emailIntent.setType("vnd.android.cursor.dir/email");
+        // the attachment
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"
+                + pathFile));
+        // the mail subject
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Lista Warhammer: "
+                + seleccionado);
+        // the mail body
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "¡Quiero que eches un vistazo a mi nueva lista de" +
+                " Warhammer creada desde la app de OPwar!");
+        startActivity(Intent.createChooser(emailIntent,
+                "Enviar email..."));
     }
 
     public static void anadirNuevaLista(String nombreLista) {
