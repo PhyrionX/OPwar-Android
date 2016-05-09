@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.itextpdf.text.DocumentException;
 import com.opwar.opwar.R;
 import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.util.Constants;
@@ -22,6 +23,7 @@ import com.opwar.opwar.util.ListFileOperations;
 import com.opwar.opwar.util.ListPDF;
 import com.opwar.opwar.util.NetworkManager;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -116,6 +118,20 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long id) {
                 final String seleccionado = (String) listView.getItemAtPosition(pos);
+                try {
+                    ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
+                            seleccionado + Constants.EXTENSION);
+                    if (ListPDF.existsPDF(seleccionado)) {
+                        ListPDF.deletePDF(seleccionado);
+                    }
+                    String fileName = ListPDF.createPDF(seleccionado, listaEjercito);
+                    ListPDF.viewPDF(MainActivity.this, fileName);
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "El archivo PDF no existe", Toast.LENGTH_LONG);
+                } catch (DocumentException e) {
+                    Toast.makeText(getApplicationContext(), "Error al crear el PDF", Toast
+                            .LENGTH_LONG);
+                }
 
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Borrar lista")
@@ -133,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Error al borrar la lista", Toast.LENGTH_LONG).show();
                                 }
-                                String file = ListPDF.createAndDisplayPDF("YOLO");
-                                ListPDF.viewPDF(MainActivity.this, file);
                             }
                         })
                         .setNegativeButton("No", null)
