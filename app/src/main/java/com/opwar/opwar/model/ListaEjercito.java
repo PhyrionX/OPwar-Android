@@ -5,6 +5,7 @@ import com.opwar.opwar.util.ListaEjercitoException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
  * Created by phyrion on 14/04/16.
  */
 public class ListaEjercito implements Serializable {
+    private Date fechaCreacion;
     private String id;
     private int idEjercito;
     private int limitePuntos;
@@ -20,6 +22,7 @@ public class ListaEjercito implements Serializable {
     private List<Regimiento> regimientos;
 
     public ListaEjercito(int limitePuntos, int idEjercito, String nombre) {
+        this.fechaCreacion = new Date();
         this.id = UUID.randomUUID().toString();
         this.idEjercito = idEjercito;
         this.limitePuntos = limitePuntos;
@@ -50,6 +53,10 @@ public class ListaEjercito implements Serializable {
 
     public Regimiento getRegimiento(int position) {
         return regimientos.get(position);
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
     public boolean addRegimiento(Regimiento regimiento) throws ListaEjercitoException {

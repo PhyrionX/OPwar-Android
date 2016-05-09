@@ -12,4 +12,5 @@ public class Constants {
     public static final String EXTENSION = ".opw";
     public static final String REGIMIENTO = "regimiento";
     public static final String NOMBRE_LISTA = "nombre_lista";
+    public static final String DIR_FICHEROS = "opwar";
 }

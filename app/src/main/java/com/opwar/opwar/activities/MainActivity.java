@@ -19,6 +19,7 @@ import com.opwar.opwar.R;
 import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.util.Constants;
 import com.opwar.opwar.util.ListFileOperations;
+import com.opwar.opwar.util.ListPDF;
 import com.opwar.opwar.util.NetworkManager;
 
 import java.io.IOException;
@@ -130,8 +131,10 @@ public class MainActivity extends AppCompatActivity {
                                         viewFlipper.showNext();
                                     }
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Error al borra la lista", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Error al borrar la lista", Toast.LENGTH_LONG).show();
                                 }
+                                String file = ListPDF.createAndDisplayPDF("YOLO");
+                                ListPDF.viewPDF(MainActivity.this, file);
                             }
                         })
                         .setNegativeButton("No", null)
