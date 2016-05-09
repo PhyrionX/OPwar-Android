@@ -1,6 +1,7 @@
 package com.opwar.opwar.util;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
@@ -17,7 +18,6 @@ import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.opwar.opwar.activities.MainActivity;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.ListaEjercito;
 import com.opwar.opwar.model.Regimiento;
@@ -43,12 +43,14 @@ public class ListPDF {
      *
      * @return nombre del fichero
      */
-    public static String createPDF(String fileName, ListaEjercito listaEjercito)
-            throws FileNotFoundException, DocumentException {
+    public static boolean createPDF(String fileName, ListaEjercito listaEjercito) {
         File directory = createDirectoryIfNotExists();
-        createFile(fileName, directory, listaEjercito);
-
-        return fileName + ".pdf";
+        try {
+            createFile(fileName, directory, listaEjercito);
+            return true;
+        } catch (FileNotFoundException | DocumentException e) {
+            return false;
+        }
     }
 
     /**
@@ -204,11 +206,12 @@ public class ListPDF {
     /**
      * Empieza un activity para ver el PDF
      *
-     * @param activity
+     * @param context
      * @param fileName
      */
-    public static void viewPDF(MainActivity activity, String fileName) {
-        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + Constants.DIR_FICHEROS + "/" + fileName);
+    public static boolean viewPDF(Context context, String fileName) {
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + Constants
+                .DIR_FICHEROS + "/" + fileName + ".pdf");
         Uri path = Uri.fromFile(pdfFile);
 
         // Setting the intent for pdf reader
@@ -217,9 +220,11 @@ public class ListPDF {
         pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         try {
-            activity.startActivity(pdfIntent);
+            context.startActivity(pdfIntent);
+            return true;
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(activity, "Can't read pdf file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Can't read pdf file", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 }
