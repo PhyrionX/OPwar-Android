@@ -23,9 +23,13 @@ import com.opwar.opwar.util.ListPDF;
 import com.opwar.opwar.util.NetworkManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int DELETE_MENU = 0;
+    private static final int EXPORTAR_MENU = 1;
+    private static final int ENVIAR_MENU = 2;
     private ListView listView;
     private static ArrayAdapter<String> itemsAdapter;
     private static List<String> listas;
@@ -115,42 +119,68 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long id) {
-                final String seleccionado = (String) listView.getItemAtPosition(pos);
-                ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
-                        seleccionado + Constants.EXTENSION);
-                if (ListPDF.existsPDF(seleccionado)) {
-                    ListPDF.deletePDF(seleccionado);
-                }
-                if (ListPDF.createPDF(seleccionado, listaEjercito)) {
-                    ListPDF.viewPDF(MainActivity.this, seleccionado);
-                } else {
-                    Toast.makeText(getApplicationContext(), "No se pudo exportar la lista a PDF",
-                            Toast.LENGTH_LONG);
-                }
-
+                List<String> listItems = new ArrayList<>();
+                listItems.add("Delete");
+                listItems.add("Exportar a PDF");
+                listItems.add("Enviar por correo");
+                CharSequence[] items = listItems.toArray(new CharSequence[listItems.size()]);
                 new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Borrar lista")
-                        .setMessage("¿Desea borrar la lista '" + seleccionado + "'?")
-                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                System.out.println("-------------- Borrando --------------");
-                                if (ListFileOperations.deleteList(getBaseContext(), seleccionado + Constants.EXTENSION)) {
-                                    listas.remove(pos);
-                                    itemsAdapter.notifyDataSetChanged();
-                                    if (listas.size() == 0) {
-                                        viewFlipper.showNext();
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Error al borrar la lista", Toast.LENGTH_LONG).show();
+                                if (which == DELETE_MENU) {
+                                    menuDelete(which);
+                                } else if (which == EXPORTAR_MENU) {
+                                    menuExportarPDF(which);
+                                } else if (which == ENVIAR_MENU) {
+
                                 }
                             }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                        }).show();
+
                 return true;
             }
         });
+    }
+
+    private boolean menuDelete(final int pos) {
+        final String seleccionado = (String) listView.getItemAtPosition(pos);
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Borrar lista")
+                .setMessage("¿Desea borrar la lista '" + seleccionado + "'?")
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("-------------- Borrando --------------");
+                        if (ListFileOperations.deleteList(getBaseContext(), seleccionado + Constants.EXTENSION)) {
+                            listas.remove(pos);
+                            itemsAdapter.notifyDataSetChanged();
+                            if (listas.size() == 0) {
+                                viewFlipper.showNext();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error al borrar la lista", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+        return true;
+    }
+
+    private void menuExportarPDF(int pos) {
+        final String seleccionado = (String) listView.getItemAtPosition(pos - 1);
+        ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
+                seleccionado + Constants.EXTENSION);
+        if (ListPDF.existsPDF(seleccionado)) {
+            ListPDF.deletePDF(seleccionado);
+        }
+        if (ListPDF.createPDF(seleccionado, listaEjercito)) {
+            ListPDF.viewPDF(MainActivity.this, seleccionado);
+        } else {
+            Toast.makeText(getApplicationContext(), "No se pudo exportar la lista a PDF",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     public static void anadirNuevaLista(String nombreLista) {

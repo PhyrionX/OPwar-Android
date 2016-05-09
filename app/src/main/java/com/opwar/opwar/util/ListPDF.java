@@ -223,7 +223,9 @@ public class ListPDF {
             context.startActivity(pdfIntent);
             return true;
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Can't read pdf file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No tienes aplicaciones para visualizar PDF", Toast
+                    .LENGTH_SHORT)
+                    .show();
             return false;
         }
     }
