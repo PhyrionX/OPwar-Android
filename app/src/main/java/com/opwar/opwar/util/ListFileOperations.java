@@ -2,7 +2,9 @@ package com.opwar.opwar.util;
 
 import android.content.Context;
 
+import com.opwar.opwar.model.Ejercito;
 import com.opwar.opwar.model.ListaEjercito;
+import com.opwar.opwar.model.ListaStats;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,14 +55,16 @@ public class ListFileOperations {
         }
     }
 
-    public static List<ListaEjercito> loadAllLists(Context context) {
+    public static List<ListaStats> loadAllLists(Context context) {
         List<String> nombreFicheros = listListas(context);
-        List<ListaEjercito> ejercitos = new ArrayList<>();
+        List<ListaStats> listaStats = new ArrayList<>();
         for (String fichero : nombreFicheros) {
-            ejercitos.add(loadList(context, fichero));
+            ListaEjercito ejTemp = loadList(context, fichero);
+            listaStats.add(new ListaStats(fichero, ejTemp.getVictorias(), ejTemp.getDerrotas(),
+                    ejTemp.getEmpates(), ejTemp.getLimitePuntos(), ejTemp.getFechaCreacion()));
         }
 
-        return ejercitos;
+        return listaStats;
     }
 
     public static boolean deleteList(Context context, String nombreLista) {

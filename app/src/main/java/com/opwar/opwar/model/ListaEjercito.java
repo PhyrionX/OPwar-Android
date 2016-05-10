@@ -24,6 +24,18 @@ public class ListaEjercito implements Serializable {
     private int derrotas;
     private int empates;
 
+    public int getVictorias() {
+        return victorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
     public ListaEjercito(int limitePuntos, int idEjercito, String nombre) {
         this.fechaCreacion = new Date();
         this.id = UUID.randomUUID().toString();

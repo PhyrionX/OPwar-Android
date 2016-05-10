@@ -6,39 +6,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.opwar.opwar.activities.InfoRegimiento;
 import com.opwar.opwar.activities.ListaWarActivity;
 import com.opwar.opwar.model.ListaEjercito;
-import com.opwar.opwar.model.Regimiento;
-import com.opwar.opwar.util.Constants;
-import com.opwar.opwar.util.ListViewUtil;
+import com.opwar.opwar.model.ListaStats;
 
 import java.util.List;
 
 /**
  * Created by phyrion on 10/05/16.
  */
-public class ListViewerListAdapter extends ArrayAdapter<ListaEjercito> {
+public class ListViewerListAdapter extends ArrayAdapter<ListaStats> {
     private ListaWarActivity listaWar;
     private ListView listView;
-    private TextView cuentaUnidades;
-    private TextView puntosTotales;
 
     public ListViewerListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
-    public ListViewerListAdapter(Context context, int resource, List<ListaEjercito> items,
-                               ListView listView, TextView cuentaUnidades, TextView puntosTotales, ListaWarActivity listaWar) {
+    public ListViewerListAdapter(Context context, int resource, List<ListaStats> items,
+                               ListView listView) {
         super(context, resource, items);
         this.listView = listView;
-        this.cuentaUnidades = cuentaUnidades;
-        this.puntosTotales = puntosTotales;
-        this.listaWar = listaWar;
     }
 
     @Override
@@ -47,9 +38,11 @@ public class ListViewerListAdapter extends ArrayAdapter<ListaEjercito> {
 
         if (view == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
-            view = vi.inflate(R.layout.unidad_list_view, null);
+            view = vi.inflate(R.layout.ejercitos_list_view, null);
         }
-
+        final ListaStats le = getItem(position);
+        final TextView textView = (TextView) view.findViewById(R.id.ejercitoTextView);
+        textView.setText(le.getNombre() + le.getPuntos());
 /*        final Regimiento p = getItem(position);
 
         if (p != null) {

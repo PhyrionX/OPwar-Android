@@ -25,6 +25,7 @@ import com.opwar.opwar.adapters.UnidadesAdapter;
 import com.opwar.opwar.model.Comandante;
 import com.opwar.opwar.model.Ejercito;
 import com.opwar.opwar.model.ListaEjercito;
+import com.opwar.opwar.model.ListaStats;
 import com.opwar.opwar.model.Regimiento;
 import com.opwar.opwar.model.Unidad;
 import com.opwar.opwar.model.UnidadBasica;
@@ -341,7 +342,8 @@ public class ListaWarActivity extends AppCompatActivity {
             } else {
                 System.out.println("-------------- Guardando --------------");
                 ListFileOperations.saveList(getBaseContext(), nombreFichero, listaEjercito);
-                MainActivity.anadirNuevaLista(nombreFichero);
+                MainActivity.anadirNuevaLista(new ListaStats(nombreFichero,listaEjercito.getVictorias(), listaEjercito.getDerrotas(),
+                                                 listaEjercito.getEmpates(), listaEjercito.getLimitePuntos(), listaEjercito.getFechaCreacion()));
                 finish();
             }
         } else {
