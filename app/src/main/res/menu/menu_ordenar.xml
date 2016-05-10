@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/ordenar_nombre"
           android:title="@string/ordenar_nombre" />
+    <item android:id="@+id/ordenar_fecha_creacion"
+          android:title="@string/ordenar_fecha_creacion" />
+    <item android:id="@+id/ordenar_victorias"
+          android:title="@string/ordenar_victorias" />
     <item android:id="@+id/ordenar_puntos"
           android:title="@string/ordenar_puntos" />
 </menu>

@@ -14,13 +14,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.opwar.opwar.ListViewerListAdapter;
 import com.opwar.opwar.R;
 import com.opwar.opwar.model.ListaEjercito;
+import com.opwar.opwar.model.ListaStats;
 import com.opwar.opwar.util.Constants;
 import com.opwar.opwar.util.ListFileOperations;
 import com.opwar.opwar.util.ListPDF;
@@ -29,15 +30,17 @@ import com.opwar.opwar.util.NetworkManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int DELETE_MENU = 0;
-    private static final int EXPORTAR_MENU = 1;
-    private static final int ENVIAR_MENU = 2;
+    private static final int BATALLA_MENU = 0;
+    private static final int DELETE_MENU = 1;
+    private static final int EXPORTAR_MENU = 2;
+    private static final int ENVIAR_MENU = 3;
     private ListView listView;
-    private static ArrayAdapter<String> itemsAdapter;
-    private static List<String> listas;
+    private static ListViewerListAdapter itemsAdapter;
+    private static List<ListaStats> listas;
     private static ViewFlipper viewFlipper;
 
     @Override
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listas = ListFileOperations.listListas(getBaseContext());
+        listas = ListFileOperations.loadAllLists(getBaseContext());
         quitarExtension();
         mostrarPantallaPrincipal();
 
@@ -69,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.ordenar_nombre:
                 ordenarPorNombre();
                 return true;
+            case R.id.ordenar_fecha_creacion:
+                ordenarPorCreacion();
+                return true;
+            case R.id.ordenar_victorias:
+                ordenarPorVictorias();
+                return true;
             case R.id.ordenar_puntos:
                 ordenarPorPuntos();
                 return true;
@@ -79,25 +88,56 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void ordenarPorNombre() {
-        Collections.sort(listas);
+        Collections.sort(listas, new Comparator<ListaStats>() {
+            @Override
+            public int compare(ListaStats stats1, ListaStats stats2) {
+                return stats1.getNombre().compareTo(stats2.getNombre());
+            }
+        });
+        itemsAdapter.notifyDataSetChanged();
+    }
+
+    private void ordenarPorCreacion() {
+        Collections.sort(listas, new Comparator<ListaStats>() {
+            @Override
+            public int compare(ListaStats stats1, ListaStats stats2) {
+                return stats1.getFecha().compareTo(stats2.getFecha());
+            }
+        });
+        itemsAdapter.notifyDataSetChanged();
+    }
+
+    private void ordenarPorVictorias() {
+        Collections.sort(listas, new Comparator<ListaStats>() {
+            @Override
+            public int compare(ListaStats stats1, ListaStats stats2) {
+                return stats1.getVictorias() - stats2.getVictorias();
+            }
+        });
         itemsAdapter.notifyDataSetChanged();
     }
 
     private void ordenarPorPuntos() {
-        List<ListaEjercito> ejercitos = ListFileOperations.loadAllLists(getApplicationContext());
-
+        Collections.sort(listas, new Comparator<ListaStats>() {
+            @Override
+            public int compare(ListaStats stats1, ListaStats stats2) {
+                return stats1.getPuntos() - stats2.getPuntos();
+            }
+        });
+        itemsAdapter.notifyDataSetChanged();
     }
 
     private void mostrarPantallaPrincipal() {
         listView = (ListView) findViewById(R.id.war_list);
-        itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listas);
+        //List<ListaEjercito> ejercitos = ListFileOperations.loadAllLists(getApplicationContext());
+        itemsAdapter = new ListViewerListAdapter(this, android.R.layout.simple_list_item_1, listas, listView);
         listView.setAdapter(itemsAdapter);
         viewFlipper = (ViewFlipper) findViewById(R.id.lista_flipper);
         setTitle(R.string.listas_guardadas);
         if (listas.size() != 0) {
             assert listView != null;
-            for (String lista : listas) {
-                System.out.println(lista);
+            for (ListaStats lista : listas) {
+                System.out.println(lista.getNombre());
             }
         } else {
             assert viewFlipper != null;
@@ -126,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String seleccionado = (String) listView.getItemAtPosition(position);
+                String seleccionado = ((ListaStats) listView.getItemAtPosition(position)).getNombre();
                 ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(), seleccionado + Constants.EXTENSION);
                 if (listaEjercito != null) {
                     Intent intent = new Intent(MainActivity.this, ListaWarActivity.class);
@@ -157,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int pos, long id) {
                 List<String> listItems = new ArrayList<>();
+                listItems.add("Modo batalla");
                 listItems.add("Borrar");
                 listItems.add("Exportar a PDF");
                 listItems.add("Enviar por correo");
@@ -165,7 +206,9 @@ public class MainActivity extends AppCompatActivity {
                         .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (which == DELETE_MENU) {
+                                if (which == BATALLA_MENU) {
+                                    menuBattle(which);
+                                } else if (which == DELETE_MENU) {
                                     menuDelete(pos);
                                 } else if (which == EXPORTAR_MENU) {
                                     menuExportarPDF(pos);
@@ -180,8 +223,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void menuBattle(int which) {
+        String seleccionado = ((ListaStats) listView.getItemAtPosition(which)).getNombre();
+        ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
+                seleccionado + Constants.EXTENSION);
+        Intent intent = new Intent(MainActivity.this, BatallaActivity.class);
+        intent.putExtra(Constants.NOMBRE_LISTA, seleccionado);
+        intent.putExtra(Constants.LISTA_EJERCITO, listaEjercito);
+        startActivity(intent);
+    }
+
     private boolean menuDelete(final int pos) {
-        final String seleccionado = (String) listView.getItemAtPosition(pos);
+        final String seleccionado = ((ListaStats) listView.getItemAtPosition(pos)).getNombre();
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Borrar lista")
                 .setMessage("¿Desea borrar la lista '" + seleccionado + "'?")
@@ -206,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void menuExportarPDF(int pos) {
-        String seleccionado = (String) listView.getItemAtPosition(pos);
+        String seleccionado = ((ListaStats) listView.getItemAtPosition(pos)).getNombre();
         ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
                 seleccionado + Constants.EXTENSION);
         if (ListPDF.existsPDF(seleccionado)) {
@@ -221,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void menuEnviar(int pos) {
-        String seleccionado = (String) listView.getItemAtPosition(pos);
+        String seleccionado = ((ListaStats) listView.getItemAtPosition(pos)).getNombre();
         ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
                 seleccionado + Constants.EXTENSION);
         String pathFile;
@@ -252,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
                 "Enviar email..."));
     }
 
-    public static void anadirNuevaLista(String nombreLista) {
+    public static void anadirNuevaLista(ListaStats nombreLista) {
         if (listas.size() == 0) {
             viewFlipper.showPrevious();
         }
@@ -261,15 +314,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void quitarExtension() {
-        String nombre;
+        String lista;
         for (int i = 0; i < listas.size(); i++) {
-            nombre = listas.get(i).substring(0, listas.get(i).length() - Constants.EXTENSION.length());
-            listas.remove(i);
-            listas.add(i, nombre);
+            listas.get(i).setNombre(listas.get(i).getNombre().substring(0, listas.get(i).getNombre().length() - Constants.EXTENSION.length()));
+            /*listas.remove(i);
+            listas.add(i, nombre);*/
         }
     }
 
-    private static String quitarExtension(String nombre) {
-        return nombre.substring(0, nombre.length() - Constants.EXTENSION.length());
+    private static ListaStats quitarExtension(ListaStats nombre) {
+        nombre.setNombre(nombre.getNombre().substring(0, nombre.getNombre().length() - Constants.EXTENSION.length()));
+        return nombre;
     }
 }
