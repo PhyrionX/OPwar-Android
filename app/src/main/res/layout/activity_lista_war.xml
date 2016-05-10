@@ -83,6 +83,33 @@
                 android:textColorHint="@color/colorWhite"
                 android:textColor="@color/colorWhite" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorWhite">
+            <TextView
+                android:id="@+id/ejercito_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/ejercito"
+                android:padding="16dp"
+                android:textColorHint="@color/colorBlack"
+                android:textColor="@color/colorBlack" />
+            <TextView
+                android:id="@+id/cuentaTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/puntos_totales"
+                android:padding="16dp"
+                android:paddingEnd="22dp"
+                android:gravity="right"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:textColorHint="@color/colorBlack"
+                android:textColor="@color/colorBlack"/>
+
+        </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -93,29 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/ejercito_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/ejercito"
-                    android:padding="16dp"
-                    android:textColor="@color/colorBlack" />
-                <TextView
-                    android:id="@+id/cuentaTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/puntos_totales"
-                    android:padding="16dp"
-                    android:paddingEnd="22dp"
-                    android:gravity="right"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
 
-            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
