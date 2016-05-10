@@ -49,6 +49,14 @@ public class ListaEjercito implements Serializable {
         this.empates = 0;
     }
 
+    public void victoria() {
+        victorias++;
+    }
+
+    public void derrota() {
+        derrotas++;
+    }
+
     public String getNombre() {
         return nombre;
     }

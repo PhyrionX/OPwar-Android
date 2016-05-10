@@ -46,10 +46,6 @@ public class BatallaActivity extends AppCompatActivity {
     private ListView listaUnidadesBasicas;
     private ListView listaUnidadesEspeciales;
     private ListView listaUnidadesSingulares;
-    private ListBatallaAdapter adaptadorComandantes;
-    private ListBatallaAdapter adaptadorUnidadesBasicas;
-    private ListBatallaAdapter adaptadorUnidadesEspeciales;
-    private ListBatallaAdapter adaptadorUnidadesSingulares;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,21 +129,19 @@ public class BatallaActivity extends AppCompatActivity {
         cuentaUnidadesEspecialesTextView.setText(String.valueOf(unidadesEspecialesSeleccionados.size()));
         cuentaUnidadesSingularesTextView.setText(String.valueOf(unidadesSingularesSeleccionadas.size()));
 
-        adaptadorComandantes = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
+        ListBatallaAdapter adaptadorComandantes = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
                 comandantesSeleccionados, listaComandates, cuentaComandantesTextView, puntosTotales, this);
         iniciarLista(adaptadorComandantes, listaComandates);
 
-        adaptadorUnidadesBasicas = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
+        ListBatallaAdapter adaptadorUnidadesBasicas = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
                 unidadesBasicasSeleccionadas, listaUnidadesBasicas, cuentaUnidadesBasicasTextView, puntosTotales, this);
         iniciarLista(adaptadorUnidadesBasicas, listaUnidadesBasicas);
 
-        unidadesEspecialesSeleccionados = new ArrayList<>();
-        adaptadorUnidadesEspeciales = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
+        ListBatallaAdapter adaptadorUnidadesEspeciales = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
                 unidadesEspecialesSeleccionados, listaUnidadesEspeciales, cuentaUnidadesEspecialesTextView, puntosTotales, this);
         iniciarLista(adaptadorUnidadesEspeciales, listaUnidadesEspeciales);
 
-        unidadesSingularesSeleccionadas = new ArrayList<>();
-        adaptadorUnidadesSingulares = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
+        ListBatallaAdapter adaptadorUnidadesSingulares = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
                 unidadesSingularesSeleccionadas, listaUnidadesSingulares, cuentaUnidadesSingularesTextView, puntosTotales, this);
         iniciarLista(adaptadorUnidadesSingulares, listaUnidadesSingulares);
     }
