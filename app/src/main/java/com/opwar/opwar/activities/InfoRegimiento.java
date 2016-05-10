@@ -2,11 +2,13 @@ package com.opwar.opwar.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ public class InfoRegimiento extends AppCompatActivity {
     private Button btMinus1Unidad;
     private TextView tvSave;
     private int puntos;
+    private ImageButton tvSalir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class InfoRegimiento extends AppCompatActivity {
         btPlus1Unidad = (Button) findViewById(R.id.btPlus1Unidad);
         btMinus1Unidad = (Button) findViewById(R.id.btMinus1Unidad);
         tvSave = (TextView) findViewById(R.id.btSave);
+        tvSalir = (ImageButton) findViewById(R.id.clear);
 
         tvNombreUnidad.setText(String.valueOf(regimiento.getUnidad().getNombre()));
         tvMovimiento.setText(String.valueOf(regimiento.getUnidad().getMovimiento()));
@@ -122,6 +126,83 @@ public class InfoRegimiento extends AppCompatActivity {
                 } else {
                     finish();
                 }
+            }
+        });
+
+        tvSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        tvMovimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Es el movimiento de la unidad expresado en pulgadas", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvHabilidadArmas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Habilidad de armas", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvHabilidadProyectiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Habilidad de proyectiles", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvFuerza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Fuerza", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvResistencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Resistencia", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvHeridas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Heridas", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvIniciativa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Iniciativa", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvAtaques.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Ataques", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvLiderazgo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Liderazgo", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        tvPuntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(getWindow().getDecorView(), "Puntos", Snackbar.LENGTH_LONG).show();
             }
         });
 

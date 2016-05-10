@@ -20,6 +20,9 @@ public class ListaEjercito implements Serializable {
     private int puntos;
     private String nombre;
     private List<Regimiento> regimientos;
+    private int victorias;
+    private int derrotas;
+    private int empates;
 
     public ListaEjercito(int limitePuntos, int idEjercito, String nombre) {
         this.fechaCreacion = new Date();
@@ -29,6 +32,9 @@ public class ListaEjercito implements Serializable {
         this.regimientos = new ArrayList<>();
         this.puntos = 0;
         this.nombre = nombre;
+        this.victorias = 0;
+        this.derrotas = 0;
+        this.empates = 0;
     }
 
     public String getNombre() {
