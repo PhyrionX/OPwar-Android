@@ -53,6 +53,16 @@ public class ListFileOperations {
         }
     }
 
+    public static List<ListaEjercito> loadAllLists(Context context) {
+        List<String> nombreFicheros = listListas(context);
+        List<ListaEjercito> ejercitos = new ArrayList<>();
+        for (String fichero : nombreFicheros) {
+            ejercitos.add(loadList(context, fichero));
+        }
+
+        return ejercitos;
+    }
+
     public static boolean deleteList(Context context, String nombreLista) {
         return context.deleteFile(nombreLista);
     }

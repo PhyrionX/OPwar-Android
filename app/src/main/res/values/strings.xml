@@ -41,4 +41,7 @@
     <string name="ataques">A</string>
     <string name="liderazgo">L</string>
     <string name="puntos_unidad">Pts/Ud</string>
+    <string name="ordenar">Ordenar</string>
+    <string name="ordenar_nombre">Ordenar por nombre</string>
+    <string name="ordenar_puntos">Ordenar por puntos</string>
 </resources>

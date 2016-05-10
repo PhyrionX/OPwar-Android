@@ -9,6 +9,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +28,7 @@ import com.opwar.opwar.util.NetworkManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +54,38 @@ public class MainActivity extends AppCompatActivity {
         setBotonAction();
         setSelectItemLista();
         setContextualMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_ordenar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ordenar_nombre:
+                ordenarPorNombre();
+                return true;
+            case R.id.ordenar_puntos:
+                ordenarPorPuntos();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void ordenarPorNombre() {
+        Collections.sort(listas);
+        itemsAdapter.notifyDataSetChanged();
+    }
+
+    private void ordenarPorPuntos() {
+        List<ListaEjercito> ejercitos = ListFileOperations.loadAllLists(getApplicationContext());
+
     }
 
     private void mostrarPantallaPrincipal() {
