@@ -13,4 +13,7 @@ public class Constants {
     public static final String REGIMIENTO = "regimiento";
     public static final String NOMBRE_LISTA = "nombre_lista";
     public static final String DIR_FICHEROS = "opwar";
+    public static final int DERROTA = 1;
+    public static final int VICTORIA = 2;
+    public static final int BATALLA_INTENT = 0;
 }

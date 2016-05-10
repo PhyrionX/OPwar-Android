@@ -57,7 +57,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:background="@color/colorWhite"
             android:id="@+id/relativeLayout">
             <TextView
@@ -68,7 +68,13 @@
                 android:padding="16dp"
                 android:textColorHint="@color/colorBlack"
                 android:textColor="@color/colorBlack" />
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentTop="false"
+                android:layout_below="@+id/ejercito_textview"/>
         </RelativeLayout>
         <ScrollView
             android:id="@+id/scrollView"
@@ -80,11 +86,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="20dp" />

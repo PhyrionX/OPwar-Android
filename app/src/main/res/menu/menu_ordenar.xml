@@ -6,6 +6,8 @@
           android:title="@string/ordenar_fecha_creacion" />
     <item android:id="@+id/ordenar_victorias"
           android:title="@string/ordenar_victorias" />
+    <item android:id="@+id/ordenar_porcentaje"
+          android:title="@string/ordenar_porcentaje" />
     <item android:id="@+id/ordenar_puntos"
           android:title="@string/ordenar_puntos" />
 </menu>

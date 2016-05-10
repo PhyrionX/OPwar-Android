@@ -47,6 +47,7 @@
     <string name="ordenar_puntos">Ordenar por puntos</string>
     <string name="ordenar_fecha_creacion">Ordenar por fecha de creación</string>
     <string name="ordenar_victorias">Ordenar por victorias</string>
+    <string name="ordenar_porcentaje">Ordenar por V/D</string>
     <string name="modo_batalla">Modo batalla</string>
     <string name="cancelar">Cancelar</string>
     <string name="finalizar">Finalizar</string>

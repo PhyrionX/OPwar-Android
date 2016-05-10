@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.ordenar_victorias:
                 ordenarPorVictorias();
                 return true;
+            case R.id.ordenar_porcentaje:
+                ordenarPorPorcentaje();
+                return true;
             case R.id.ordenar_puntos:
                 ordenarPorPuntos();
                 return true;
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(listas, new Comparator<ListaStats>() {
             @Override
             public int compare(ListaStats stats1, ListaStats stats2) {
-                return stats1.getFecha().compareTo(stats2.getFecha());
+                return stats2.getFecha().compareTo(stats1.getFecha());
             }
         });
         itemsAdapter.notifyDataSetChanged();
@@ -112,6 +115,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public int compare(ListaStats stats1, ListaStats stats2) {
                 return stats2.getVictorias() - stats1.getVictorias();
+            }
+        });
+        itemsAdapter.notifyDataSetChanged();
+    }
+
+    private void ordenarPorPorcentaje() {
+        Collections.sort(listas, new Comparator<ListaStats>() {
+            @Override
+            public int compare(ListaStats stats1, ListaStats stats2) {
+                if (stats1.getVictorias() + stats1.getDerrotas() == 0) {
+                    return 1;
+                }
+                if (stats2.getVictorias() + stats2.getDerrotas() == 0) {
+                    return -1;
+                }
+                double calculo2 = (double) stats2.getVictorias() / (stats2.getVictorias() + stats2
+                        .getDerrotas());
+                double calculo1 = (double) stats1.getVictorias() / (stats1.getVictorias() + stats1
+                        .getDerrotas());
+                return (int) calculo2 - (int) calculo1;
             }
         });
         itemsAdapter.notifyDataSetChanged();
@@ -230,14 +253,49 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, BatallaActivity.class);
         intent.putExtra(Constants.NOMBRE_LISTA, seleccionado);
         intent.putExtra(Constants.LISTA_EJERCITO, listaEjercito);
-        startActivity(intent);
+        startActivityForResult(intent, Constants.BATALLA_INTENT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.BATALLA_INTENT) {
+            if (resultCode == Constants.VICTORIA) {
+                String nombre = data.getStringExtra(Constants.NOMBRE_LISTA);
+                ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
+                        nombre + Constants.EXTENSION);
+                if (listaEjercito != null) {
+                    listaEjercito.victoria();
+                    ListFileOperations.saveList(getApplicationContext(), nombre + Constants.EXTENSION, listaEjercito);
+                    listas = ListFileOperations.loadAllLists(getBaseContext());
+                    quitarExtension();
+                    itemsAdapter = new ListViewerListAdapter(this, android.R.layout.simple_list_item_1, listas, listView);
+                    listView.setAdapter(itemsAdapter);
+                    itemsAdapter.notifyDataSetChanged();
+                }
+            } else if (resultCode == Constants.DERROTA) {
+                String nombre = data.getStringExtra(Constants.NOMBRE_LISTA);
+                ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
+                        nombre + Constants.EXTENSION);
+                if (listaEjercito != null) {
+                    listaEjercito.derrota();
+                    ListFileOperations.saveList(getApplicationContext(), nombre + Constants
+                            .EXTENSION, listaEjercito);
+                    listas = ListFileOperations.loadAllLists(getBaseContext());
+                    quitarExtension();
+                    itemsAdapter = new ListViewerListAdapter(this, android.R.layout.simple_list_item_1, listas, listView);
+                    listView.setAdapter(itemsAdapter);
+                    itemsAdapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
     private boolean menuDelete(final int pos) {
         final String seleccionado = ((ListaStats) listView.getItemAtPosition(pos)).getNombre();
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Borrar lista")
-                .setMessage("¿Desea borrar la lista '" + seleccionado + "'?")
+                .setMessage("¿Deseas borrar la lista '" + seleccionado + "'?")
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -310,11 +368,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void quitarExtension() {
-        String lista;
         for (int i = 0; i < listas.size(); i++) {
             listas.get(i).setNombre(listas.get(i).getNombre().substring(0, listas.get(i).getNombre().length() - Constants.EXTENSION.length()));
-            /*listas.remove(i);
-            listas.add(i, nombre);*/
         }
     }
 
