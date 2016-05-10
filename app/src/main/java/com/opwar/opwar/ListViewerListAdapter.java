@@ -43,7 +43,7 @@ public class ListViewerListAdapter extends ArrayAdapter<ListaStats> {
         String porcentaje = "N/A";
         if ((le.getVictorias() + le.getDerrotas()) != 0) {
             double calculo = (double) le.getVictorias() / (le.getVictorias() + le.getDerrotas());
-            porcentaje = String.valueOf(calculo);
+            porcentaje = String.format("%.2f", calculo);
         }
         final TextView textView = (TextView) view.findViewById(R.id.ejercitoTextView);
         CharSequence fecha = DateFormat.format("dd/MM/yyyy", le.getFecha());
