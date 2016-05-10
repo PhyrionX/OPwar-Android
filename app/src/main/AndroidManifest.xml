@@ -24,5 +24,6 @@
         </activity>
         <activity android:name=".activities.ListaWarActivity" />
         <activity android:name=".activities.InfoRegimiento"/>
+        <activity android:name=".activities.BatallaActivity"/>
     </application>
 </manifest>

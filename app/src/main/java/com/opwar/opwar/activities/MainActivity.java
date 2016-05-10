@@ -19,10 +19,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.opwar.opwar.ListViewerListAdapter;
 import com.opwar.opwar.R;
 import com.opwar.opwar.model.ListaEjercito;
-import com.opwar.opwar.model.ListaStats;
 import com.opwar.opwar.util.Constants;
 import com.opwar.opwar.util.ListFileOperations;
 import com.opwar.opwar.util.ListPDF;
@@ -38,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int EXPORTAR_MENU = 1;
     private static final int ENVIAR_MENU = 2;
     private ListView listView;
-    private static ListViewerListAdapter itemsAdapter;
-    private static List<ListaStats> listas;
+    private static ArrayAdapter<String> itemsAdapter;
+    private static List<String> listas;
     private static ViewFlipper viewFlipper;
 
     @Override
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listas = ListFileOperations.loadAllLists(getBaseContext());
+        listas = ListFileOperations.listListas(getBaseContext());
         quitarExtension();
         mostrarPantallaPrincipal();
 
@@ -81,26 +79,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void ordenarPorNombre() {
-        //Collections.sort(lists);
+        Collections.sort(listas);
         itemsAdapter.notifyDataSetChanged();
     }
 
     private void ordenarPorPuntos() {
-        List<ListaStats> ejercitos = ListFileOperations.loadAllLists(getApplicationContext());
+        List<ListaEjercito> ejercitos = ListFileOperations.loadAllLists(getApplicationContext());
 
     }
 
     private void mostrarPantallaPrincipal() {
         listView = (ListView) findViewById(R.id.war_list);
-        //List<ListaEjercito> ejercitos = ListFileOperations.loadAllLists(getApplicationContext());
-        itemsAdapter = new ListViewerListAdapter(this, android.R.layout.simple_list_item_1, listas, listView);
+        itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listas);
         listView.setAdapter(itemsAdapter);
         viewFlipper = (ViewFlipper) findViewById(R.id.lista_flipper);
         setTitle(R.string.listas_guardadas);
         if (listas.size() != 0) {
             assert listView != null;
-            for (ListaStats lista : listas) {
-                System.out.println(lista.getNombre());
+            for (String lista : listas) {
+                System.out.println(lista);
             }
         } else {
             assert viewFlipper != null;
@@ -129,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String seleccionado = ((ListaStats) listView.getItemAtPosition(position)).getNombre();
+                String seleccionado = (String) listView.getItemAtPosition(position);
                 ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(), seleccionado + Constants.EXTENSION);
                 if (listaEjercito != null) {
                     Intent intent = new Intent(MainActivity.this, ListaWarActivity.class);
@@ -255,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                 "Enviar email..."));
     }
 
-    public static void anadirNuevaLista(ListaStats nombreLista) {
+    public static void anadirNuevaLista(String nombreLista) {
         if (listas.size() == 0) {
             viewFlipper.showPrevious();
         }
@@ -264,16 +261,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void quitarExtension() {
-        String lista;
+        String nombre;
         for (int i = 0; i < listas.size(); i++) {
-            listas.get(i).setNombre(listas.get(i).getNombre().substring(0, listas.get(i).getNombre().length() - Constants.EXTENSION.length()));
-            /*listas.remove(i);
-            listas.add(i, nombre);*/
+            nombre = listas.get(i).substring(0, listas.get(i).length() - Constants.EXTENSION.length());
+            listas.remove(i);
+            listas.add(i, nombre);
         }
     }
 
-    private static ListaStats quitarExtension(ListaStats nombre) {
-        nombre.setNombre(nombre.getNombre().substring(0, nombre.getNombre().length() - Constants.EXTENSION.length()));
-        return nombre;
+    private static String quitarExtension(String nombre) {
+        return nombre.substring(0, nombre.length() - Constants.EXTENSION.length());
     }
 }
