@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == BATALLA_MENU) {
-                                    menuBattle(which);
+                                    menuBattle(pos);
                                 } else if (which == DELETE_MENU) {
                                     menuDelete(pos);
                                 } else if (which == EXPORTAR_MENU) {

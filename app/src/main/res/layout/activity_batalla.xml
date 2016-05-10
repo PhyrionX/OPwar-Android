@@ -51,249 +51,247 @@
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorWhite"
+            android:id="@+id/relativeLayout">
+            <TextView
+                android:id="@+id/ejercito_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/ejercito"
+                android:padding="16dp"
+                android:textColorHint="@color/colorBlack"
+                android:textColor="@color/colorBlack" />
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        </RelativeLayout>
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-            <RelativeLayout
-                android:layout_width="match_parent"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_above="@+id/relativeLayout2">
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimaryLight">
-                <TextView
-                    android:id="@+id/cuentaComandantes"
-                    android:layout_width="wrap_content"
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cero"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="4dp"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:background="@color/colorPrimaryLight"/>
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorPrimaryLight">
+                    <TextView
+                        android:id="@+id/cuentaComandantes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cero"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingEnd="4dp"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:background="@color/colorPrimaryLight"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/comandantes"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/cuentaComandantes" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <ListView
+                    android:id="@+id/listviewComandantes"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/comandantes"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/cuentaComandantes" />
-                <ImageButton
-                    android:id="@+id/anadir_comandante"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_add_black"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:paddingEnd="12dp"
-                    android:paddingStart="12dp"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/anadir_comandante" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+                    android:orientation="horizontal"
+                    android:background="@color/colorPrimaryLight">
 
-            <ListView
-                android:id="@+id/listviewComandantes"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/cuentaUnidadesBasicas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cero"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingEnd="4dp"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:background="@color/colorPrimaryLight" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unidades_basicas"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/cuentaUnidadesBasicas" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+                <ListView
+                    android:id="@+id/listviewUnidadesBasicas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorPrimaryLight">
+
+                    <TextView
+                        android:id="@+id/cuentaUnidadesEspeciales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cero"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingEnd="4dp"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:background="@color/colorPrimaryLight" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unidades_especiales"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/cuentaUnidadesEspeciales" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <ListView
+                    android:id="@+id/listviewUnidadesEspeciales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorPrimaryLight">
+
+                    <TextView
+                        android:id="@+id/cuentaUnidadesSingulares"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cero"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingEnd="4dp"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:background="@color/colorPrimaryLight" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unidades_singulares"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/cuentaUnidadesSingulares" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <ListView
+                    android:id="@+id/listviewUnidadesSingulares"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorAccent"
+            android:id="@+id/relativeLayout2">
+
+            <Button
+                android:id="@+id/finalizar"
+                android:text="@string/finalizar"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimaryLight">
+                android:layout_alignParentEnd="true"
+                android:background="?android:attr/selectableItemBackground"/>
 
-                <TextView
-                    android:id="@+id/cuentaUnidadesBasicas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cero"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="4dp"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:background="@color/colorPrimaryLight" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/unidades_basicas"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/cuentaUnidadesBasicas" />
-
-                <ImageButton
-                    android:id="@+id/anadir_unidad_basica"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_add_black"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:paddingEnd="12dp"
-                    android:paddingStart="12dp"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/anadir_unidad_basica" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <ListView
-                android:id="@+id/listviewUnidadesBasicas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/cancelar"
+                android:text="@string/cancelar"
+                android:textColor="@color/colorWhite"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimaryLight">
-
-                <TextView
-                    android:id="@+id/cuentaUnidadesEspeciales"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cero"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="4dp"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:background="@color/colorPrimaryLight" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/unidades_especiales"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/cuentaUnidadesEspeciales" />
-
-                <ImageButton
-                    android:id="@+id/anadir_unidad_especial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_add_black"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:paddingEnd="12dp"
-                    android:paddingStart="12dp"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/anadir_unidad_especial" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <ListView
-                android:id="@+id/listviewUnidadesEspeciales"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimaryLight">
-
-                <TextView
-                    android:id="@+id/cuentaUnidadesSingulares"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cero"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingEnd="4dp"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:background="@color/colorPrimaryLight" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/unidades_singulares"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:textColor="@color/colorBlack"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/cuentaUnidadesSingulares" />
-
-                <ImageButton
-                    android:id="@+id/anadir_unidad_singular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_add_black"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:paddingEnd="12dp"
-                    android:paddingStart="12dp"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/anadir_unidad_singular" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <ListView
-                android:id="@+id/listviewUnidadesSingulares"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
+                android:layout_alignParentStart="true"
+                android:background="?android:attr/selectableItemBackground"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

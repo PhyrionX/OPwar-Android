@@ -4,7 +4,8 @@
     <string name="cancel">Cancelar</string>
     <string name="save">GUARDAR</string>
     <string name="type_name_list">Escribe el título</string>
-    <string name="ejercito">Selecciona un ejército</string>
+    <string name="selecciona_ejercito">Selecciona un ejército</string>
+    <string name="ejercito">Ejército</string>
     <string name="limite_puntos">Límite de puntos</string>
     <string name="cero">0</string>
     <string name="comandantes">x COMANDANTES</string>
@@ -47,4 +48,6 @@
     <string name="ordenar_fecha_creacion">Ordenar por fecha de creación</string>
     <string name="ordenar_victorias">Ordenar por victorias</string>
     <string name="modo_batalla">Modo batalla</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="finalizar">Finalizar</string>
 </resources>

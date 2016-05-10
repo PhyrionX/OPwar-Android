@@ -92,7 +92,7 @@
                 android:id="@+id/ejercito_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/ejercito"
+                android:hint="@string/selecciona_ejercito"
                 android:padding="16dp"
                 android:textColorHint="@color/colorBlack"
                 android:textColor="@color/colorBlack" />
