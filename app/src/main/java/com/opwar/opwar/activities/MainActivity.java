@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(listas, new Comparator<ListaStats>() {
             @Override
             public int compare(ListaStats stats1, ListaStats stats2) {
-                return stats1.getVictorias() - stats2.getVictorias();
+                return stats2.getVictorias() - stats1.getVictorias();
             }
         });
         itemsAdapter.notifyDataSetChanged();
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(listas, new Comparator<ListaStats>() {
             @Override
             public int compare(ListaStats stats1, ListaStats stats2) {
-                return stats1.getPuntos() - stats2.getPuntos();
+                return stats2.getPuntos() - stats1.getPuntos();
             }
         });
         itemsAdapter.notifyDataSetChanged();
@@ -278,16 +278,12 @@ public class MainActivity extends AppCompatActivity {
         ListaEjercito listaEjercito = ListFileOperations.loadList(getApplicationContext(),
                 seleccionado + Constants.EXTENSION);
         String pathFile;
-        if (ListPDF.existsPDF(seleccionado)) {
+        if (ListPDF.createPDF(seleccionado, listaEjercito)) {
             pathFile = ListPDF.getPDFPath(seleccionado);
         } else {
-            if (ListPDF.createPDF(seleccionado, listaEjercito)) {
-                pathFile = ListPDF.getPDFPath(seleccionado);
-            } else {
-                Toast.makeText(getApplicationContext(), "No se pudo exportar la lista a PDF",
-                        Toast.LENGTH_LONG).show();
-                return;
-            }
+            Toast.makeText(getApplicationContext(), "No se pudo exportar la lista a PDF",
+                    Toast.LENGTH_LONG).show();
+            return;
         }
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         // set the type to 'email'
