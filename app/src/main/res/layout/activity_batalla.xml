@@ -100,25 +100,12 @@
                     android:orientation="horizontal"
                     android:background="@color/colorPrimaryLight">
                     <TextView
-                        android:id="@+id/cuentaComandantes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cero"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:paddingEnd="4dp"
-                        android:paddingStart="16dp"
+                        android:text="@string/comandantes_x"
+                        android:padding="16dp"
                         android:textColor="@color/colorBlack"
-                        android:background="@color/colorPrimaryLight"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/comandantes"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:textColor="@color/colorBlack"
-                        android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/cuentaComandantes" />
+                        android:layout_alignParentTop="true"/>
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
@@ -146,26 +133,12 @@
                     android:background="@color/colorPrimaryLight">
 
                     <TextView
-                        android:id="@+id/cuentaUnidadesBasicas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cero"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:paddingEnd="4dp"
-                        android:paddingStart="16dp"
+                        android:text="@string/unidades_basicas_x"
+                        android:padding="16dp"
                         android:textColor="@color/colorBlack"
-                        android:background="@color/colorPrimaryLight" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/unidades_basicas"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:textColor="@color/colorBlack"
-                        android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/cuentaUnidadesBasicas" />
+                        android:layout_alignParentTop="true"/>
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
@@ -191,26 +164,12 @@
                     android:background="@color/colorPrimaryLight">
 
                     <TextView
-                        android:id="@+id/cuentaUnidadesEspeciales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cero"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:paddingEnd="4dp"
-                        android:paddingStart="16dp"
+                        android:text="@string/unidades_especiales_x"
+                        android:padding="16dp"
                         android:textColor="@color/colorBlack"
-                        android:background="@color/colorPrimaryLight" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/unidades_especiales"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:textColor="@color/colorBlack"
-                        android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/cuentaUnidadesEspeciales" />
+                        android:layout_alignParentTop="true"/>
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
@@ -236,26 +195,12 @@
                     android:background="@color/colorPrimaryLight">
 
                     <TextView
-                        android:id="@+id/cuentaUnidadesSingulares"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cero"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:paddingEnd="4dp"
-                        android:paddingStart="16dp"
+                        android:text="@string/unidades_singulares_x"
+                        android:padding="16dp"
                         android:textColor="@color/colorBlack"
-                        android:background="@color/colorPrimaryLight" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/unidades_singulares"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:textColor="@color/colorBlack"
-                        android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/cuentaUnidadesSingulares" />
+                        android:layout_alignParentTop="true"/>
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"

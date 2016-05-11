@@ -39,10 +39,6 @@ public class BatallaActivity extends AppCompatActivity {
     private List<Regimiento> unidadesBasicasSeleccionadas;
     private List<Regimiento> unidadesEspecialesSeleccionados;
     private List<Regimiento> unidadesSingularesSeleccionadas;
-    private TextView cuentaComandantesTextView;
-    private TextView cuentaUnidadesBasicasTextView;
-    private TextView cuentaUnidadesEspecialesTextView;
-    private TextView cuentaUnidadesSingularesTextView;
     private ListView listaComandates;
     private ListView listaUnidadesBasicas;
     private ListView listaUnidadesEspeciales;
@@ -71,10 +67,6 @@ public class BatallaActivity extends AppCompatActivity {
         nombreEjercito = (TextView) findViewById(R.id.ejercito_textview);
         bCancelar = (Button) findViewById(R.id.cancelar);
         bFinalizar = (Button) findViewById(R.id.finalizar);
-        cuentaComandantesTextView = (TextView) findViewById(R.id.cuentaComandantes);
-        cuentaUnidadesBasicasTextView = (TextView) findViewById(R.id.cuentaUnidadesBasicas);
-        cuentaUnidadesEspecialesTextView = (TextView) findViewById(R.id.cuentaUnidadesEspeciales);
-        cuentaUnidadesSingularesTextView = (TextView) findViewById(R.id.cuentaUnidadesSingulares);
         listaComandates = (ListView) findViewById(R.id.listviewComandantes);
         listaUnidadesBasicas = (ListView) findViewById(R.id.listviewUnidadesBasicas);
         listaUnidadesEspeciales = (ListView) findViewById(R.id.listviewUnidadesEspeciales);
@@ -136,25 +128,20 @@ public class BatallaActivity extends AppCompatActivity {
 
         extractUnidades();
 
-        cuentaComandantesTextView.setText(String.valueOf(comandantesSeleccionados.size()));
-        cuentaUnidadesBasicasTextView.setText(String.valueOf(unidadesBasicasSeleccionadas.size()));
-        cuentaUnidadesEspecialesTextView.setText(String.valueOf(unidadesEspecialesSeleccionados.size()));
-        cuentaUnidadesSingularesTextView.setText(String.valueOf(unidadesSingularesSeleccionadas.size()));
-
         ListBatallaAdapter adaptadorComandantes = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                comandantesSeleccionados, listaComandates, cuentaComandantesTextView, puntosTotales, this);
+                comandantesSeleccionados, puntosTotales);
         iniciarLista(adaptadorComandantes, listaComandates);
 
         ListBatallaAdapter adaptadorUnidadesBasicas = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                unidadesBasicasSeleccionadas, listaUnidadesBasicas, cuentaUnidadesBasicasTextView, puntosTotales, this);
+                unidadesBasicasSeleccionadas, puntosTotales);
         iniciarLista(adaptadorUnidadesBasicas, listaUnidadesBasicas);
 
         ListBatallaAdapter adaptadorUnidadesEspeciales = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                unidadesEspecialesSeleccionados, listaUnidadesEspeciales, cuentaUnidadesEspecialesTextView, puntosTotales, this);
+                unidadesEspecialesSeleccionados, puntosTotales);
         iniciarLista(adaptadorUnidadesEspeciales, listaUnidadesEspeciales);
 
         ListBatallaAdapter adaptadorUnidadesSingulares = new ListBatallaAdapter(getBaseContext(), android.R.layout.simple_list_item_1,
-                unidadesSingularesSeleccionadas, listaUnidadesSingulares, cuentaUnidadesSingularesTextView, puntosTotales, this);
+                unidadesSingularesSeleccionadas, puntosTotales);
         iniciarLista(adaptadorUnidadesSingulares, listaUnidadesSingulares);
     }
 
@@ -175,10 +162,6 @@ public class BatallaActivity extends AppCompatActivity {
                 unidadesSingularesSeleccionadas.add(regimiento);
             }
         }
-    }
-
-    public boolean removeRegimiento(Regimiento p) {
-        return listaEjercito.remove(p);
     }
 
     public void iniciarLista(ListBatallaAdapter listBatallaAdapter, ListView listView) {
